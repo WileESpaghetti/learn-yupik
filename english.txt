@@ -1,0 +1,7 @@
+#English Word List 
+man
+woman
+child
+wife
+husband
+person
