@@ -1,4 +1,5 @@
 #!python
+#encoding: utf-8
 
 # Function naming conventions
 # fps = first person singular
@@ -25,6 +26,8 @@
 
 # TODO technically all of these begin with +(g/t)u, but we are not set up to do the kind of
 # parsing necessary to work with postbases in the 'official manner' yet
+import grammar.Base
+
 fps_ending = ':nga'
 fpd_ending = 'kuk'
 fpp_ending = 'kut'
@@ -37,23 +40,15 @@ tpp_ending = 'ut'
 
 uqwords = "uq-test-words.txt"
 
-yvowels = ['a', 'e', 'i', 'u'] #FIXME handle dbl letters and 'sometimes vowels'
 yconsonants = ['c', 'g', 'gg', 'k', 'l', 'll', 'm', 'n', 'ng', 'p', 'q', 'r', 'rr', 's', 'ss', 't', 'v', 'vv', 'w', 'y']
 
-def isVowel(c):
-	vowel = False
-	for v in yvowels:
-		if c == v:
-			vowel = True
-			break
-	return vowel
 
 def citation_suffix_type(word):
 	type = ''
 
-	if isVowel(word[-3]):
+	if grammar.Vowel.isVowel(word[-3]):
 		type = 'Vuq'
-	elif isVowel(word[-4]) and isVowel(word[-5]):
+	elif grammar.Vowel.isVowel(word[-4]) and grammar.Vowel.isVowel(word[-5]):
 		type = 'VVguq'
 	elif word[-3] == '\'':
 		type = '\'uq'
@@ -87,5 +82,12 @@ def uq_forms():
 	uqfile = open(uqwords)
 	for w in [x.strip() for x in uqfile.readlines()]:
 		print(uq_to_base(w))
+		grammar.Base.debugClasses(uq_to_base(w))
+
+def classTest():
+	for w in ["cali", "nuna", "ui", "qercua", "neqe", "kuve", "piste", "inarte", "angute", "elite", "kiircete", "nerenrite", "angyar", "ingrir", "pengur", "nukalpiar", "ayag", "yurar", "ingrir", "pengur", "nukalpiar", "acag", "yug", "eqiur", "qanr", "acag", "yug", "atr", "yaquig", "ner"]:
+		print(w)
+		grammar.Base.debugClasses(w)
 
 uq_forms()
+#classTest()
