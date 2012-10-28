@@ -26,7 +26,7 @@
 
 # TODO technically all of these begin with +(g/t)u, but we are not set up to do the kind of
 # parsing necessary to work with postbases in the 'official manner' yet
-import grammar.Base
+import grammar.Base, grammar.Postbase
 
 fps_ending = ':nga'
 fpd_ending = 'kuk'
@@ -81,8 +81,10 @@ def uq_to_base(word):
 def uq_forms():
 	uqfile = open(uqwords)
 	for w in [x.strip() for x in uqfile.readlines()]:
+		print(w)
 		print(uq_to_base(w))
 		grammar.Base.debugClasses(uq_to_base(w))
+		grammar.Postbase.parenLetter(uq_to_base(w), "+\'(g/t)uq")
 
 def classTest():
 	for w in ["cali", "nuna", "ui", "qercua", "neqe", "kuve", "piste", "inarte", "angute", "elite", "kiircete", "nerenrite", "angyar", "ingrir", "pengur", "nukalpiar", "ayag", "yurar", "ingrir", "pengur", "nukalpiar", "acag", "yug", "eqiur", "qanr", "acag", "yug", "atr", "yaquig", "ner"]:

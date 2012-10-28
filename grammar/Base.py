@@ -71,6 +71,48 @@ def isClassVI(base):
 		isClass = True
 	return isClass
 
+#FIXME should throw error if not in a correct class
+def getClass(word):
+	classnum = ''
+	if isClassI(word):
+		classnum = 'I'
+	elif isClassII(word):
+		classnum = 'II'
+	elif isClassIII(word):
+		classnum = 'III'
+	elif isClassIV(word):
+		classnum = 'IV'
+		if isClassIVa(word):
+			classnum = 'IVa'
+		elif isClassIVb(word):
+			classnum = 'IVb'
+		elif isClassIVc(word):
+			classnum = 'IVc'
+	elif isClassV(word):
+		classnum = 'V'
+	elif isClassVI(word):
+		classnum = 'VI'
+	else:
+		print('ERROR: incorrect class!')
+
+def getClassAsInt(word):
+	classnum = -1
+	if isClassI(word):
+		classnum = 1
+	elif isClassII(word):
+		classnum = 2
+	elif isClassIII(word):
+		classnum = 3
+	elif isClassIV(word):
+		classnum = 4
+	elif isClassV(word):
+		classnum = 5
+	elif isClassVI(word):
+		classnum = 6
+	else:
+		print('ERROR: incorrect class!')
+	return classnum
+
 def debugClasses(w):
 		if isClassI(w):
 			print("Base is a Class I word")
