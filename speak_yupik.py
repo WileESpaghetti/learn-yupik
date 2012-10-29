@@ -61,7 +61,7 @@ def citation_suffix_type(word):
 			type = 'Cuq'
 	else:
 		type = 'Cuq' #does not account for invalid words $uq or xuq, etc.
-
+	print("the type is:\t\t%s" % type)
 	return type
 
 def uq_to_base(word):
@@ -75,16 +75,19 @@ def uq_to_base(word):
 	elif type == 'Cuq':
 		word = word[:-2]
 		word = word + 'e'
+	print("Old algorithm:\t\t%s" % word)
+	grammar.Base.getClass(word)
 	return word
 		
 
 def uq_forms():
 	uqfile = open(uqwords)
 	for w in [x.strip() for x in uqfile.readlines()]:
-		print(w)
-		print(uq_to_base(w))
-		grammar.Base.debugClasses(uq_to_base(w))
-		grammar.Postbase.parenLetter(uq_to_base(w), "+\'(g/t)uq")
+		print("Input word:\t\t%s" % w)
+		uq_to_base(w)
+
+		#new algorithm
+		grammar.Postbase.stripPostbase(w, "+\'(g/t)uq")
 
 def classTest():
 	for w in ["cali", "nuna", "ui", "qercua", "neqe", "kuve", "piste", "inarte", "angute", "elite", "kiircete", "nerenrite", "angyar", "ingrir", "pengur", "nukalpiar", "ayag", "yurar", "ingrir", "pengur", "nukalpiar", "acag", "yug", "eqiur", "qanr", "acag", "yug", "atr", "yaquig", "ner"]:
