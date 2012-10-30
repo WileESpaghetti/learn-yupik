@@ -42,57 +42,13 @@ uqwords = "uq-test-words.txt"
 
 yconsonants = ['c', 'g', 'gg', 'k', 'l', 'll', 'm', 'n', 'ng', 'p', 'q', 'r', 'rr', 's', 'ss', 't', 'v', 'vv', 'w', 'y']
 
-
-def citation_suffix_type(word):
-	type = ''
-
-	if grammar.Vowel.isVowel(word[-3]):
-		type = 'Vuq'
-	elif grammar.Vowel.isVowel(word[-4]) and grammar.Vowel.isVowel(word[-5]):
-		type = 'VVguq'
-	elif word[-3] == '\'':
-		type = '\'uq'
-	elif word[-3] == 't':
-		if word[-4] == 'g' and word[-5] != 'n':
-			 type = 'gtuq'
-		elif word[-4] == 'r':
-			type = 'rtuq'
-		else:
-			type = 'Cuq'
-	else:
-		type = 'Cuq' #does not account for invalid words $uq or xuq, etc.
-	print("the type is:\t\t%s" % type)
-	return type
-
-def uq_to_base(word):
-	type = citation_suffix_type(word)
-
-	if type == 'gtuq' or type == 'rtuq' or type == 'VVguq':
-		word = word[:-3]
-	elif type == '\'uq':
-		word = word[:-3]
-		word = word + 'e'
-	elif type == 'Cuq':
-		word = word[:-2]
-		word = word + 'e'
-	print("Old algorithm:\t\t%s" % word)
-	grammar.Base.getClass(word)
-	return word
-		
-
 def uq_forms():
 	uqfile = open(uqwords)
 	for w in [x.strip() for x in uqfile.readlines()]:
 		print("Input word:\t\t%s" % w)
-		uq_to_base(w)
-
-		#new algorithm
 		grammar.Postbase.stripPostbase(w, "+\'(g/t)uq")
 
-def classTest():
-	for w in ["cali", "nuna", "ui", "qercua", "neqe", "kuve", "piste", "inarte", "angute", "elite", "kiircete", "nerenrite", "angyar", "ingrir", "pengur", "nukalpiar", "ayag", "yurar", "ingrir", "pengur", "nukalpiar", "acag", "yug", "eqiur", "qanr", "acag", "yug", "atr", "yaquig", "ner"]:
-		print(w)
-		grammar.Base.debugClasses(w)
-
 uq_forms()
-#classTest()
+print("")
+print("")
+grammar.Postbase.stripPostbase("ner'ukuk", "+\'(g/t)ukuk")
