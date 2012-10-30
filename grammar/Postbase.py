@@ -30,6 +30,7 @@ def parenLetter(word, postbase):
 
 def stripPostbase(word, postbase):
 	print("Removing postbase:\t%s" % postbase)
+	postbaseBuilder = ''
 
 	#strip everything that doesn't need calculated
 	parenOpen = string.find(postbase, '(')
@@ -38,7 +39,10 @@ def stripPostbase(word, postbase):
 	postStart = postbase[:parenOpen]
 	postEnd = postbase[parenClose:]
 
-	word = string.rstrip(word, postEnd)
+	# need to do this instead of using rstrip() because of issues like rstrip("tuquuq", "uq") -> "t"
+	# instead of "tuqu"
+	newend = string.rfind(word, postEnd)
+	word = word[:newend]
 	print("Removing {0}:\t\t{1}".format(postEnd, word))
 
 	# detect which letters in parenthesis we need to remove if any
@@ -50,20 +54,27 @@ def stripPostbase(word, postbase):
 			c = ''
 
 		basetmp = word.rstrip(c)
-		if (not c == '' and parenLetter(basetmp, postbase)) == c:
-			print("need to remove %s" % c)
-			word = basetmp
-            if word[-1] == c:
-			    removeParen = True
-		#print("Removing {0}:\t\t{1}".format(c, word))
+		basetmpclassnum = Base.getClassAsInt(basetmp)
+		pl = parenLetter(basetmp, postbase)
+		if pl == c and word[-1] == c:
+			if c == 't' and Vowel.isVowel(basetmp[-1]):
+				# 't' can't be added from '()' if it occurs next to a vowel
+				# so it can be ignored
+				pass
+			else:
+				removeParen = True
+				word = basetmp
+				print("need to remove: %s" % c)
 
 	if word[-1] == "\'":
 		word = word[:-1] + 'e'
-	elif  removeParen == False and not Vowel.isVowel(word[-1]):
+	elif not removeParen and Base.getClassAsInt(word) >= 5:
+		# for postbases with 't' in parenthesis: 't' only gets added if word ends in consonant
+		# if we removed a 't' then the word must be class V or VI. If we didn't need to remove
+		# a 't' then then the word must end in a vowel. If the word claims to be V or VI but we
+		# didn't need to remove anything then the word should be a class III or IV instead.
 		word = word + 'e'
 
-	#if not Vowel.isVowel(word[-1]):
-		#word = word + 'e'
 	print("final form:\t\t%s" % word)
 	print('')
 	
