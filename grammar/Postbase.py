@@ -1,5 +1,25 @@
 #!python
 #encoding: utf-8
+
+# grammar rules for postbase syntax
+# +	keeps final consonant of base
+# -	drops final consonent
+# ~	drops final 'e'
+# ÷	keeps strong final consonents
+# :	drops voiced velar consonents if between single vowels where first vowel is prime
+# '	causes gemination of final consonent if base in the form of (C)VCe-
+# @	???
+# - -	base drops final conconant + vowel preceeding it. (only for shortened forms of consonent dropping postbases beginning with 'li'
+# %	attaches irregularly (certain non-productive postbases only)
+# ()	one of the letters (separated by '/') is selected based on certain rules
+
+# grammar rules for selecting letters in '()'
+# g	Class II	ends with one or two prime vowels
+# ng	Class I - IV	ends with a vowel
+# s	Class I - IV	ends with a vowel
+# t 	Class V - VI	ends in a consonant
+# u	Class III - VI	ends in 'e' or a consonant
+
 import Base, Vowel, string
 
 #postbase must be in full dictionary form. eg. +'(g/t)uq
