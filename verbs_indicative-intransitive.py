@@ -97,7 +97,6 @@ def detect_verb_type(word):
 	return vt
 
 def apply_ending(word, postbase):
-	print("\n")
 	grammar.Postbase.stripPostbase(word, postbase)
 	
 
@@ -113,30 +112,41 @@ def prompt_verbs():
 
 		type = detect_verb_type(input)
 
+		print("\n")
+		print(input)
 		if type == "fps":
 			ending = fps_ending
+			print("Verb Tense:\t\tFirst Person Singular")
 		elif type == "fpd":
 			ending = fpd_ending
+			print("Verb Tense:\t\tFirst Person Dual")
 		elif type == "fpp":
 			ending = fpp_ending
+			print("Verb Tense:\t\tFirst Person Plural")
 		elif type == "sps":
 			ending = sps_ending
+			print("Verb Tense:\t\tSecond Person Singular")
 		elif type == "spd":
 			ending = spd_ending
+			print("Verb Tense:\t\tSecond Person Dual")
 		elif type == "spp":
 			ending = spp_ending
+			print("Verb Tense:\t\tSecond Person Plural")
 		elif type == "tps":
 			ending = tps_ending
+			print("Verb Tense:\t\tThird Person Singular")
 		elif type == "tpd":
 			ending = tpd_ending
+			print("Verb Tense:\t\tThird Person Dual")
 		elif type == "tpp":
 			ending = tpp_ending
+			print("Verb Tense:\t\tThird Person Plural")
 		else:
 			# word is a base
 			ending = ""
+			print("Verb Tense:\t\tBase")
 
 		apply_ending(input, ending)
-	print("")
 
 #tps_test()
 prompt_verbs()
