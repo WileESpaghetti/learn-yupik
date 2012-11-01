@@ -63,7 +63,7 @@ def stripPostbase(word, postbase):
 	# instead of "tuqu"
 	newend = string.rfind(word, postEnd)
 	word = word[:newend]
-	print("Removing {0}:\t\t{1}".format(postEnd, word))
+	#print("Removing {0}:\t\t{1}".format(postEnd, word))
 
 	# detect which letters in parenthesis we need to remove if any
 	options = getParenOptions(postbase)
@@ -84,7 +84,7 @@ def stripPostbase(word, postbase):
 			else:
 				removeParen = True
 				word = basetmp
-				print("need to remove: %s" % c)
+				#print("need to remove: %s" % c)
 
 	if word[-1] == "\'":
 		word = word[:-1] + 'e'
@@ -95,7 +95,7 @@ def stripPostbase(word, postbase):
 		# didn't need to remove anything then the word should be a class III or IV instead.
 		word = word + 'e'
 
-	print("final form:\t\t%s" % word)
+	print("Base Form:\t\t%s" % word)
 	print('')
 	
 

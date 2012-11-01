@@ -94,7 +94,6 @@ def getClass(word):
 		classnum = 'VI'
 	else:
 		print('ERROR: incorrect class!')
-	print("Word class:\t%s" % classnum)
 
 def getClassAsInt(word):
 	classnum = -1
@@ -112,7 +111,6 @@ def getClassAsInt(word):
 		classnum = 6
 	else:
 		print('ERROR: incorrect class!')
-	print("Word class number:\t%s" % classnum)
 	return classnum
 
 def debugClasses(w):

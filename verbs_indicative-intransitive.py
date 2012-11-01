@@ -58,12 +58,18 @@ def tps_test():
 def detect_verb_postbase(word):
 	word = string.strip(word)
 	postbase = ''
+	
+	# FIXME fp endings needed to be to be tested first because matching
+	# currently matches "ut" for any occurence of ut in a base
+	# so for example ukut, ut, and uten would all be matched
 	for e in endings:
 			#strip everything that doesn't need calculated
 			parenClose = string.find(e, ')') + 1
 			postEnd = e[parenClose:]
-			if string.rfind(word, postEnd) > -1:
+			wordEnd = -1 * len(postEnd)
+			if word[wordEnd:] == postEnd:
 				postbase = e
+				break
 	return postbase
 
 def detect_verb_type(word):
@@ -107,8 +113,27 @@ def prompt_verbs():
 
 		type = detect_verb_type(input)
 
-		if type == "tps":
+		if type == "fps":
+			ending = fps_ending
+		elif type == "fpd":
+			ending = fpd_ending
+		elif type == "fpp":
+			ending = fpp_ending
+		elif type == "sps":
+			ending = sps_ending
+		elif type == "spd":
+			ending = spd_ending
+		elif type == "spp":
+			ending = spp_ending
+		elif type == "tps":
 			ending = tps_ending
+		elif type == "tpd":
+			ending = tpd_ending
+		elif type == "tpp":
+			ending = tpp_ending
+		else:
+			# word is a base
+			ending = ""
 
 		apply_ending(input, ending)
 	print("")
