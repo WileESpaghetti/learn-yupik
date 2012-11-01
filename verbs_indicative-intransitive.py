@@ -67,7 +67,33 @@ def detect_verb_postbase(word):
 			parenClose = string.find(e, ')') + 1
 			postEnd = e[parenClose:]
 			wordEnd = -1 * len(postEnd)
-			if word[wordEnd:] == postEnd:
+
+			colon = string.find(e, ":")
+			hasColon = colon > -1
+			if hasColon:
+				# test for velar dropping
+				#print(postEnd[colon:])
+				velarStart = e[:colon]
+				velarEnd = e[colon + 1:]
+				velarPostbase = velarStart + velarEnd
+				velarDropPostbase = ''
+				if velarEnd[:2] == 'ng':
+					velarDropPostbase = velarStart + velarEnd[2:]
+				else:
+					velarDropPostbase = velarStart + velarEnd[1:]
+				for ve in [velarPostbase, velarDropPostbase]:
+					parenClose = string.find(ve, ')') + 1
+					postEnd = ve[parenClose:]
+					wordEnd = -1 * len(postEnd)
+					print(ve)
+					print(word[wordEnd:])
+					print(postEnd)
+					if word[wordEnd:] == postEnd:
+						postbase = ve
+						print("Selecting postbase %s" % postbase)
+						break
+				
+			elif word[wordEnd:] == postEnd:
 				postbase = e
 				break
 	return postbase
