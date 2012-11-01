@@ -55,6 +55,19 @@ def tps_test():
 	# does not handle words separated by spaces correctly
 	verb_test(tps_list, tps_ending)
 
+def getVelarDropPostbases(postbase):
+	#print(postEnd[colon:])
+	colon = string.find(postbase, ":")
+	velarStart = postbase[:colon]
+	velarEnd = postbase[colon + 1:]
+	velarPostbase = velarStart + velarEnd
+	velarDropPostbase = ''
+	if velarEnd[:2] == 'ng':
+		velarDropPostbase = velarStart + velarEnd[2:]
+	else:
+		velarDropPostbase = velarStart + velarEnd[1:]
+	return [velarPostbase, velarDropPostbase]
+
 def detect_verb_postbase(word):
 	word = string.strip(word)
 	postbase = ''
@@ -72,27 +85,18 @@ def detect_verb_postbase(word):
 			hasColon = colon > -1
 			if hasColon:
 				# test for velar dropping
-				#print(postEnd[colon:])
-				velarStart = e[:colon]
-				velarEnd = e[colon + 1:]
-				velarPostbase = velarStart + velarEnd
-				velarDropPostbase = ''
-				if velarEnd[:2] == 'ng':
-					velarDropPostbase = velarStart + velarEnd[2:]
-				else:
-					velarDropPostbase = velarStart + velarEnd[1:]
-				for ve in [velarPostbase, velarDropPostbase]:
+
+				for ve in getVelarDropPostbases(e):
 					parenClose = string.find(ve, ')') + 1
 					postEnd = ve[parenClose:]
 					wordEnd = -1 * len(postEnd)
-					print(ve)
-					print(word[wordEnd:])
-					print(postEnd)
+					#print("velarpostbase: %s" % ve)
+					#print(word[wordEnd:])
+					#print(postEnd)
 					if word[wordEnd:] == postEnd:
 						postbase = ve
 						print("Selecting postbase %s" % postbase)
-						break
-				
+						break	
 			elif word[wordEnd:] == postEnd:
 				postbase = e
 				break
@@ -119,7 +123,11 @@ def detect_verb_type(word):
 		vt = "tpd"
 	elif postbase == tpp_ending:
 		vt = "tpp"
-
+	else:
+		for ve in getVelarDropPostbases(fps_ending):
+			if ve == postbase:
+				vt = ve
+				break
 	return vt
 
 def apply_ending(word, postbase):
@@ -168,9 +176,20 @@ def prompt_verbs():
 			ending = tpp_ending
 			print("Verb Tense:\t\tThird Person Plural")
 		else:
-			# word is a base
+			# word is a base or the result of velar dropping
 			ending = ""
-			print("Verb Tense:\t\tBase")
+			for ve in getVelarDropPostbases(fps_ending):
+				print("ve = %s" % ve)
+				print("type = %s" % ending)
+
+				if ve == type:
+					ending = ve
+					print("ending = %s" % ending)
+					break
+			if not ending == "":
+				print("Verb contains velar dropping")
+			else:
+				print("Verb Tense:\t\tBase")
 
 		apply_ending(input, ending)
 
