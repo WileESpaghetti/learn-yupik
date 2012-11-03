@@ -55,19 +55,6 @@ def tps_test():
 	# does not handle words separated by spaces correctly
 	verb_test(tps_list, tps_ending)
 
-def getVelarDropPostbases(postbase):
-	#print(postEnd[colon:])
-	colon = string.find(postbase, ":")
-	velarStart = postbase[:colon]
-	velarEnd = postbase[colon + 1:]
-	velarPostbase = velarStart + velarEnd
-	velarDropPostbase = ''
-	if velarEnd[:2] == 'ng':
-		velarDropPostbase = velarStart + velarEnd[2:]
-	else:
-		velarDropPostbase = velarStart + velarEnd[1:]
-	return [velarPostbase, velarDropPostbase]
-
 def detect_verb_postbase(word):
 	word = string.strip(word)
 	postbase = ''
@@ -86,7 +73,7 @@ def detect_verb_postbase(word):
 			if hasColon:
 				# test for velar dropping
 
-				for ve in getVelarDropPostbases(e):
+				for ve in grammar.Postbase.getVelarDropPostbases(e):
 					parenClose = string.find(ve, ')') + 1
 					postEnd = ve[parenClose:]
 					wordEnd = -1 * len(postEnd)
@@ -124,7 +111,7 @@ def detect_verb_type(word):
 	elif postbase == tpp_ending:
 		vt = "tpp"
 	else:
-		for ve in getVelarDropPostbases(fps_ending):
+		for ve in grammar.Postbase.getVelarDropPostbases(fps_ending):
 			if ve == postbase:
 				vt = ve
 				break
@@ -178,7 +165,7 @@ def prompt_verbs():
 		else:
 			# word is a base or the result of velar dropping
 			ending = ""
-			for ve in getVelarDropPostbases(fps_ending):
+			for ve in grammar.Postbase.getVelarDropPostbases(fps_ending):
 				print("ve = %s" % ve)
 				print("type = %s" % ending)
 

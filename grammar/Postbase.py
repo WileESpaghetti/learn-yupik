@@ -48,6 +48,19 @@ def parenLetter(word, postbase):
 			letter = 'c'
 	return letter
 
+def getVelarDropPostbases(postbase):
+	#print(postEnd[colon:])
+	colon = string.find(postbase, ":")
+	velarStart = postbase[:colon]
+	velarEnd = postbase[colon + 1:]
+	velarPostbase = velarStart + velarEnd
+	velarDropPostbase = ''
+	if velarEnd[:2] == 'ng':
+		velarDropPostbase = velarStart + velarEnd[2:]
+	else:
+		velarDropPostbase = velarStart + velarEnd[1:]
+	return [velarPostbase, velarDropPostbase]
+
 def stripPostbase(word, postbase):
 	print("Removing postbase:\t%s" % postbase)
 	postbaseBuilder = ''
