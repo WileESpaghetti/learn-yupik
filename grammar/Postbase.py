@@ -29,12 +29,14 @@ def getParenOptions(postbase):
 	parenOpen = string.find(postbase, '(') + 1
 	parenClose = string.find(postbase, ')')
 	options = string.split(postbase[parenOpen : parenClose], '/')
+
 	return options
 	
 
 def parenLetter(word, postbase):
 	letter = ''
 	classnum = Base.getClassAsInt(word)
+
 	for c in getParenOptions(postbase):
 		if c == 'g' and classnum == 2:
 			letter = 'g'
@@ -46,19 +48,21 @@ def parenLetter(word, postbase):
 			letter = 't'
 		elif c == 'u' and classnum >= 3:
 			letter = 'c'
+
 	return letter
 
 def getVelarDropPostbases(postbase):
-	#print(postEnd[colon:])
 	colon = string.find(postbase, ":")
 	velarStart = postbase[:colon]
 	velarEnd = postbase[colon + 1:]
 	velarPostbase = velarStart + velarEnd
 	velarDropPostbase = ''
+
 	if velarEnd[:2] == 'ng':
 		velarDropPostbase = velarStart + velarEnd[2:]
 	else:
 		velarDropPostbase = velarStart + velarEnd[1:]
+
 	return [velarPostbase, velarDropPostbase]
 
 def stripPostbase(word, postbase):
@@ -76,7 +80,6 @@ def stripPostbase(word, postbase):
 	# instead of "tuqu"
 	newend = string.rfind(word, postEnd)
 	word = word[:newend]
-	#print("Removing {0}:\t\t{1}".format(postEnd, word))
 
 	# detect which letters in parenthesis we need to remove if any
 	options = getParenOptions(postbase)
@@ -97,7 +100,6 @@ def stripPostbase(word, postbase):
 			else:
 				removeParen = True
 				word = basetmp
-				#print("need to remove: %s" % c)
 
 	if word[-1] == "\'":
 		word = word[:-1] + 'e'
@@ -110,7 +112,4 @@ def stripPostbase(word, postbase):
 
 	print("Base Form:\t\t%s" % word)
 	print('')
-	
 
-#parenLetter("+\'(g/t)uq")
-#print(getParenOptions("+\'(g/t)uq"))
