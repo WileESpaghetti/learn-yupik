@@ -130,7 +130,6 @@ def prompt_verbs():
 		print_verb_type(ending)
 		apply_ending(input, ending)
 
-#tps_test()
 prompt_verbs()
 print("")
 print("")
