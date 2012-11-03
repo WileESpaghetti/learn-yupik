@@ -72,55 +72,47 @@ def detect_verb_postbase(word):
 			hasColon = colon > -1
 			if hasColon:
 				# test for velar dropping
-
 				for ve in grammar.Postbase.getVelarDropPostbases(e):
 					parenClose = string.find(ve, ')') + 1
 					postEnd = ve[parenClose:]
 					wordEnd = -1 * len(postEnd)
-					#print("velarpostbase: %s" % ve)
-					#print(word[wordEnd:])
-					#print(postEnd)
 					if word[wordEnd:] == postEnd:
 						postbase = ve
-						print("Selecting postbase %s" % postbase)
 						break	
 			elif word[wordEnd:] == postEnd:
 				postbase = e
 				break
 	return postbase
 
-def detect_verb_type(word):
-	postbase = detect_verb_postbase(word)
-	vt = 'base'
-	if postbase == fps_ending:
-		vt = "fps"
-	elif postbase == fpd_ending:
-		vt = "fpd"
+def print_verb_type(postbase):
+	# skip fps for now because it contains velar dropping
+	if postbase == fpd_ending:
+		print("Verb Type:\t\tFirst Person Dual")
 	elif postbase == fpp_ending:
-		vt = "fpp"
+		print("Verb Type:\t\tFirst Person Plural")
 	elif postbase == sps_ending:
-		vt = "sps"
+		print("Verb Type:\t\tSecond Person Singular")
 	elif postbase == spd_ending:
-		vt = "spd"
+		print("Verb Type:\t\tSecond Person Dual")
 	elif postbase == spp_ending:
-		vt = "spp"
+		print("Verb Type:\t\tSecond Person Plural")
 	elif postbase == tps_ending:
-		vt = "tps"
+		print("Verb Type:\t\tThird Person Singular")
 	elif postbase == tpd_ending:
-		vt = "tpd"
+		print("Verb Type:\t\tThird Person Dual")
 	elif postbase == tpp_ending:
-		vt = "tpp"
+		print("Verb Type:\t\tThird Person Plural")
+	elif postbase == '':
+		print("Verb Type:\t\tBase")
 	else:
 		for ve in grammar.Postbase.getVelarDropPostbases(fps_ending):
 			if ve == postbase:
-				vt = ve
+				print("Verb Type:\t\tFirst Person Singular")
 				break
-	return vt
 
 def apply_ending(word, postbase):
 	grammar.Postbase.stripPostbase(word, postbase)
 	
-
 def prompt_verbs():
 	input = ''
 	print("")
@@ -131,53 +123,11 @@ def prompt_verbs():
 		if input == 'exit':
 			break
 
-		type = detect_verb_type(input)
-
 		print("\n")
 		print(input)
-		if type == "fps":
-			ending = fps_ending
-			print("Verb Tense:\t\tFirst Person Singular")
-		elif type == "fpd":
-			ending = fpd_ending
-			print("Verb Tense:\t\tFirst Person Dual")
-		elif type == "fpp":
-			ending = fpp_ending
-			print("Verb Tense:\t\tFirst Person Plural")
-		elif type == "sps":
-			ending = sps_ending
-			print("Verb Tense:\t\tSecond Person Singular")
-		elif type == "spd":
-			ending = spd_ending
-			print("Verb Tense:\t\tSecond Person Dual")
-		elif type == "spp":
-			ending = spp_ending
-			print("Verb Tense:\t\tSecond Person Plural")
-		elif type == "tps":
-			ending = tps_ending
-			print("Verb Tense:\t\tThird Person Singular")
-		elif type == "tpd":
-			ending = tpd_ending
-			print("Verb Tense:\t\tThird Person Dual")
-		elif type == "tpp":
-			ending = tpp_ending
-			print("Verb Tense:\t\tThird Person Plural")
-		else:
-			# word is a base or the result of velar dropping
-			ending = ""
-			for ve in grammar.Postbase.getVelarDropPostbases(fps_ending):
-				print("ve = %s" % ve)
-				print("type = %s" % ending)
 
-				if ve == type:
-					ending = ve
-					print("ending = %s" % ending)
-					break
-			if not ending == "":
-				print("Verb contains velar dropping")
-			else:
-				print("Verb Tense:\t\tBase")
-
+		ending = detect_verb_postbase(input)
+		print_verb_type(ending)
 		apply_ending(input, ending)
 
 #tps_test()
