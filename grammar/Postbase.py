@@ -31,7 +31,6 @@ def getParenOptions(postbase):
 	options = string.split(postbase[parenOpen : parenClose], '/')
 
 	return options
-	
 
 def parenLetter(word, postbase):
 	letter = ''
@@ -52,11 +51,11 @@ def parenLetter(word, postbase):
 	return letter
 
 def getVelarDropPostbases(postbase):
+	velarDropPostbase = ''
 	colon = string.find(postbase, ":")
 	velarStart = postbase[:colon]
 	velarEnd = postbase[colon + 1:]
 	velarPostbase = velarStart + velarEnd
-	velarDropPostbase = ''
 
 	if velarEnd[:2] == 'ng':
 		velarDropPostbase = velarStart + velarEnd[2:]
@@ -65,11 +64,7 @@ def getVelarDropPostbases(postbase):
 
 	return [velarPostbase, velarDropPostbase]
 
-def stripPostbase(word, postbase):
-	print("Removing postbase:\t%s" % postbase)
-	postbaseBuilder = ''
-
-	#strip everything that doesn't need calculated
+def stripEZStuff(word, postbase):
 	parenOpen = string.find(postbase, '(')
 	parenClose = string.find(postbase, ')') + 1
 
@@ -81,25 +76,32 @@ def stripPostbase(word, postbase):
 	newend = string.rfind(word, postEnd)
 	word = word[:newend]
 
-	# detect which letters in parenthesis we need to remove if any
-	options = getParenOptions(postbase)
-	removeParen = False
-	for c in options:
-		# special case so that 'ng' isn't removed by accident
-		if c == 'g' and word[-2] == 'n':
-			c = ''
+	return word
 
-		basetmp = word.rstrip(c)
-		basetmpclassnum = Base.getClassAsInt(basetmp)
-		pl = parenLetter(basetmp, postbase)
-		if pl == c and word[-1] == c:
-			if c == 't' and Vowel.isVowel(basetmp[-1]):
-				# 't' can't be added from '()' if it occurs next to a vowel
-				# so it can be ignored
-				pass
-			else:
-				removeParen = True
-				word = basetmp
+def isParensStripped(word, postbase):
+	#options = getParenOptions(postbase)
+	stripParen = False
+	pl = parenLetter(word[:-1], postbase)
+	last = word[-1]
+	if word[-1] == pl and not pl == '':
+		stripParen = True
+
+	return stripParen
+
+def stripParenLetter(word, postbase):
+	removeParen = isParensStripped(word, postbase)
+	if removeParen:
+		pass
+
+def stripPostbase(word, postbase):
+	print("Removing postbase:\t%s" % postbase)
+
+	word = stripEZStuff(word, postbase)
+
+	# detect which letters in parenthesis we need to remove if any
+	removeParen = isParensStripped(word, postbase)
+	if removeParen:
+		word = word[:-1]
 
 	if word[-1] == "\'":
 		word = word[:-1] + 'e'
