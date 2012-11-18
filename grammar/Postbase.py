@@ -25,6 +25,8 @@ import Base, Vowel, string
 #postbase must be in full dictionary form. eg. +'(g/t)uq
 #FIXME: can multple ()'s occure in postbases?
 def getParenOptions(postbase):
+	""" converts the ()'s in the postbase to a tuple """
+	#FIXME: make this return a tuple
 	options = []
 	parenOpen = string.find(postbase, '(') + 1
 	parenClose = string.find(postbase, ')')
@@ -33,6 +35,7 @@ def getParenOptions(postbase):
 	return options
 
 def parenLetter(word, postbase):
+	""" returns the letter that should be picked from inside of the ()'s in postbase notation """
 	letter = ''
 	classnum = Base.getClassAsInt(word)
 
@@ -43,7 +46,7 @@ def parenLetter(word, postbase):
 			letter = 'ng'
 		elif c == 's' and classnum <= 4:
 			letter = 's'
-		elif c == 't' and (classnum == 5 or classnum == 6):
+		elif c == 't' and classnum >= 5:
 			letter = 't'
 		elif c == 'u' and classnum >= 3:
 			letter = 'c'
@@ -51,6 +54,9 @@ def parenLetter(word, postbase):
 	return letter
 
 def getVelarDropPostbases(postbase):
+	""" returns the postbase with the velar and with the velar dropped """
+	#FIXME ^ this docstring is really terrible and unclear
+	#FIXME might make sense to return a dictionary {'wDrop': '', 'woDrop': ''}
 	velarDropPostbase = ''
 	colon = string.find(postbase, ":")
 	velarStart = postbase[:colon]
@@ -65,6 +71,7 @@ def getVelarDropPostbases(postbase):
 	return [velarPostbase, velarDropPostbase]
 
 def stripEZStuff(word, postbase):
+	"""remove the parts of postbase from word that doesn't need any special calculation"""
 	parenOpen = string.find(postbase, '(')
 	parenClose = string.find(postbase, ')') + 1
 
@@ -79,6 +86,7 @@ def stripEZStuff(word, postbase):
 	return word
 
 def isParensStripped(word, postbase):
+	""" find out whether or not a letter in parenthesis needs to be removed """
 	#options = getParenOptions(postbase)
 	stripParen = False
 	pl = parenLetter(word[:-1], postbase)
@@ -89,11 +97,14 @@ def isParensStripped(word, postbase):
 	return stripParen
 
 def stripParenLetter(word, postbase):
+	""" detect which letter needs to be selected from inside of ()'s and remove it """
+	#FIXME it doesn't actually look like this does anything or is used?
 	removeParen = isParensStripped(word, postbase)
 	if removeParen:
 		pass
 
 def stripPostbase(word, postbase):
+	""" removes a postbase from a word. see wiki for info reguarding postbase syntax """
 	print("Removing postbase:\t%s" % postbase)
 
 	word = stripEZStuff(word, postbase)
@@ -116,6 +127,7 @@ def stripPostbase(word, postbase):
 	print('')
 
 def applyPostbase(word, postbase):
+	""" add a postbase to a word """
 	keepCfinal = False
 	dropCfinal = False
 	dropEfinal = False
@@ -206,9 +218,6 @@ def applyPostbase(word, postbase):
 				postbase = postbase[:colon] + postbase[colon+2:]
 		else:
 			postbase = postbase[:colon] + postbase[colon+1:]
-		
-		#colon = string.find(postbase, ":")
-		#postbase = postbase[:colon] + postbase[colon+1:]
 
 	word = word + postbase
 

@@ -56,6 +56,7 @@ def tps_test():
 	verb_test(tps_list, tps_ending)
 
 def detect_verb_postbase(word):
+	#FIXME: this might make more sense inside of Postbase.py instead of here
 	word = string.strip(word)
 	postbase = ''
 	

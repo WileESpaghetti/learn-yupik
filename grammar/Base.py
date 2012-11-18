@@ -16,42 +16,49 @@ Class VI:	ends in consonant and not in Class V
 import Vowel, Consonant
 
 def isClassI(base):
+	""" word ends in a single prime vowel """
 	isClass = False
 	if Vowel.isPrimeVowel(base[-1]) and not Vowel.isPrimeVowel(base[-2]):
 		isClass = True
 	return isClass
 
 def isClassII(base):
+	""" word ends in 2 prime vowels """
 	isClass = False
 	if Vowel.isPrimeVowel(base[-1]) and Vowel.isPrimeVowel(base[-2]):
 		isClass = True
 	return isClass
 
 def isClassIII(base):
+	""" words that end in 'e', but do not end in 'te' """
 	isClass = False
 	if base[-1] =='e' and not base[-2] == 't':
 		isClass = True
 	return isClass
 
 def isClassIV(base):
+	""" words that end in 'te' """
 	isClass = False
 	if base[-1] =='e' and base[-2] == 't':
 		isClass = True
 	return isClass
 
 def isClassIVa(base):
+	""" word ends in a fricitive followed by 'te' """
 	isClass = False
 	if isClassIV(base) and Consonant.isFricative(base[-3]):
 		isClass = True
 	return isClass
 
 def isClassIVb(base):
+	""" words that end with a vowel followed by 'te' """
 	isClass = False
 	if isClassIV(base) and Vowel.isVowel(base[-3]):
 		isClass = True
 	return isClass
 
 def isClassIVc(base):
+	""" contains a '°' when listed (eg. 'kiircete-°'); also includes bases expanded from the postbase ':(ng)ite-°' (eg. 'nerenrite-°' """
 	isClass = False
 	#if isClassIV(base) and isVowel(base[-3]):
 		#isClass = True
@@ -59,6 +66,7 @@ def isClassIVc(base):
 	return isClass
 
 def isClassV(base):
+	""" nouns only: ends with 1 or 2 vowels followed by 'r' """
 	#FIXME: does not check if word is a noun or words marked with '*'
 	isClass = False
 	if base[-1] == 'r' and Vowel.isVowel(base[-2]):
@@ -66,6 +74,7 @@ def isClassV(base):
 	return isClass
 
 def isClassVI(base):
+	""" all words ending in a consonant and that are not Class V """
 	isClass = False
 	if not Vowel.isVowel(base[-1]) and not isClassV(base):
 		isClass = True
@@ -73,6 +82,7 @@ def isClassVI(base):
 
 #FIXME should throw error if not in a correct class
 def getClass(word):
+	""" returns the roman numeral representation of the class """
 	classnum = ''
 	if isClassI(word):
 		classnum = 'I'
@@ -96,6 +106,7 @@ def getClass(word):
 		print('ERROR: incorrect class!')
 
 def getClassAsInt(word):
+	
 	classnum = -1
 	if isClassI(word):
 		classnum = 1
@@ -111,9 +122,11 @@ def getClassAsInt(word):
 		classnum = 6
 	else:
 		print('ERROR: incorrect class!')
+		#FIXME, when would this get executed, and should it throw an exception?
 	return classnum
 
 def debugClasses(w):
+		""" print out which classes a word was detected as being a part of """
 		if isClassI(w):
 			print("Base is a Class I word")
 		if isClassII(w):
