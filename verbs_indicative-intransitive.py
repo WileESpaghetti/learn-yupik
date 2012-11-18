@@ -64,25 +64,25 @@ def detect_verb_postbase(word):
 	# currently matches "ut" for any occurence of ut in a base
 	# so for example ukut, ut, and uten would all be matched
 	for e in endings:
-			#strip everything that doesn't need calculated
-			parenClose = string.find(e, ')') + 1
-			postEnd = e[parenClose:]
-			wordEnd = -1 * len(postEnd)
+		#strip everything that doesn't need calculated
+		parenClose = string.find(e, ')') + 1
+		postEnd = e[parenClose:]
+		wordEnd = -1 * len(postEnd)
 
-			colon = string.find(e, ":")
-			hasColon = colon > -1
-			if hasColon:
-				# test for velar dropping
-				for ve in grammar.Postbase.getVelarDropPostbases(e):
-					parenClose = string.find(ve, ')') + 1
-					postEnd = ve[parenClose:]
-					wordEnd = -1 * len(postEnd)
-					if word[wordEnd:] == postEnd:
-						postbase = ve
-						break	
-			elif word[wordEnd:] == postEnd:
-				postbase = e
-				break
+		colon = string.find(e, ":")
+		hasColon = colon > -1
+		if hasColon:
+			# test for velar dropping
+			for ve in grammar.Postbase.getVelarDropPostbases(e):
+				parenClose = string.find(ve, ')') + 1
+				postEnd = ve[parenClose:]
+				wordEnd = -1 * len(postEnd)
+				if word[wordEnd:] == postEnd:
+					postbase = ve
+					break	
+		elif word[wordEnd:] == postEnd:
+			postbase = e
+			break
 	return postbase
 
 def print_verb_type(postbase):
