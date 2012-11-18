@@ -115,3 +115,109 @@ def stripPostbase(word, postbase):
 	print("Base Form:\t\t%s" % word)
 	print('')
 
+def applyPostbase(word, postbase):
+	keepCfinal = False
+	dropCfinal = False
+	dropEfinal = False
+	keepStrongCfinal = False
+	dropVelar = False
+	gemination = False
+	# @ symbol?
+	dropVCfinal = False
+	attachIrregular = False
+	containsParens = False
+
+	if postbase[0] == '+':
+		keepCfinal = True
+
+	if postbase[0] == '-':
+		dropCfinal = True
+
+	if postbase[0] == '~':
+		dropEfinal = True
+
+	if postbase[0] == '÷':
+		keepStrongCfinal = True
+
+	if string.find(postbase, ':') > -1:
+		dropVelar = True
+
+	if string.find(postbase, '\'') > -1:
+		gemination = True
+
+	if postbase[0] == '- -':
+		dropVCfinal = True
+
+	if postbase[0] == '%':
+		attachIrregular = True
+
+	if string.find(postbase, '(') > -1:
+		containsParens = True
+
+	if keepCfinal:
+		postbase = postbase[1:]
+
+	if containsParens:
+		pl = parenLetter(word, postbase)
+		
+		#FIXME, what if multiple parens
+		parenOpen = string.find(postbase, '(')
+		parenClose = string.find(postbase, ')') + 1
+
+		postStart = postbase[:parenOpen]
+		postEnd = postbase[parenClose:]
+
+		postbase = postStart + pl + postEnd
+
+	if gemination:
+		isV = False
+		if word[-3:-1] == 'ng':
+			isV = Vowel.isVowel(word[-4])
+		else:
+			isV = Vowel.isVowel(word[-3])
+		isVCE = word[-1] == 'e' and isV and not Vowel.isVowel(word[-2])
+		if word[-1] == 'e':
+			word = word[:-1]
+			if isVCE and len(word) < 5:
+				# FIXME only add the ' to one syllable words? need grammar rule specifics
+				word = word + '\''
+
+		postbase = postbase[1:]
+
+	if dropVelar:
+		testsuf = word[-1] + postbase
+		colon = string.find(testsuf, ":")
+		velar = ''
+		lvowel = False
+		rvowel = False
+		
+		lvowel = Vowel.isVowel(testsuf[colon-1]) and not Vowel.isVowel(testsuf[colon-2])
+
+		if testsuf[colon+1] == 'n' and testsuf[colon+2] == 'g':
+			rvowel = Vowel.isVowel(testsuf[colon+3])
+		else:
+			rvowel = Vowel.isVowel(testsuf[colon+2])
+
+		colon = string.find(postbase, ":")
+		if lvowel and rvowel:
+			if postbase[colon+1] == 'n' and postbase[colon+2] == 'g':
+				postbase = postbase[:colon] + postbase[colon+3:]
+			else:
+				postbase = postbase[:colon] + postbase[colon+2:]
+		else:
+			postbase = postbase[:colon] + postbase[colon+1:]
+		
+		#colon = string.find(postbase, ":")
+		#postbase = postbase[:colon] + postbase[colon+1:]
+
+	word = word + postbase
+
+	#cleanup for words that wind up not needing the \' for gemination because they are followed by 2 vowels
+	#FIXME not tested on words that contain 2 \' ...does such a word exist?
+	gemmarker = string.find(word, "\'")
+	if len(word) >= gemmarker + 2:
+		# ^ prevents crashing when word enough character to have 2 vowels following the \'
+		if Vowel.isVowel(word[gemmarker+1]) and Vowel.isVowel(word[gemmarker+2]):
+			word = word[:gemmarker] + word[gemmarker+1:]
+	return word
+
