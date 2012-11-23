@@ -22,6 +22,12 @@
 
 import Base, Vowel, string
 
+postbaseSymbols = ('+', '-', '~', '÷', ':', '\'', '@', '- -', '%', '(', ')')
+
+def explodePostbase(postbase):
+	"""split a postbase into it's different parts"""
+	pass
+
 #postbase must be in full dictionary form. eg. +'(g/t)uq
 #FIXME: can multple ()'s occure in postbases?
 def getParenOptions(postbase):
@@ -125,6 +131,11 @@ def stripPostbase(word, postbase):
 
 	print("Base Form:\t\t%s" % word)
 	print('')
+
+def getPostbaseOptions(postbase):
+	"""translate the list of symbols in a postbase into flag veriables to be used when applying postbases.
+	return as a dictionary"""
+	pass
 
 def applyPostbase(word, postbase):
 	""" add a postbase to a word """
