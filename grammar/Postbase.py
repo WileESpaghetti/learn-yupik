@@ -167,6 +167,7 @@ def applyPostbase(word, postbase):
 		containsParens = True
 
 	if keepCfinal:
+		#FIXME what if '+' not the first char in postbase?
 		postbase = postbase[1:]
 
 	if containsParens:
@@ -187,14 +188,20 @@ def applyPostbase(word, postbase):
 			isV = Vowel.isVowel(word[-4])
 		else:
 			isV = Vowel.isVowel(word[-3])
-		isVCE = word[-1] == 'e' and isV and not Vowel.isVowel(word[-2])
+		isVCE = word[-1] == 'e' and isV and not Vowel.isVowel(word[-2]) # FIXME elite currently gets computed incorrect. this is because it is not correctly looking at syllables. it is only testing to see if elite is in the form of VCe. I think ane may get incorrectly calculated as well (at least for +(g/t):nga). aurre gets 
 		if word[-1] == 'e':
 			word = word[:-1]
 			if isVCE and len(word) < 5:
 				# FIXME only add the ' to one syllable words? need grammar rule specifics
 				word = word + '\''
 
-		postbase = postbase[1:]
+	# strip gemination marker
+	#FIXME: this feels like it should go somewhere else
+	apos = string.find(postbase, '\'')
+	postbase = postbase[:apos] + postbase[apos+1:]
+	#FIXME there's a mysterious '\' when selecting words from db. endings probably not escaped properly in db
+	slash = string.find(postbase, '\\')
+	postbase = postbase[:slash] + postbase[slash+1:]
 
 	if dropVelar:
 		testsuf = word[-1] + postbase
