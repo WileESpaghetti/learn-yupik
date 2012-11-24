@@ -20,7 +20,7 @@
 # t 	Class V - VI	ends in a consonant
 # u	Class III - VI	ends in 'e' or a consonant
 
-import Base, Vowel, string
+import Base, Vowel, string, Word
 
 postbaseSymbols = ('+', '-', '~', '÷', ':', '\'', '@', '- -', '%', '(', ')')
 
@@ -199,10 +199,10 @@ def applyPostbase(word, postbase):
 			isV = Vowel.isVowel(word[-4])
 		else:
 			isV = Vowel.isVowel(word[-3])
-		isVCE = word[-1] == 'e' and isV and not Vowel.isVowel(word[-2]) # FIXME elite currently gets computed incorrect. this is because it is not correctly looking at syllables. it is only testing to see if elite is in the form of VCe. I think ane may get incorrectly calculated as well (at least for +(g/t):nga). aurre gets 
+		isVCE = word[-1] == 'e' and isV and not Vowel.isVowel(word[-2]) # FIXME aurre currently gets computed incorrect. along with some +(g/t):nga words.
 		if word[-1] == 'e':
 			word = word[:-1]
-			if isVCE and len(word) < 5:
+			if isVCE and Word.syllableCount(word) == 1:
 				# FIXME only add the ' to one syllable words? need grammar rule specifics
 				word = word + '\''
 

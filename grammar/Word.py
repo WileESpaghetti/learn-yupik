@@ -48,10 +48,8 @@ def getSyllables(word):
 			if not isVowel(c) and not isVowel(word[i+1]):
 				syllables.append(syl)
 				syl = []
-		#print(syl)
 	syllables.append(syl)
-	#print(syllables)
-	#print("\n\n")
+
 	syl = []
 	syl2 = []
 	for s in syllables:
@@ -63,8 +61,7 @@ def getSyllables(word):
 			syl.append(s[i])
 		syl2.append(syl)
 		syl = []
-	print(syl2)
-	print("\n\n")
+	return syl2
 
 def isSyllable(syl):
 	""" tests if syl is a valid Yup'ik syllable """
@@ -73,7 +70,7 @@ def isSyllable(syl):
 
 def syllableCount(word):
 	"""get the number of syllables in word"""
-	pass
+	return len(getSyllables(explode(word)))
 
 # letter types: c is a letter as represented in the explode() function and doesn;t
 # actually have to be a single character. (eg. 'll' or 'ng')
@@ -140,3 +137,4 @@ def isVoiced(word, c):
 #getSyllables(explode('arnaq'))
 #print(explode('arnaq'))
 #getSyllables(explode('angyalingaicugnarquq'))
+#print(getSyllables(explode('elit')))
