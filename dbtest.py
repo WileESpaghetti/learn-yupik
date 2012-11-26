@@ -36,3 +36,6 @@ print(getStems())
 for w in getStems():
 	for e in getSuffixes():
 		print(grammar.Postbase.applyPostbase(w, e))
+
+print(applyPostbase(applyPostbase('nere', '-nrite'), '+\'(g/t)u:nga'))
+print(applyPostbase(applyPostbase(applyPostbase('nere', '@~yug'), '-llru'), '+\'(g/t)uq'))

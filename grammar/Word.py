@@ -32,10 +32,40 @@ def explode(word):
 def syllableMatches(syl, form):
 	""" eg. syllableMatches('rte', '[V]VCe')
 	capital 'V' or 'C' match vowels and consonants respectivly
-	letters in []'s shows optional letters. """
-	for i in form:
-		if i == V:
-			pass
+	letters in []'s shows optional letters. checks from the end of the word"""
+	# FIXME this is not necessarily done on a syllable by syllable basis. sometimes it
+	# can overlap boundaries
+	sylMatches = False
+
+	syl = syl[::-1]
+	form = form[::-1]
+
+	inBrackets = False
+	j = 0
+	for i in range(len(form)):
+		if inBrackets:
+			# FIXME not sure if there is really anything to do but ignore
+			if form[i] == '[':
+				inBrackets = False
+				j += 1
+		else:
+			if form[i] == 'V' and isVowel(syl[j]):
+				sylMatches = True
+				j += 1
+			elif form[i] == 'C' and not isVowel(syl[j]):
+				sylMatches = True
+				j += 1
+			elif form[i] == syl[j]:
+				#FIXME this may have some false positives
+				sylMatches = True
+				j += 1
+			elif form[i] == ']':
+				# we are reversed, so close brackets = open brackets
+				inBrackets = True
+			else:
+				sylMatches = False
+				break
+	return sylMatches
 
 def getSyllables(word):
 	""" return a list of the syllables that make up word """
@@ -138,3 +168,4 @@ def isVoiced(word, c):
 #print(explode('arnaq'))
 #getSyllables(explode('angyalingaicugnarquq'))
 #print(getSyllables(explode('elit')))
+#print(syllableMatches('nrite', '[V]CVte'))

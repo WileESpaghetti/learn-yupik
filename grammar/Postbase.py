@@ -256,6 +256,3 @@ def applyPostbase(word, postbase):
 			word = word[:gemmarker] + word[gemmarker+1:]
 	return word
 
-#print(applyPostbase(applyPostbase('nere', '-nrite'), '+\'(g/t)u:nga'))
-print(applyPostbase(applyPostbase(applyPostbase('nere', '-yug'), '-llru'), '+\'(g/t)uq'))
-
