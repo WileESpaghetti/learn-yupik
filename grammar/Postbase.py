@@ -209,11 +209,19 @@ def applyPostbase(word, postbase):
 	# strip gemination marker
 	#FIXME: this feels like it should go somewhere else
 	apos = string.find(postbase, '\'')
-	postbase = postbase[:apos] + postbase[apos+1:]
-	#FIXME there's a mysterious '\' when selecting words from db. endings probably not escaped properly in db
-	slash = string.find(postbase, '\\')
-	postbase = postbase[:slash] + postbase[slash+1:]
+	if apos > -1:
+		postbase = postbase[:apos] + postbase[apos+1:]
+		if string.find(postbase, '\\') > -1:
+		#FIXME there's a mysterious '\' when selecting words from db. endings probably not escaped properly in db
+			slash = string.find(postbase, '\\')
+			postbase = postbase[:slash] + postbase[slash+1:]
 
+	if dropCfinal:
+		#FIXME what if '-' not the first char in postbase?
+		postbase = postbase[1:]
+		if not Word.isVowel(word[-1]):
+			word = word[:-1]
+	
 	if dropVelar:
 		testsuf = word[-1] + postbase
 		colon = string.find(testsuf, ":")
@@ -247,4 +255,7 @@ def applyPostbase(word, postbase):
 		if Vowel.isVowel(word[gemmarker+1]) and Vowel.isVowel(word[gemmarker+2]):
 			word = word[:gemmarker] + word[gemmarker+1:]
 	return word
+
+#print(applyPostbase(applyPostbase('nere', '-nrite'), '+\'(g/t)u:nga'))
+print(applyPostbase(applyPostbase(applyPostbase('nere', '-yug'), '-llru'), '+\'(g/t)uq'))
 
