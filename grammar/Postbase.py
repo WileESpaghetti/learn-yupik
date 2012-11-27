@@ -156,7 +156,7 @@ def applyPostbase(word, postbase):
 	if postbase[0] == '-':
 		dropCfinal = True
 
-	if postbase[0] == '~':
+	if string.find(postbase, '~') > -1:
 		dropEfinal = True
 
 	if postbase[0] == '÷':
@@ -221,6 +221,13 @@ def applyPostbase(word, postbase):
 		postbase = postbase[1:]
 		if not Word.isVowel(word[-1]):
 			word = word[:-1]
+
+	if dropEfinal:
+		tilde = string.find(postbase, '~')
+		postbase = postbase[:tilde] + postbase[tilde+1:]
+		if word[-1] == 'e':
+			word = word[:-1]
+
 	
 	if dropVelar:
 		testsuf = word[-1] + postbase
