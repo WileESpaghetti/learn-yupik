@@ -1,33 +1,16 @@
 #!python
 #encoding: utf-8
+import Base
+
 vowels = ['a', 'e', 'i', 'u']
 primeVowels = ['a', 'i', 'u']
 
 fricatives = ['v', 'l', 's', 'y', 'g', 'r', 'ug', 'ur', 'vv', 'll', 'ss', 'gg', 'rr', 'w', 'urr']
 alphabet = ['\'', 'a', 'c', 'e', 'g', 'gg', 'i', 'k', 'l', 'll', 'm', 'n', 'ng', 'p', 'q', 'r', 'rr', 's', 'ss', 't', 'u', 'v', 'vv', 'w', 'y']
 
-def explode(word):
-	""" split the word into it's letters. this makes working with letters made up
-	of more than one character (eg. 'll' or 'ng' a whole lot easier """
-	#FIXME should \' be treated as a separate letter or combined with the letter
-	# it is telling to geminate (eg. r') or completely omited in the output
-	exploded = []
-
-	x = range(len(word))
-	for i in x:
-		c = word[i]
-		if i < len(word) - 1:
-			#FIXME this might pick up letters like 'uu'. this causes tuquuq to be split incorrectly
-			doubleLetters = c == 'g' or c == 'l' or c == 'n' or c == 'r' or c == 's' or c == 'v'
-			if (doubleLetters  and c == word[i+1]) or (c == 'n' and word[i+1] == 'g'):
-				exploded.append(c + word[i+1])
-				x.pop(2)		
-			else:
-				exploded.append(c)
-		else:
-			exploded.append(c)
-
-	return exploded
+#letters that can be doubled
+# FIXME this might be done by specific character classes instead - fricatives pnly?
+doubled = ['g', 'l', 'r', 's', 'v']
 
 def syllableMatches(syl, form):
 	""" eg. syllableMatches('rte', '[V]VCe')
@@ -100,7 +83,7 @@ def isSyllable(syl):
 
 def syllableCount(word):
 	"""get the number of syllables in word"""
-	return len(getSyllables(explode(word)))
+	return len(getSyllables(Base.explode(word)))
 
 # letter types: c is a letter as represented in the explode() function and doesn;t
 # actually have to be a single character. (eg. 'll' or 'ng')
@@ -137,7 +120,7 @@ def isFricative(c):
 
 def isConsonant(c):
 	""" is c a consonant """
-	pass
+	return not isVowel(c)
 
 def apostrophePurpose(word):
 	"""is the apostrophe being used for gemination, separate 'n' and 'g', etc."""
@@ -157,6 +140,7 @@ def isGeminated(word, c):
 
 def isVoiced(word, c):
 	"""test position c to see if it is voiced"""
+	pass
 
 
 #print(explode('alinguq'))

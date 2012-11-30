@@ -13,7 +13,30 @@ Class V:	single or double vowel + 'r' (nouns only)
 Class VI:	ends in consonant and not in Class V
 
 *See section 2.3 in Yup'ik Eskimo Grammar, Irene Reed """
-import Vowel, Consonant
+import Vowel, Consonant, Word
+def explode(word):
+	""" split the word into it's letters. this makes working with letters made up
+	of more than one character (eg. 'll' or 'ng' a whole lot easier """
+	#FIXME should \' be treated as a separate letter or combined with the letter
+	# it is telling to geminate (eg. r') or completely omited in the output
+	#FIXME needs to throw exception if incorrect character found
+	exploded = []
+
+	for i in range(len(word)):
+		dl = False
+		for l in Word.doubled:
+			if word[i] == l:
+				dl = True
+
+		# test if a letter is a valid doubled letter or is 'ng'
+		if i > 0 and dl and exploded[-1] == word[i]:
+			exploded[-1] = word[i] + word[i]
+		elif i > 0 and exploded[-1] == 'n' and word[i] == 'g':
+			exploded[-1] = 'ng'
+		else:
+			exploded.append(word[i])
+
+	return exploded
 
 def isClassI(base):
 	""" word ends in a single prime vowel """
@@ -59,6 +82,7 @@ def isClassIVb(base):
 
 def isClassIVc(base):
 	""" contains a '°' when listed (eg. 'kiircete-°'); also includes bases expanded from the postbase ':(ng)ite-°' (eg. 'nerenrite-°' """
+	#TODO incomplete
 	isClass = False
 	#if isClassIV(base) and isVowel(base[-3]):
 		#isClass = True

@@ -29,10 +29,6 @@ def getStems():
         	pb.append(row[1])
 	return pb
 
-#print(getPostbases())
-#print(getEndings())
-print(getStems())
-
 for w in getStems():
 	for e in getSuffixes():
 		print(grammar.Postbase.applyPostbase(w, e))

@@ -188,10 +188,7 @@ def applyPostbase(word, postbase):
 		parenOpen = string.find(postbase, '(')
 		parenClose = string.find(postbase, ')') + 1
 
-		postStart = postbase[:parenOpen]
-		postEnd = postbase[parenClose:]
-
-		postbase = postStart + pl + postEnd
+		postbase = postbase[:parenOpen] + pl + postbase[parenClose:]
 
 	if gemination:
 		isV = False
