@@ -1,7 +1,7 @@
 #!python
 #encoding: utf-8
 import sqlite3, grammar.Postbase
-dbcon = sqlite3.connect('testdb.db')
+dbcon = sqlite3.connect('yupik_dictionary.db')
 dbcon.text_factory = str
 c = dbcon.cursor()
 
@@ -29,9 +29,22 @@ def getStems():
         	pb.append(row[1])
 	return pb
 
+def getBases():
+	pb = []
+	for row in c.execute('SELECT * FROM words where word_type=1 or word_type=5;'):
+        	pb.append(row[1])
+	return pb
+
+def getEnclitics():
+	pb = []
+	for row in c.execute('SELECT * FROM words where word_type=4;'):
+        	pb.append(row[1])
+	return pb
+
 for w in getStems():
 	for e in getSuffixes():
 		print(grammar.Postbase.applyPostbase(w, e))
+	print("")
 
 print(grammar.Postbase.applyPostbase(grammar.Postbase.applyPostbase('nere', '-nrite'), '+\'(g/t)u:nga'))
 print(grammar.Postbase.applyPostbase(grammar.Postbase.applyPostbase(grammar.Postbase.applyPostbase('nere', '@~yug'), '-llru'), '+\'(g/t)uq'))

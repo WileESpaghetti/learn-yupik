@@ -26,7 +26,56 @@ postbaseSymbols = ('+', '-', '~', '÷', ':', '\'', '@', '- -', '%', '(', ')')
 
 def explodePostbase(postbase):
 	"""split a postbase into it's different parts"""
-	pass
+	""" split the word into it's letters. this makes working with letters made up
+	of more than one character (eg. 'll' or 'ng' a whole lot easier """
+	#FIXME should \' be treated as a separate letter or combined with the letter
+	# it is telling to geminate (eg. r') or completely omited in the output
+	#FIXME needs to throw exception if incorrect character found
+	exploded = []
+	
+	tmp = ''
+	inParens = False
+	for i in range(len(postbase)):
+		if inParens:
+			tmp += postbase[i]
+			if postbase[i] == ')':
+				exploded.append(tmp)
+				tmp = ''
+				inParens = False
+		else:
+			if postbase[i] == '(':
+				inParens = True
+				tmp += '('
+			else:
+				dl = False
+				for l in Word.doubled:
+					if postbase[i] == l:
+						dl = True
+
+				# test if a letter is a valid doubled letter or is 'ng'
+				if i > 0 and dl and exploded[-1] == postbase[i]:
+					exploded[-1] = postbase[i] + postbase[i]
+				elif i > 0 and exploded[-1] == 'n' and postbase[i] == 'g':
+					exploded[-1] = 'ng'
+				else:
+					exploded.append(postbase[i])
+
+	# combine velar with the drop velar (:) symbol
+	# FIXME this logic is probably better up in the code above, but it was easier to put it here
+	for i in range(len(exploded)):
+		if i > 0 and exploded[i-1] == ':':
+			exploded[i-1] += exploded[i]
+			exploded.pop(i)
+	
+	return exploded
+
+#print(explodePostbase("+'(g/t)uq"))
+print(explodePostbase("+'(g/t)u:nga"))
+
+def validatePostbase(postbase):
+	"""checks to make sure postbase is properly formed"""
+	valid = False
+	return valid
 
 #postbase must be in full dictionary form. eg. +'(g/t)uq
 #FIXME: can multple ()'s occure in postbases?
@@ -137,6 +186,7 @@ def getPostbaseOptions(postbase):
 
 def applyPostbase(word, postbase):
 	""" add a postbase to a word """
+	#TODO would be cool if you could pass a list of postbases in here and have it do the "right thing"
 	exp = Base.explode(word)
 	keepStrongCfinal = False
 	# @ symbol?
@@ -180,7 +230,7 @@ def applyPostbase(word, postbase):
 	if apos > -1:
 		postbase = postbase[:apos] + postbase[apos+1:]
 		
-		# FIXME this indicates that there's something that needs tweaked about the syllablematches
+		# FIXME this may indicate that there's something that needs tweaked about the syllablematches
 		# function. A short base is defined as [C]VCe, currently this only tests the end of the word.
 		# this should match VCe and CVCe only
 		shortA = len(exp) == 3 and Word.syllableMatches(exp, 'VCe')
@@ -201,7 +251,6 @@ def applyPostbase(word, postbase):
 		velar = testExp[colon+1]
 		testExp = testExp[:colon] + testExp[colon+1:]
 
-		#print(testsuf)
 		if Word.syllableMatches(testExp, 'CV' + velar + 'V'): #FIXME might crash if word isn't long enough
 			testExp = Base.explode(postbase)
 			colon = testExp.index(':')
