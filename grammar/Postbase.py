@@ -65,9 +65,8 @@ def getVelarDropPostbases(postbase):
 	#FIXME might make sense to return a dictionary {'wDrop': '', 'woDrop': ''}
 	velarDropPostbase = ''
 	colon = string.find(postbase, ":")
-	velarStart = postbase[:colon]
-	velarEnd = postbase[colon + 1:]
-	velarPostbase = velarStart + velarEnd
+
+	velarPostbase = postbase[:colon] + postbase[colon + 1:]
 
 	if velarEnd[:2] == 'ng':
 		velarDropPostbase = velarStart + velarEnd[2:]
@@ -93,7 +92,6 @@ def stripEZStuff(word, postbase):
 
 def isParensStripped(word, postbase):
 	""" find out whether or not a letter in parenthesis needs to be removed """
-	#options = getParenOptions(postbase)
 	stripParen = False
 	pl = parenLetter(word[:-1], postbase)
 	last = word[-1]
@@ -139,25 +137,83 @@ def getPostbaseOptions(postbase):
 
 def applyPostbase(word, postbase):
 	""" add a postbase to a word """
-	keepCfinal = False
-	dropCfinal = False
-	dropEfinal = False
+	exp = Base.explode(word)
 	keepStrongCfinal = False
-	dropVelar = False
-	gemination = False
 	# @ symbol?
 	dropVCfinal = False
 	attachIrregular = False
-	containsParens = False
 
-	if postbase[0] == '+':
-		keepCfinal = True
+	#keep the final consonant
+	plus = string.find(postbase, '+')
+	if plus > -1:
+		postbase = postbase[:plus] + postbase[plus+1:]
 
-	if postbase[0] == '-':
-		dropCfinal = True
+	# FIXME need to check against words that contain '-' as a part of the word
+	# FIXME this might cause trouble with enclitics
+	# remove the last consonant
+	minus = string.find(postbase, '-')
+	if minus > -1:
+		postbase = postbase[:minus] + postbase[minus+1:]
+		if not Word.isVowel(exp[-1]):
+			exp.pop(-1)
 
-	if string.find(postbase, '~') > -1:
-		dropEfinal = True
+	# remove final 'e'
+	tilde = string.find(postbase, '~')
+	if tilde > -1:
+		postbase = postbase[:tilde] + postbase[tilde+1:]
+		if exp[-1] == 'e':
+			exp.pop(-1)
+
+	# choose between letters in parenthesis
+	paren = string.find(postbase, '(')
+	if  paren > -1:
+		pl = parenLetter(word, postbase)
+		#FIXME, what if multiple parens
+		parenOpen = string.find(postbase, '(')
+		parenClose = string.find(postbase, ')') + 1
+
+		postbase = postbase[:parenOpen] + pl + postbase[parenClose:]
+
+	# add gemination if needed
+	#FIXME not tested on words that contain 2 \' ...does such a word exist?
+	apos = string.find(postbase, '\'')
+	if apos > -1:
+		postbase = postbase[:apos] + postbase[apos+1:]
+		
+		# FIXME this indicates that there's something that needs tweaked about the syllablematches
+		# function. A short base is defined as [C]VCe, currently this only tests the end of the word.
+		# this should match VCe and CVCe only
+		shortA = len(exp) == 3 and Word.syllableMatches(exp, 'VCe')
+		shortB = len(exp) == 4 and Word.syllableMatches(exp, 'CVCe')
+		if shortA or shortB:
+			exp.pop(-1)
+			if Word.syllableCount(exp) == 1:
+				exp.append('\'')
+		elif exp[-1] == 'e':
+			exp.pop(-1)
+
+	# velar dropping suffixes
+	colon = string.find(postbase, ':')
+	if colon > -1:
+		testsuf = exp[-1] + postbase
+		testExp = Base.explode(testsuf)
+		colon = testExp.index(':')
+		velar = testExp[colon+1]
+		testExp = testExp[:colon] + testExp[colon+1:]
+
+		#print(testsuf)
+		if Word.syllableMatches(testExp, 'CV' + velar + 'V'): #FIXME might crash if word isn't long enough
+			testExp = Base.explode(postbase)
+			colon = testExp.index(':')
+			testExp.pop(colon)
+			testExp.pop(colon)
+		else:
+			testExp = Base.explode(postbase)
+			colon = testExp.index(':')
+			testExp.pop(colon)
+
+		postbase = ''.join(testExp)
+
 
 	if postbase[0] == '÷':
 		keepStrongCfinal = True
@@ -165,98 +221,28 @@ def applyPostbase(word, postbase):
 	if string.find(postbase, ':') > -1:
 		dropVelar = True
 
-	if string.find(postbase, '\'') > -1:
-		gemination = True
-
 	if postbase[0] == '- -':
 		dropVCfinal = True
 
 	if postbase[0] == '%':
 		attachIrregular = True
 
-	if string.find(postbase, '(') > -1:
-		containsParens = True
-
-	if keepCfinal:
-		#FIXME what if '+' not the first char in postbase?
-		postbase = postbase[1:]
-
-	if containsParens:
-		pl = parenLetter(word, postbase)
-		
-		#FIXME, what if multiple parens
-		parenOpen = string.find(postbase, '(')
-		parenClose = string.find(postbase, ')') + 1
-
-		postbase = postbase[:parenOpen] + pl + postbase[parenClose:]
-
-	if gemination:
-		isV = False
-		if word[-3:-1] == 'ng':
-			isV = Vowel.isVowel(word[-4])
-		else:
-			isV = Vowel.isVowel(word[-3])
-		isVCE = word[-1] == 'e' and isV and not Vowel.isVowel(word[-2]) # FIXME aurre currently gets computed incorrect. along with some +(g/t):nga words.
-		if word[-1] == 'e':
-			word = word[:-1]
-			if isVCE and Word.syllableCount(word) == 1:
-				# FIXME only add the ' to one syllable words? need grammar rule specifics
-				word = word + '\''
-
-	# strip gemination marker
-	#FIXME: this feels like it should go somewhere else
-	apos = string.find(postbase, '\'')
-	if apos > -1:
-		postbase = postbase[:apos] + postbase[apos+1:]
-		if string.find(postbase, '\\') > -1:
-		#FIXME there's a mysterious '\' when selecting words from db. endings probably not escaped properly in db
-			slash = string.find(postbase, '\\')
-			postbase = postbase[:slash] + postbase[slash+1:]
-
-	if dropCfinal:
-		#FIXME what if '-' not the first char in postbase?
-		postbase = postbase[1:]
-		if not Word.isVowel(word[-1]):
-			word = word[:-1]
-
-	if dropEfinal:
-		tilde = string.find(postbase, '~')
-		postbase = postbase[:tilde] + postbase[tilde+1:]
-		if word[-1] == 'e':
-			word = word[:-1]
-
-	
-	if dropVelar:
-		testsuf = word[-1] + postbase
-		colon = string.find(testsuf, ":")
-		velar = ''
-		lvowel = False
-		rvowel = False
-		
-		lvowel = Vowel.isVowel(testsuf[colon-1]) and not Vowel.isVowel(testsuf[colon-2])
-
-		if testsuf[colon+1] == 'n' and testsuf[colon+2] == 'g':
-			rvowel = Vowel.isVowel(testsuf[colon+3])
-		else:
-			rvowel = Vowel.isVowel(testsuf[colon+2])
-
-		colon = string.find(postbase, ":")
-		if lvowel and rvowel:
-			if postbase[colon+1] == 'n' and postbase[colon+2] == 'g':
-				postbase = postbase[:colon] + postbase[colon+3:]
-			else:
-				postbase = postbase[:colon] + postbase[colon+2:]
-		else:
-			postbase = postbase[:colon] + postbase[colon+1:]
-
+	word = ''.join(exp)
 	word = word + postbase
 
 	#cleanup for words that wind up not needing the \' for gemination because they are followed by 2 vowels
-	#FIXME not tested on words that contain 2 \' ...does such a word exist?
-	gemmarker = string.find(word, "\'")
-	if len(word) >= gemmarker + 2:
-		# ^ prevents crashing when word enough character to have 2 vowels following the \'
-		if Vowel.isVowel(word[gemmarker+1]) and Vowel.isVowel(word[gemmarker+2]):
-			word = word[:gemmarker] + word[gemmarker+1:]
+	#FIXME not tested on words that contain 2 \' ...does such a word exist
+	exp = Base.explode(word)
+	try:
+		gemmarker = exp.index('\'')
+	except ValueError:
+		gemmarker = -1
+	if gemmarker > -1 and len(exp) >= gemmarker + 3:
+		syl = exp[gemmarker+1:gemmarker+3]
+		if Word.syllableMatches(syl, 'VV'):
+			exp.pop(gemmarker)
+
+	word = ''.join(exp)
+
 	return word
 
