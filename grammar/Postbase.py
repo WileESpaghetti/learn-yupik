@@ -69,9 +69,6 @@ def explodePostbase(postbase):
 	
 	return exploded
 
-#print(explodePostbase("+'(g/t)uq"))
-print(explodePostbase("+'(g/t)u:nga"))
-
 def validatePostbase(postbase):
 	"""checks to make sure postbase is properly formed"""
 	valid = False
@@ -112,6 +109,7 @@ def getVelarDropPostbases(postbase):
 	""" returns the postbase with the velar and with the velar dropped """
 	#FIXME ^ this docstring is really terrible and unclear
 	#FIXME might make sense to return a dictionary {'wDrop': '', 'woDrop': ''}
+	#FIXME should this throw an error if postbase doesn't have velar dropping?
 	velarDropPostbase = ''
 	colon = string.find(postbase, ":")
 

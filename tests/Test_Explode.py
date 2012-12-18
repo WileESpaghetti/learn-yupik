@@ -1,7 +1,7 @@
 #!python
 #encoding: utf-8
 import unittest
-import grammar.Word, grammar.Base
+import grammar
 
 class ExplodeTests(unittest.TestCase):
 	# TODO might be good to do some permutations of letters and test splitting
