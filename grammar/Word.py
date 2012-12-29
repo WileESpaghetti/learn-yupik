@@ -97,11 +97,13 @@ def getSyllables(word):
 	""" return a list of the syllables that make up word """
 	syllables = []
 	syl = []
-	for i in range(len(word)):
-		c = word[i]
+	exp = Base.explode(word)
+
+	for i in range(len(exp)):
+		c = exp[i]
 		syl.append(c)
-		if i < len(word) - 1:
-			if not isVowel(c) and not isVowel(word[i+1]):
+		if i < len(exp) - 1:
+			if not isVowel(c) and not isVowel(exp[i+1]):
 				syllables.append(syl)
 				syl = []
 	syllables.append(syl)
