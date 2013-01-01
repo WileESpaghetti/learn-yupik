@@ -5,6 +5,8 @@ import Base
 vowels = ['a', 'e', 'i', 'u']
 primeVowels = ['a', 'i', 'u']
 
+consonants = ['\'','c','gg','g','k','ll','l','m','n','ng','p','q','rr','r','ss','s','t','vv','v','w','y']
+
 fricatives = ['v', 'l', 's', 'y', 'g', 'r', 'ug', 'ur', 'vv', 'll', 'ss', 'gg', 'rr', 'w', 'urr']
 alphabet = ['\'', 'a', 'c', 'e', 'g', 'gg', 'i', 'k', 'l', 'll', 'm', 'n', 'ng', 'p', 'q', 'r', 'rr', 's', 'ss', 't', 'u', 'v', 'vv', 'w', 'y']
 
@@ -12,6 +14,7 @@ alphabet = ['\'', 'a', 'c', 'e', 'g', 'gg', 'i', 'k', 'l', 'll', 'm', 'n', 'ng',
 # FIXME this might be done by specific character classes instead - fricatives pnly?
 doubled = ['g', 'l', 'r', 's', 'v']
 
+#FIXME needs to throw exception if '[]' passed in. need to also write test for this case
 def syllableMatches(syl, form):
 	""" eg. syllableMatches('rte', '[V]VCe')
 	capital 'V' or 'C' match vowels and consonants respectivly
@@ -54,6 +57,7 @@ def syllableMatches(syl, form):
 				break
 	return sylMatches
 
+#FIXME needs to throw exception if '[]' passed in. need to also write test for this case
 def lSyllableMatches(syl, form):
 	""" eg. syllableMatches('rte', '[V]VCe')
 	capital 'V' or 'C' match vowels and consonants respectivly
