@@ -8,6 +8,8 @@ primeVowels = ['a', 'i', 'u']
 consonants = ['\'','c','gg','g','k','ll','l','m','n','ng','p','q','rr','r','ss','s','t','vv','v','w','y']
 
 fricatives = ['v', 'l', 's', 'y', 'g', 'r', 'ug', 'ur', 'vv', 'll', 'ss', 'gg', 'rr', 'w', 'urr']
+stops = ['p','t','c','k','q']
+nasals = ['m','n','ng']
 alphabet = ['\'', 'a', 'c', 'e', 'g', 'gg', 'i', 'k', 'l', 'll', 'm', 'n', 'ng', 'p', 'q', 'r', 'rr', 's', 'ss', 't', 'u', 'v', 'vv', 'w', 'y']
 
 #letters that can be doubled
@@ -167,12 +169,77 @@ def isFricative(c):
 			break
 	return isF
 
+def isStop(c):
+	""" is c a stop """
+	isS = False
+	for s in stops:
+		if c == s:
+			isS = True
+			break
+	return isS
+
+def isNasal(c):
+	""" is c a nasal """
+	isN = False
+	for n in nasals:
+		if c == n:
+			isN = True
+			break
+	return isN
+
 def isConsonant(c):
 	""" is c a consonant """
 	return not isVowel(c)
 
+# uses for apostrophe's
+# 0. mark gemination - taq'uq (C'V)
+# 1. separate n and g - tan'gurraq
+# 2. separated stop and voices fricative or nasal - it'gaq
+# 3. prevent automatic gemination - atu'urkaq
+# 4. indicate departer from usual stress pattern -  qvartu'rtuq
+# 5. indicate end of a word was dropped - qaill' instead of qaillun (how)
+# FIXME what about multiple \' in a word?
+
+APOS_GEMINATION_MARKER = 0
+APOS_NG_SEPARATOR = 1
+APOS_PREVENT_DEVOICING = 2
+APOS_PREVENT_GEMMINATION = 3
+APOS_DISRUPT_STRESS = 4
+APOS_SHORT_WORD = 5
+
 def apostrophePurpose(word):
 	"""is the apostrophe being used for gemination, separate 'n' and 'g', etc."""
+	exp = Base.explode(word)
+	purpose = -1
+	for i in range(len(exp)):
+		if i > 0 and exp[i] == '\'':
+			if i < len(exp) - 1:
+				if isVowel(exp[i-1]):
+					if isVowel(exp[i+1]):
+						purpose = APOS_PREVENT_GEMMINATION
+						break
+					elif exp[i+1] == 'r':
+						purpose = APOS_DISRUPT_STRESS
+						break
+				else:
+					if isVowel(exp[i+1]):
+						purpose = APOS_GEMINATION_MARKER
+						break
+					elif exp[i-1] == 'n' and exp[i+1] == 'g':
+						purpose = APOS_NG_SEPARATOR
+						break
+					else:
+						# FIXME need to test if a catch-all is appropriate. technically the only
+						# other valid use of a \' is whenever auto-devoicing occurs. (stop + nasal || fric)
+						#FIXME need to do research on autodevoicing to make sure this ^^ is acurate
+						# FIXME will need to write a test to make sure cases without auto devoicing are not matched
+						purpose = APOS_PREVENT_DEVOICING
+						break
+			else:
+				purpose = APOS_SHORT_WORD
+	return purpose
+
+def isAutoDevoiced(word, index):
 	pass
 
 def isGeminationMarker(word):
