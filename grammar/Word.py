@@ -32,31 +32,32 @@ def syllableMatches(syl, form):
 	syl = syl[::-1]
 	form = form[::-1]
 
-	inBrackets = False
-	j = 0
-	for i in range(len(form)):
-		if inBrackets:
-			# FIXME not sure if there is really anything to do but ignore
-			if form[i] == '[':
-				inBrackets = False
-				j += 1
-		else:
-			if form[i] == 'V' and isVowel(syl[j]):
-				sylMatches = True
-				j += 1
-			elif form[i] == 'C' and not isVowel(syl[j]):
-				sylMatches = True
-				j += 1
-			elif form[i] == syl[j]:
-				#FIXME this may have some false positives
-				sylMatches = True
-				j += 1
-			elif form[i] == ']':
-				# we are reversed, so close brackets = open brackets
-				inBrackets = True
+	if len(syl) > 0:
+		inBrackets = False
+		j = 0
+		for i in range(len(form)):
+			if inBrackets:
+				# FIXME not sure if there is really anything to do but ignore
+				if form[i] == '[':
+					inBrackets = False
+					j += 1
 			else:
-				sylMatches = False
-				break
+				if form[i] == 'V' and isVowel(syl[j]):
+					sylMatches = True
+					j += 1
+				elif form[i] == 'C' and not isVowel(syl[j]):
+					sylMatches = True
+					j += 1
+				elif form[i] == syl[j]:
+					#FIXME this may have some false positives
+					sylMatches = True
+					j += 1
+				elif form[i] == ']':
+					# we are reversed, so close brackets = open brackets
+					inBrackets = True
+				else:
+					sylMatches = False
+					break
 	return sylMatches
 
 #FIXME needs to throw exception if '[]' passed in. need to also write test for this case
@@ -72,31 +73,32 @@ def lSyllableMatches(syl, form):
 	syl = Base.explode(syl)
 	form = Base.explode(form)
 
-	inBrackets = False
-	j = 0
-	for i in range(len(form)):
-		if inBrackets:
-			# FIXME not sure if there is really anything to do but ignore
-			if form[i] == '[':
-				inBrackets = False
-				j += 1
-		else:
-			if form[i] == 'V' and isVowel(syl[j]):
-				sylMatches = True
-				j += 1
-			elif form[i] == 'C' and not isVowel(syl[j]):
-				sylMatches = True
-				j += 1
-			elif form[i] == syl[j]:
-				#FIXME this may have some false positives
-				sylMatches = True
-				j += 1
-			elif form[i] == ']':
-				# we are reversed, so close brackets = open brackets
-				inBrackets = True
+	if len(syl) > 0:
+		inBrackets = False
+		j = 0
+		for i in range(len(form)):
+			if inBrackets:
+				# FIXME not sure if there is really anything to do but ignore
+				if form[i] == '[':
+					inBrackets = False
+					j += 1
 			else:
-				sylMatches = False
-				break
+				if form[i] == 'V' and isVowel(syl[j]):
+					sylMatches = True
+					j += 1
+				elif form[i] == 'C' and not isVowel(syl[j]):
+					sylMatches = True
+					j += 1
+				elif form[i] == syl[j]:
+					#FIXME this may have some false positives
+					sylMatches = True
+					j += 1
+				elif form[i] == ']':
+					# we are reversed, so close brackets = open brackets
+					inBrackets = True
+				else:
+					sylMatches = False
+					break
 	return sylMatches
 
 def getSyllables(word):
