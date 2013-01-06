@@ -101,6 +101,7 @@ def lSyllableMatches(syl, form):
 					break
 	return sylMatches
 
+# FIXME need to verify how apostrophes are split depending on their function
 def getSyllables(word):
 	""" return a list of the syllables that make up word """
 	syllables = []
@@ -129,6 +130,7 @@ def getSyllables(word):
 		syl = []
 	return syl2
 
+# TODO write functions for is open syllable, simple syllable, etc.
 def isSyllable(syl):
 	""" tests if syl is a valid Yup'ik syllable """
 	#FIXME add documentation of valid syllabes
