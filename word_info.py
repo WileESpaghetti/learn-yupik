@@ -8,7 +8,16 @@ def print_syllables(input):
 	syl = ''
 	for i in grammar.Word.getSyllables(input):
 		syl = syl + '\t' + ''.join(i) + '\t/'
+	# remove trailing '/'
+	syl = syl[:-1]
 	print(syl)
+
+def print_voicing(input):
+	print("Voicing:")
+	exp = grammar.Base.explode(input)
+	for i in range(len(exp)):
+		voiced = grammar.Word.isVoiced(input, i)
+		print(exp[i] + ": " + str(voiced))
 
 def print_apos(input):
 	if string.find(input, '\''):
@@ -41,6 +50,7 @@ def prompt_verbs():
 		print(grammar.Base.explode(input))
 		print_syllables(input)
 		print_apos(input)
+		print_voicing(input)
 
 prompt_verbs()
 print("")

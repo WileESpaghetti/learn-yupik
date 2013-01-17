@@ -1,6 +1,6 @@
 #!python
 #encoding: utf-8
-import Base
+import Base, Alphabet
 
 vowels = ['a', 'e', 'i', 'u']
 primeVowels = ['a', 'i', 'u']
@@ -173,6 +173,24 @@ def isFricative(c):
 			break
 	return isF
 
+def isVoicedFricative(c):
+	""" is c a fricative """
+	isF = False
+	for f in Alphabet.voicedFricatives:
+		if c == f:
+			isF = True
+			break
+	return isF
+
+def isVoicelessFricative(c):
+	""" is c a fricative """
+	isF = False
+	for f in Alphabet.voicelessFricatives:
+		if c == f:
+			isF = True
+			break
+	return isF
+
 def isStop(c):
 	""" is c a stop """
 	isS = False
@@ -189,6 +207,28 @@ def isNasal(c):
 		if c == n:
 			isN = True
 			break
+	return isN
+
+def isVoicedNasal(c):
+	""" is c a nasal """
+	isN = False
+	for n in Alphabet.voicedNasals:
+		if c == n:
+			isN = True
+			break
+	return isN
+
+def isVoicelessNasal(c):
+	""" is c a nasal """
+	isN = False
+	#print('c is ' + c)
+	for n in Alphabet.voicelessNasals:
+		#print ('n is ' + n)
+		#print('c is ' + c)
+		if c == n:
+			isN = True
+			break
+	#print(isN)
 	return isN
 
 def isConsonant(c):
@@ -260,7 +300,27 @@ def isGeminated(word, c):
 
 def isVoiced(word, c):
 	"""test position c to see if it is voiced"""
-	pass
+	# FIXME does not properly handle if char other than a stop or fricative is found at 'c'
+	voiced = True
+	exp = Base.explode(word)
+	l = exp[c]
+	if c == 0 and l == 's':
+		voiced = False
+	elif c == len(exp) - 1 and l == 'r':
+		voiced = False
+	elif isVoicelessFricative(l):
+		voiced = False
+	elif isVoicelessNasal(l):
+		voiced = False
+	elif isVoicedFricative(l):
+		if c > 0 and (isVoicelessFricative(exp[c-1]) or isStop(exp[c-1])):
+			voiced = False
+		elif c < len(exp) - 1 and isStop(exp[c+1]):
+			voiced = False
+	elif isVoicedNasal(l) and c > 0 and (isVoicelessFricative(exp[c-1]) or isStop(exp[c-1])):
+		voiced = False
+
+	return voiced
 
 
 #print(explode('alinguq'))

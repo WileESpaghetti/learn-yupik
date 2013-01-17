@@ -14,6 +14,9 @@ Class VI:	ends in consonant and not in Class V
 
 *See section 2.3 in Yup'ik Eskimo Grammar, Irene Reed """
 import Vowel, Consonant, Word
+
+# FIXME need to figure out how to properly explode \' using Word.apostrophePurpose()
+# FIXME need to add voiceless nasals to test functions
 def explode(word):
 	""" split the word into it's letters. this makes working with letters made up
 	of more than one character (eg. 'll' or 'ng' a whole lot easier """
@@ -31,7 +34,7 @@ def explode(word):
 		# test if a letter is a valid doubled letter or is 'ng'
 		if i > 0 and dl and exploded[-1] == word[i]:
 			exploded[-1] = word[i] + word[i]
-		elif i > 0 and exploded[-1] == 'n' and word[i] == 'g':
+		elif i > 0 and (exploded[-1] == 'n' or exploded[-1] == 'ń') and word[i] == 'g':
 			exploded[-1] = 'ng'
 		else:
 			exploded.append(word[i])
