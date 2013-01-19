@@ -16,7 +16,10 @@ def print_voicing(input):
 	print("Voicing:")
 	exp = grammar.Base.explode(input)
 	for i in range(len(exp)):
-		voiced = grammar.Word.isVoiced(input, i)
+		if grammar.Word.isNasal(exp[i]) or grammar.Word.isFricative(exp[i]):
+			voiced = grammar.Word.isVoiced(input, i)
+		else:
+			voiced = ''
 		print(exp[i] + ": " + str(voiced))
 
 def print_apos(input):
