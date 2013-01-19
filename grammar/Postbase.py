@@ -112,8 +112,9 @@ def getVelarDropPostbases(postbase):
 	#FIXME should this throw an error if postbase doesn't have velar dropping?
 	velarDropPostbase = ''
 	colon = string.find(postbase, ":")
-
-	velarPostbase = postbase[:colon] + postbase[colon + 1:]
+	velarStart = postbase[:colon]
+	velarEnd = postbase[colon + 1:]
+	velarPostbase = velarStart + velarEnd
 
 	if velarEnd[:2] == 'ng':
 		velarDropPostbase = velarStart + velarEnd[2:]
