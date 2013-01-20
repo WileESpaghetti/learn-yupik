@@ -16,6 +16,33 @@ alphabet = ['\'', 'a', 'c', 'e', 'g', 'gg', 'i', 'k', 'l', 'll', 'm', 'n', 'ng',
 # FIXME this might be done by specific character classes instead - fricatives pnly?
 doubled = ['g', 'l', 'r', 's', 'v']
 
+def getRhythmicVowelLengthPattern(word):
+	"""returns a list of booleans representing which syllables have rhythmic length """
+	rhythmicLength = []
+	syl = getSyllables(word)
+	cvCount = 0
+
+	for s in syl:
+		if syllableMatches(s, 'CV'):
+			cvCount += 1
+			if cvCount % 2 == 0:
+				#FIXME should not be true if cvCount = 0 because of the cvCount +=1 line, but need to test just to make sure. 0 should return false
+				rhythmicLength.append(True)
+			else:
+				rhythmicLength.append(False)
+		else:
+			cvCount = 0
+			rhythmicLength.append(False)
+
+	# probably not best this way, but last syllable doesn't receive rhythmic Length ever.
+	rhythmicLength[-1] = False
+
+	return rhythmicLength
+
+def hasRhythmicLength(word, sylIndex):
+	""" does the sylIndex-th syllable have rhythmic vowel length """
+	pass
+
 #FIXME needs to throw exception if '[]' passed in. need to also write test for this case
 def syllableMatches(syl, form):
 	""" eg. syllableMatches('rte', '[V]VCe')
@@ -32,7 +59,8 @@ def syllableMatches(syl, form):
 	syl = syl[::-1]
 	form = form[::-1]
 
-	if len(syl) > 0:
+	#FIXME need to write test about if form longer than syl has correct behavior
+	if len(syl) > 0 and len(syl) >= len(form):
 		inBrackets = False
 		j = 0
 		for i in range(len(form)):

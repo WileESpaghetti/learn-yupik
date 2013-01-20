@@ -12,6 +12,18 @@ def print_syllables(input):
 	syl = syl[:-1]
 	print(syl)
 
+def print_rhythmicLength(input):
+	length = ''
+
+	rl = grammar.Word.getRhythmicVowelLengthPattern(input)
+	for hasLength in rl:
+		length = length + '\t'
+		if hasLength:
+			length = length + '^^\t/'
+		else:
+			length = length + '  \t/'
+	print(length)
+
 def print_voicing(input):
 	print("Voicing:")
 	exp = grammar.Base.explode(input)
@@ -51,6 +63,7 @@ def prompt_verbs():
 		print("\n")
 		print(input)
 		print(grammar.Base.explode(input))
+		print_rhythmicLength(input)
 		print_syllables(input)
 		print_apos(input)
 		print_voicing(input)
