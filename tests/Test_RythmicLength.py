@@ -3,7 +3,7 @@
 import unittest
 import grammar
 
-class ExplodeTests(unittest.TestCase):
+class RhythmicLengthTests(unittest.TestCase):
 	# TODO might be good to do some permutations of letters and test splitting
 	# TODO write some tests that are supposed to fail
 	# TODO tests for actual Yup'ik words
@@ -22,7 +22,7 @@ class ExplodeTests(unittest.TestCase):
 		quyana = {'length':[False,True,False], 'word':'quyana'}
 		self.testWords = [tekituq,pissuqatalliniluni,miteqatalliniluni,qayaliqataraqama,nalluyagucaqunaku,angyaligataraqama,qayaliciqngatuten,quyana]
 
-	def test_Words(self):
+	def test_rhythmicLengthTestWords(self):
 		for tw in self.testWords:
 			self.assertEqual(tw['length'], grammar.Word.getRhythmicVowelLengthPattern(tw['word']))
 

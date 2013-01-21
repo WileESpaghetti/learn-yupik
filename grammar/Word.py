@@ -39,9 +39,38 @@ def getRhythmicVowelLengthPattern(word):
 
 	return rhythmicLength
 
-def hasRhythmicLength(word, sylIndex):
+def getAutoGemminationPattern(word):
+	gempat = []
+	exp = Base.explode(word)
+	rl = getRhythmicVowelLengthPattern(word)
+	print(len(exp))
+	print(rl)
+	for i in range(len(exp)):
+		print(i)
+		print(exp[i])
+		print(word)
+		if i > 0 and i < len(exp)-2:
+			if isVowel(exp[i-1]) and isConsonant(exp[i]) and isVowel(exp[i+1]) and isVowel(exp[i+2]):
+				gempat.append(True)
+			else:
+				gempat.append(False)
+		elif i > 0 and exp[i-1] == 'e' and hasRhythmicLength(word,i-1):
+			gempat.append(True)
+		else:
+			gempat.append(False)
+	return gempat
+
+def hasRhythmicLength(word, index):
 	""" does the sylIndex-th syllable have rhythmic vowel length """
-	pass
+	exp = Base.explode(word)
+	syl = getSyllables(word)
+	rl = getRhythmicVowelLengthPattern(word)
+	rlexp = []
+	for s in range(len(syl)):
+		for r in range(len(syl[s])):
+			rlexp.append(rl[s])
+	print(rlexp)
+	return rlexp[index]
 
 #FIXME needs to throw exception if '[]' passed in. need to also write test for this case
 def syllableMatches(syl, form):
