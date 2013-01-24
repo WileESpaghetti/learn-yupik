@@ -1,0 +1,8 @@
+*.pyc
+*.idea
+scraps
+*.exe
+*.db
+*.sql
+tutorials
+doc/
