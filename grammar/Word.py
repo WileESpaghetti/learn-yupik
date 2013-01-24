@@ -16,61 +16,6 @@ alphabet = ['\'', 'a', 'c', 'e', 'g', 'gg', 'i', 'k', 'l', 'll', 'm', 'n', 'ng',
 # FIXME this might be done by specific character classes instead - fricatives pnly?
 doubled = ['g', 'l', 'r', 's', 'v']
 
-def getRhythmicVowelLengthPattern(word):
-	"""returns a list of booleans representing which syllables have rhythmic length """
-	rhythmicLength = []
-	syl = getSyllables(word)
-	cvCount = 0
-
-	for s in syl:
-		if syllableMatches(s, 'CV'):
-			cvCount += 1
-			if cvCount % 2 == 0:
-				#FIXME should not be true if cvCount = 0 because of the cvCount +=1 line, but need to test just to make sure. 0 should return false
-				rhythmicLength.append(True)
-			else:
-				rhythmicLength.append(False)
-		else:
-			cvCount = 0
-			rhythmicLength.append(False)
-
-	# probably not best this way, but last syllable doesn't receive rhythmic Length ever.
-	rhythmicLength[-1] = False
-
-	return rhythmicLength
-
-def getAutoGemminationPattern(word):
-	gempat = []
-	exp = Base.explode(word)
-	rl = getRhythmicVowelLengthPattern(word)
-	print(len(exp))
-	print(rl)
-	for i in range(len(exp)):
-		print(i)
-		print(exp[i])
-		print(word)
-		if i > 0 and i < len(exp)-2:
-			if isVowel(exp[i-1]) and isConsonant(exp[i]) and isVowel(exp[i+1]) and isVowel(exp[i+2]):
-				gempat.append(True)
-			else:
-				gempat.append(False)
-		elif i > 0 and exp[i-1] == 'e' and hasRhythmicLength(word,i-1):
-			gempat.append(True)
-		else:
-			gempat.append(False)
-	return gempat
-
-def hasRhythmicLength(word, index):
-	""" does the sylIndex-th syllable have rhythmic vowel length """
-	exp = Base.explode(word)
-	syl = getSyllables(word)
-	rl = getRhythmicVowelLengthPattern(word)
-	rlexp = []
-	for s in range(len(syl)):
-		for r in range(len(syl[s])):
-			rlexp.append(rl[s])
-	print(rlexp)
-	return rlexp[index]
 
 #FIXME needs to throw exception if '[]' passed in. need to also write test for this case
 def syllableMatches(syl, form):
@@ -89,32 +34,39 @@ def syllableMatches(syl, form):
 	form = form[::-1]
 
 	#FIXME need to write test about if form longer than syl has correct behavior
+	#FIXME optional '[]' letters should not increment i
+	inBrackets = False
+	j = 0
+
 	if len(syl) > 0 and len(syl) >= len(form):
-		inBrackets = False
-		j = 0
 		for i in range(len(form)):
-			if inBrackets:
-				# FIXME not sure if there is really anything to do but ignore
-				if form[i] == '[':
-					inBrackets = False
-					j += 1
-			else:
-				if form[i] == 'V' and isVowel(syl[j]):
-					sylMatches = True
-					j += 1
-				elif form[i] == 'C' and not isVowel(syl[j]):
-					sylMatches = True
-					j += 1
-				elif form[i] == syl[j]:
-					#FIXME this may have some false positives
-					sylMatches = True
-					j += 1
-				elif form[i] == ']':
-					# we are reversed, so close brackets = open brackets
-					inBrackets = True
+			if i<=j:
+				print(i)
+				print(j)
+				if inBrackets:
+					# FIXME not sure if there is really anything to do but ignore
+					if form[i] == '[':
+						inBrackets = False
+						j += 1
 				else:
-					sylMatches = False
-					break
+					if form[i] == 'V' and isVowel(syl[j]):
+						sylMatches = True
+						j += 1
+					elif form[i] == 'C' and not isVowel(syl[j]):
+						sylMatches = True
+						j += 1
+					elif form[i] == syl[j]:
+						#FIXME this may have some false positives
+						sylMatches = True
+						j += 1
+					elif form[i] == ']':
+						# we are reversed, so close brackets = open brackets
+						inBrackets = True
+					else:
+						sylMatches = False
+						break
+			else:
+				break
 	return sylMatches
 
 #FIXME needs to throw exception if '[]' passed in. need to also write test for this case
@@ -380,13 +332,103 @@ def isVoiced(word, c):
 	return voiced
 
 
-#print(explode('alinguq'))
-#getSyllables(explode('alinguq'))
-#print(explode('tuquuq'))
-#getSyllables(explode('tuquuq'))
-#print(explode('arnaq'))
-#getSyllables(explode('arnaq'))
-#print(explode('arnaq'))
-#getSyllables(explode('angyalingaicugnarquq'))
-#print(getSyllables(explode('elit')))
-#print(syllableMatches('nrite', '[V]CVte'))
+def getRhythmicVowelLengthPattern(word):
+	"""returns a list of booleans representing which syllables have rhythmic length """
+	rhythmicLength = []
+	syl = getSyllables(word)
+	cvCount = 0
+
+	for s in syl:
+		if syllableMatches(s, 'CV'):
+			cvCount += 1
+			if cvCount % 2 == 0:
+				#FIXME should not be true if cvCount = 0 because of the cvCount +=1 line, but need to test just to make sure. 0 should return false
+				rhythmicLength.append(True)
+			else:
+				rhythmicLength.append(False)
+		else:
+			cvCount = 0
+			rhythmicLength.append(False)
+
+	# probably not best this way, but last syllable doesn't receive rhythmic Length ever.
+	rhythmicLength[-1] = False
+
+	return rhythmicLength
+
+def hasRhythmicLength(word, index):
+	""" does the sylIndex-th syllable have rhythmic vowel length """
+	exp = Base.explode(word)
+	syl = getSyllables(word)
+	rl = getRhythmicVowelLengthPattern(word)
+	rlexp = []
+	for s in range(len(syl)):
+		for r in range(len(syl[s])):
+			rlexp.append(rl[s])
+	print(rlexp)
+	return rlexp[index]
+
+def getAutoGemminationPattern(word):
+	gempat = []
+	exp = Base.explode(word)
+	rl = getRhythmicVowelLengthPattern(word)
+	print(len(exp))
+	print(rl)
+	for i in range(len(exp)):
+		print(i)
+		print(exp[i])
+		print(word)
+		if i > 0 and i < len(exp)-2:
+			if isVowel(exp[i-1]) and isConsonant(exp[i]) and isVowel(exp[i+1]) and isVowel(exp[i+2]):
+				gempat.append(True)
+			else:
+				gempat.append(False)
+		elif i > 0 and exp[i-1] == 'e' and hasRhythmicLength(word,i-1):
+			gempat.append(True)
+		else:
+			gempat.append(False)
+	return gempat
+
+def getStressPattern(word):
+	stressPat = []
+	syl = getSyllables(word)
+	rhy = getRhythmicVowelLengthPattern(word)
+	ruleOne = False
+	numStressed = 0
+
+	for i in range(len(syl)):
+		if ruleOne:
+			numStressed += 1
+		# first syllable is closed
+		if i < len(syl) -1 :
+			if i == 0 and syllableMatches(syl[i], 'C'):
+				stressPat.append(True)
+				ruleOne = True
+				numStressed = 0
+			# syllable is closed and previous syllable is unstress/open
+			elif i > 0 and syllableMatches(syl[i],'C') and not stressPat[-1] and syllableMatches(syl[i-1],'V'):
+				stressPat.append(True)
+				ruleOne = True
+				numStressed = 0
+			# syllable contains VV
+			elif syllableMatches(syl[i],'[C]VV[C]'):
+				stressPat.append(True)
+				ruleOne = True
+				numStressed = 0
+			# syllable is rhythmically lengthened
+			elif rhy[i]:
+				stressPat.append(True)
+				ruleOne = True
+				numStressed = 0
+			# after finding one of the above rules, every even number syllable gets stress
+			elif ruleOne and numStressed > 0 and numStressed%2 == 0 and syllableMatches(syl[i],'C'):
+				stressPat.append(True)
+			#syllable preceeding one containing VV
+			#FIXME group of OR statements below is a workaround because '[]' format doesn't work correctly in syllableMatches()
+			elif i < len(syl) - 1 and (syllableMatches(syl[i+1],'CVV') or syllableMatches(syl[i+1],'VVC') or syllableMatches(syl[i+1],'VV')):
+				stressPat.append(True)
+			else:
+				stressPat.append(False)
+		else:
+			stressPat.append(False)
+	return stressPat
+

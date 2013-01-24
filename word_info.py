@@ -49,6 +49,9 @@ def print_apos(input):
 		elif grammar.Word.apostrophePurpose(input) == grammar.Word.APOS_SHORT_WORD:
 			print('\' = end chopped')
 
+def print_stress(input):
+	print(grammar.Word.getStressPattern(input))
+
 
 def prompt_verbs():
 	input = ''
@@ -67,6 +70,7 @@ def prompt_verbs():
 		print_syllables(input)
 		print_apos(input)
 		print_voicing(input)
+		print_stress(input)
 
 prompt_verbs()
 print("")
