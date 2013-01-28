@@ -7,7 +7,6 @@ primeVowels = ['a', 'i', 'u']
 
 consonants = ['\'','c','gg','g','k','ll','l','m','n','ng','p','q','rr','r','ss','s','t','vv','v','w','y']
 
-nasals = ['m','n','ng']
 alphabet = ['\'', 'a', 'c', 'e', 'g', 'gg', 'i', 'k', 'l', 'll', 'm', 'n', 'ng', 'p', 'q', 'r', 'rr', 's', 'ss', 't', 'u', 'v', 'vv', 'w', 'y']
 
 #letters that can be doubled
@@ -18,7 +17,7 @@ doubled = ['g', 'l', 'r', 's', 'v']
 #FIXME needs to throw exception if '[]' passed in. need to also write test for this case
 def syllableMatches(syl, form):
 	""" eg. syllableMatches('rte', '[V]VCe')
-	capital 'V' or 'C' match vowels and consonants respectivly
+	capital 'V' or 'C' match vowels and consonants respectively
 	letters in []'s shows optional letters. checks from the end of the word"""
 	# FIXME this is not necessarily done on a syllable by syllable basis. sometimes it
 	# can overlap boundaries
@@ -173,36 +172,6 @@ def isVelar(c):
 
 
 
-def isNasal(c):
-	""" is c a nasal """
-	isN = False
-	for n in nasals:
-		if c == n:
-			isN = True
-			break
-	return isN
-
-def isVoicedNasal(c):
-	""" is c a nasal """
-	isN = False
-	for n in Alphabet.voicedNasals:
-		if c == n:
-			isN = True
-			break
-	return isN
-
-def isVoicelessNasal(c):
-	""" is c a nasal """
-	isN = False
-	#print('c is ' + c)
-	for n in Alphabet.voicelessNasals:
-		#print ('n is ' + n)
-		#print('c is ' + c)
-		if c == n:
-			isN = True
-			break
-	#print(isN)
-	return isN
 
 def isConsonant(c):
 	""" is c a consonant """
@@ -283,14 +252,14 @@ def isVoiced(word, c):
 		voiced = False
 	elif Alphabet.isVoicelessFricative(l):
 		voiced = False
-	elif isVoicelessNasal(l):
+	elif Alphabet.isVoicelessNasal(l):
 		voiced = False
 	elif Alphabet.isVoicedFricative(l):
 		if c > 0 and (Alphabet.isVoicelessFricative(exp[c-1]) or Alphabet.isStop(exp[c-1])):
 			voiced = False
 		elif c < len(exp) - 1 and Alphabet.isStop(exp[c+1]):
 			voiced = False
-	elif isVoicedNasal(l) and c > 0 and (Alphabet.isVoicelessFricative(exp[c-1]) or Alphabet.isStop(exp[c-1])):
+	elif Alphabet.isVoicedNasal(l) and c > 0 and (Alphabet.isVoicelessFricative(exp[c-1]) or Alphabet.isStop(exp[c-1])):
 		voiced = False
 
 	return voiced

@@ -8,9 +8,6 @@ labializedFrontVelars = ['ug', 'w']
 labializedbackVelars = ['ur', 'urr']
 
 # rows
-voicedNasals = ['n', 'ng']
-voicelessNasals = ['ń']#,'ńg']
-nasals = voicedNasals + voicelessNasals
 
 #consonants = list(set(stops + fricatives +  nasals))
 
@@ -82,3 +79,36 @@ def isVoicelessFricative(c):
 			isF = True
 			break
 	return isF
+
+
+voicedNasals = ['m', 'n', 'ng']
+voicelessNasals = ['ḿ', 'ń', 'ńg']
+nasals = voicedNasals + voicelessNasals
+
+def isNasal(c):
+	""" is c a nasal """
+	isN = False
+	for n in nasals:
+		if c == n:
+			isN = True
+			break
+	return isN
+
+def isVoicedNasal(c):
+	""" is c a nasal """
+	isN = False
+	for n in voicedNasals:
+		if c == n:
+			isN = True
+			break
+	return isN
+
+def isVoicelessNasal(c):
+	""" is c a nasal """
+	isN = False
+	#print('c is ' + c)
+	for n in voicelessNasals:
+		if c == n:
+			isN = True
+			break
+	return isN
