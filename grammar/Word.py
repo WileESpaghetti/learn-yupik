@@ -8,7 +8,6 @@ primeVowels = ['a', 'i', 'u']
 consonants = ['\'','c','gg','g','k','ll','l','m','n','ng','p','q','rr','r','ss','s','t','vv','v','w','y']
 
 fricatives = ['v', 'l', 's', 'y', 'g', 'r', 'ug', 'ur', 'vv', 'll', 'ss', 'gg', 'rr', 'w', 'urr']
-stops = ['p','t','c','k','q']
 nasals = ['m','n','ng']
 alphabet = ['\'', 'a', 'c', 'e', 'g', 'gg', 'i', 'k', 'l', 'll', 'm', 'n', 'ng', 'p', 'q', 'r', 'rr', 's', 'ss', 't', 'u', 'v', 'vv', 'w', 'y']
 
@@ -200,14 +199,7 @@ def isVoicelessFricative(c):
 			break
 	return isF
 
-def isStop(c):
-	""" is c a stop """
-	isS = False
-	for s in stops:
-		if c == s:
-			isS = True
-			break
-	return isS
+
 
 def isNasal(c):
 	""" is c a nasal """
@@ -322,11 +314,11 @@ def isVoiced(word, c):
 	elif isVoicelessNasal(l):
 		voiced = False
 	elif isVoicedFricative(l):
-		if c > 0 and (isVoicelessFricative(exp[c-1]) or isStop(exp[c-1])):
+		if c > 0 and (isVoicelessFricative(exp[c-1]) or Alphabet.isStop(exp[c-1])):
 			voiced = False
-		elif c < len(exp) - 1 and isStop(exp[c+1]):
+		elif c < len(exp) - 1 and Alphabet.isStop(exp[c+1]):
 			voiced = False
-	elif isVoicedNasal(l) and c > 0 and (isVoicelessFricative(exp[c-1]) or isStop(exp[c-1])):
+	elif isVoicedNasal(l) and c > 0 and (isVoicelessFricative(exp[c-1]) or Alphabet.isStop(exp[c-1])):
 		voiced = False
 
 	return voiced

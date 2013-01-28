@@ -8,7 +8,6 @@ labializedFrontVelars = ['ug', 'w']
 labializedbackVelars = ['ur', 'urr']
 
 # rows
-stops = ['p', 't', 'c', 'k', 'q']
 voicedFricatives = ['v', 'l', 's', 'y', 'g', 'r']#, 'ug', 'ur']
 voicelessFricatives = ['vv', 'll', 'ss', 'gg', 'rr']
 fricatives = voicedFricatives + voicelessFricatives
@@ -16,7 +15,7 @@ voicedNasals = ['n', 'ng']
 voicelessNasals = ['ń']#,'ńg']
 nasals = voicedNasals + voicelessNasals
 
-consonants = list(set(stops + fricatives +  nasals))
+#consonants = list(set(stops + fricatives +  nasals))
 
 #vowel columns
 frontVowels = ['i']
@@ -42,4 +41,14 @@ consonants = ['p', 't', 'c',]
 
 
 
+# refactored
+stops = ['p', 't', 'c', 'k', 'q']
 
+def isStop(c):
+	""" is c a stop """
+	isS = False
+	for s in stops:
+		if c == s:
+			isS = True
+			break
+	return isS
