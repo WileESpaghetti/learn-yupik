@@ -8,9 +8,6 @@ labializedFrontVelars = ['ug', 'w']
 labializedbackVelars = ['ur', 'urr']
 
 # rows
-voicedFricatives = ['v', 'l', 's', 'y', 'g', 'r']#, 'ug', 'ur']
-voicelessFricatives = ['vv', 'll', 'ss', 'gg', 'rr']
-fricatives = voicedFricatives + voicelessFricatives
 voicedNasals = ['n', 'ng']
 voicelessNasals = ['ń']#,'ńg']
 nasals = voicedNasals + voicelessNasals
@@ -52,3 +49,36 @@ def isStop(c):
 			isS = True
 			break
 	return isS
+
+# 'w' is voiceless counterpart of 'ug'
+# FIXME need to add the voiced arched 'u' digraphs 'ug', 'ur' and voiceless 'urr'
+voicedFricatives = 		['v', 'l', 's', 'g', 'r', 'y']
+voicelessFricatives = 	['vv', 'll', 'ss', 'gg', 'rr', 'w']
+fricatives = 			voicedFricatives + voicelessFricatives
+
+def isFricative(c):
+	""" is c a fricative """
+	isF = False
+	for f in fricatives:
+		if c == f:
+			isF = True
+			break
+	return isF
+
+def isVoicedFricative(c):
+	""" is c a fricative """
+	isF = False
+	for f in voicedFricatives:
+		if c == f:
+			isF = True
+			break
+	return isF
+
+def isVoicelessFricative(c):
+	""" is c a fricative """
+	isF = False
+	for f in voicelessFricatives:
+		if c == f:
+			isF = True
+			break
+	return isF

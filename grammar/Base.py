@@ -13,7 +13,7 @@ Class V:	single or double vowel + 'r' (nouns only)
 Class VI:	ends in consonant and not in Class V
 
 *See section 2.3 in Yup'ik Eskimo Grammar, Irene Reed """
-import Vowel, Consonant, Word
+import Vowel, Alphabet, Word
 
 # FIXME need to figure out how to properly explode \' using Word.apostrophePurpose()
 # FIXME need to add voiceless nasals to test functions
@@ -72,7 +72,7 @@ def isClassIV(base):
 def isClassIVa(base):
 	""" word ends in a fricitive followed by 'te' """
 	isClass = False
-	if isClassIV(base) and Consonant.isFricative(base[-3]):
+	if isClassIV(base) and Alphabet.isFricative(base[-3]):
 		isClass = True
 	return isClass
 
