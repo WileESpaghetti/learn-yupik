@@ -20,7 +20,7 @@
 # t 	Class V - VI	ends in a consonant
 # u	Class III - VI	ends in 'e' or a consonant
 
-import Base, Vowel, string, Word
+import Base, string, Word
 
 postbaseSymbols = ('+', '-', '~', '÷', ':', '\'', '@', '- -', '%', '(', ')')
 

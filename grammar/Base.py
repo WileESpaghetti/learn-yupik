@@ -13,7 +13,7 @@ Class V:	single or double vowel + 'r' (nouns only)
 Class VI:	ends in consonant and not in Class V
 
 *See section 2.3 in Yup'ik Eskimo Grammar, Irene Reed """
-import Vowel, Alphabet, Word
+import Alphabet, Word
 
 # FIXME need to figure out how to properly explode \' using Word.apostrophePurpose()
 # FIXME need to add voiceless nasals to test functions
@@ -44,14 +44,14 @@ def explode(word):
 def isClassI(base):
 	""" word ends in a single prime vowel """
 	isClass = False
-	if Vowel.isPrimeVowel(base[-1]) and not Vowel.isPrimeVowel(base[-2]):
+	if Alphabet.isPrimeVowel(base[-1]) and not Alphabet.isPrimeVowel(base[-2]):
 		isClass = True
 	return isClass
 
 def isClassII(base):
 	""" word ends in 2 prime vowels """
 	isClass = False
-	if Vowel.isPrimeVowel(base[-1]) and Vowel.isPrimeVowel(base[-2]):
+	if Alphabet.isPrimeVowel(base[-1]) and Alphabet.isPrimeVowel(base[-2]):
 		isClass = True
 	return isClass
 
@@ -79,7 +79,7 @@ def isClassIVa(base):
 def isClassIVb(base):
 	""" words that end with a vowel followed by 'te' """
 	isClass = False
-	if isClassIV(base) and Vowel.isVowel(base[-3]):
+	if isClassIV(base) and Alphabet.isVowel(base[-3]):
 		isClass = True
 	return isClass
 
@@ -96,14 +96,14 @@ def isClassV(base):
 	""" nouns only: ends with 1 or 2 vowels followed by 'r' """
 	#FIXME: does not check if word is a noun or words marked with '*'
 	isClass = False
-	if base[-1] == 'r' and Vowel.isVowel(base[-2]):
+	if base[-1] == 'r' and Alphabet.isVowel(base[-2]):
 		isClass = True
 	return isClass
 
 def isClassVI(base):
 	""" all words ending in a consonant and that are not Class V """
 	isClass = False
-	if not Vowel.isVowel(base[-1]) and not isClassV(base):
+	if not Alphabet.isVowel(base[-1]) and not isClassV(base):
 		isClass = True
 	return isClass
 

@@ -1,33 +1,11 @@
 #!python
 #encoding: utf-8
 #columns
-labials = ['p', 'v', 'vv', 'n', 'ń']
-apicals = ['t', 'l', 'll', 'n', 'ń', 'c', 's', 'y', 'ss']
-frontVelars = ['k', 'g', 'gg', 'ng', 'ńg', 'q', 'r', 'rr']
-labializedFrontVelars = ['ug', 'w']
-labializedbackVelars = ['ur', 'urr']
-
-# rows
 
 #consonants = list(set(stops + fricatives +  nasals))
 
-#vowel columns
-frontVowels = ['i']
-midVowels = ['e', 'a']
-backVowels = ['u']
-
-#rows
-highVowels = ['i', 'e', 'u']
-lowVowels = ['a']
-
-primeVowels = ['a', 'i', 'u']
-
-vowels = highVowels + lowVowels
-
-
 # acegiklmnpqrstuvwy
 
-vowels = ['a', 'e', 'i', 'u']
 consonants = ['p', 't', 'c',]
 
 
@@ -112,3 +90,23 @@ def isVoicelessNasal(c):
 			isN = True
 			break
 	return isN
+
+primeVowels = ['a','i','u']
+vowels = ['a', 'e', 'i', 'u']
+
+def isVowel(c):
+	""" is c a vowel """
+	isV = False
+	for v in vowels:
+		if c == v:
+			isV = True
+			break
+	return isV
+
+def isPrimeVowel(c):
+	isPrime = False
+	for v in primeVowels:
+		if c == v:
+			isPrime = True
+			break
+	return isPrime

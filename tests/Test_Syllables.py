@@ -53,22 +53,22 @@ class SyllableTest(unittest.TestCase):
 		self.assertFalse(grammar.Word.lSyllableMatches('','V'))
 
 	def test_matchSingleVowel(self):
-		for i in grammar.Word.vowels:
+		for i in grammar.Alphabet.vowels:
 			self.assertTrue(grammar.Word.syllableMatches(i,'V'))
 			self.assertFalse(grammar.Word.syllableMatches(i,'C'))
 
 	def test_matchSingleConsonant(self):
-		for i in grammar.Word.consonants:
+		for i in grammar.Alphabet.consonants:
 			self.assertTrue(grammar.Word.syllableMatches(i,'C'))
 			self.assertFalse(grammar.Word.syllableMatches(i,'V'))
 
 	def test_lmatchSingleVowel(self):
-		for i in grammar.Word.vowels:
+		for i in grammar.Alphabet.vowels:
 			self.assertTrue(grammar.Word.lSyllableMatches(i,'V'))
 			self.assertFalse(grammar.Word.lSyllableMatches(i,'C'))
 
 	def test_matchSingleConsonant(self):
-		for i in grammar.Word.consonants:
+		for i in grammar.Alphabet.consonants:
 			self.assertTrue(grammar.Word.lSyllableMatches(i,'C'))
 			self.assertFalse(grammar.Word.lSyllableMatches(i,'V'))
 

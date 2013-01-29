@@ -2,9 +2,6 @@
 #encoding: utf-8
 import Base, Alphabet
 
-vowels = ['a', 'e', 'i', 'u']
-primeVowels = ['a', 'i', 'u']
-
 consonants = ['\'','c','gg','g','k','ll','l','m','n','ng','p','q','rr','r','ss','s','t','vv','v','w','y']
 
 alphabet = ['\'', 'a', 'c', 'e', 'g', 'gg', 'i', 'k', 'l', 'll', 'm', 'n', 'ng', 'p', 'q', 'r', 'rr', 's', 'ss', 't', 'u', 'v', 'vv', 'w', 'y']
@@ -46,10 +43,10 @@ def syllableMatches(syl, form):
 						inBrackets = False
 						j += 1
 				else:
-					if form[i] == 'V' and isVowel(syl[j]):
+					if form[i] == 'V' and Alphabet.isVowel(syl[j]):
 						sylMatches = True
 						j += 1
-					elif form[i] == 'C' and not isVowel(syl[j]):
+					elif form[i] == 'C' and not Alphabet.isVowel(syl[j]):
 						sylMatches = True
 						j += 1
 					elif form[i] == syl[j]:
@@ -89,10 +86,10 @@ def lSyllableMatches(syl, form):
 					inBrackets = False
 					j += 1
 			else:
-				if form[i] == 'V' and isVowel(syl[j]):
+				if form[i] == 'V' and Alphabet.isVowel(syl[j]):
 					sylMatches = True
 					j += 1
-				elif form[i] == 'C' and not isVowel(syl[j]):
+				elif form[i] == 'C' and not Alphabet.isVowel(syl[j]):
 					sylMatches = True
 					j += 1
 				elif form[i] == syl[j]:
@@ -118,7 +115,7 @@ def getSyllables(word):
 		c = exp[i]
 		syl.append(c)
 		if i < len(exp) - 1:
-			if not isVowel(c) and not isVowel(exp[i+1]):
+			if not Alphabet.isVowel(c) and not Alphabet.isVowel(exp[i+1]):
 				syllables.append(syl)
 				syl = []
 	syllables.append(syl)
@@ -127,8 +124,8 @@ def getSyllables(word):
 	syl2 = []
 	for s in syllables:
 		for i in range(len(s)):
-			if not isVowel(s[i]) and (i > 0 and i < len(s) - 1):
-				if isVowel(s[i-1]) and isVowel(s[i+1]):
+			if not Alphabet.isVowel(s[i]) and (i > 0 and i < len(s) - 1):
+				if Alphabet.isVowel(s[i-1]) and Alphabet.isVowel(s[i+1]):
 					syl2.append(syl)
 					syl = []
 			syl.append(s[i])
@@ -146,25 +143,6 @@ def syllableCount(word):
 	"""get the number of syllables in word"""
 	return len(getSyllables(Base.explode(word)))
 
-# letter types: c is a letter as represented in the explode() function and doesn;t
-# actually have to be a single character. (eg. 'll' or 'ng')
-def isVowel(c):
-	""" is c a vowel """
-	isV = False
-	for v in vowels:
-		if c == v:
-			isV = True
-			break
-	return isV
-
-def isPrimeVowel(c):
-	""" is c a prime vowel? (basically every vowel except for 'e') """
-	isPrime = False
-	for v in primeVowels:
-		if c == v:
-			isPrime = True
-			break
-	return isPrime
 
 def isVelar(c):
 	""" is c a velar """
@@ -175,7 +153,7 @@ def isVelar(c):
 
 def isConsonant(c):
 	""" is c a consonant """
-	return not isVowel(c)
+	return not Alphabet.isVowel(c)
 
 # uses for apostrophe's
 # 0. mark gemination - taq'uq (C'V)
@@ -200,15 +178,15 @@ def apostrophePurpose(word):
 	for i in range(len(exp)):
 		if i > 0 and exp[i] == '\'':
 			if i < len(exp) - 1:
-				if isVowel(exp[i-1]):
-					if isVowel(exp[i+1]):
+				if Alphabet.isVowel(exp[i-1]):
+					if Alphabet.isVowel(exp[i+1]):
 						purpose = APOS_PREVENT_GEMMINATION
 						break
 					elif exp[i+1] == 'r':
 						purpose = APOS_DISRUPT_STRESS
 						break
 				else:
-					if isVowel(exp[i+1]):
+					if Alphabet.isVowel(exp[i+1]):
 						purpose = APOS_GEMINATION_MARKER
 						break
 					elif exp[i-1] == 'n' and exp[i+1] == 'g':
@@ -311,7 +289,7 @@ def getAutoGemminationPattern(word):
 		print(exp[i])
 		print(word)
 		if i > 0 and i < len(exp)-2:
-			if isVowel(exp[i-1]) and isConsonant(exp[i]) and isVowel(exp[i+1]) and isVowel(exp[i+2]):
+			if Alphabet.isVowel(exp[i-1]) and isConsonant(exp[i]) and Alphabet.isVowel(exp[i+1]) and Alphabet.isVowel(exp[i+2]):
 				gempat.append(True)
 			else:
 				gempat.append(False)
