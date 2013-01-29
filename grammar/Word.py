@@ -2,10 +2,6 @@
 #encoding: utf-8
 import Base, Alphabet
 
-consonants = ['\'','c','gg','g','k','ll','l','m','n','ng','p','q','rr','r','ss','s','t','vv','v','w','y']
-
-alphabet = ['\'', 'a', 'c', 'e', 'g', 'gg', 'i', 'k', 'l', 'll', 'm', 'n', 'ng', 'p', 'q', 'r', 'rr', 's', 'ss', 't', 'u', 'v', 'vv', 'w', 'y']
-
 #letters that can be doubled
 # FIXME this might be done by specific character classes instead - fricatives pnly?
 doubled = ['g', 'l', 'r', 's', 'v']
@@ -149,12 +145,6 @@ def isVelar(c):
 	pass
 
 
-
-
-def isConsonant(c):
-	""" is c a consonant """
-	return not Alphabet.isVowel(c)
-
 # uses for apostrophe's
 # 0. mark gemination - taq'uq (C'V)
 # 1. separate n and g - tan'gurraq
@@ -289,7 +279,7 @@ def getAutoGemminationPattern(word):
 		print(exp[i])
 		print(word)
 		if i > 0 and i < len(exp)-2:
-			if Alphabet.isVowel(exp[i-1]) and isConsonant(exp[i]) and Alphabet.isVowel(exp[i+1]) and Alphabet.isVowel(exp[i+2]):
+			if Alphabet.isVowel(exp[i-1]) and Alphabet.isConsonant(exp[i]) and Alphabet.isVowel(exp[i+1]) and Alphabet.isVowel(exp[i+2]):
 				gempat.append(True)
 			else:
 				gempat.append(False)

@@ -7,11 +7,7 @@
 # acegiklmnpqrstuvwy
 
 consonants = ['p', 't', 'c',]
-
-
-
-
-
+alphabet = ['\'','a','c','e','gg','g','i','k','ll','l','m','n','ng','p','q','rr','r','ss','s','t','u','vv','v','w','y']
 
 # refactored
 stops = ['p', 't', 'c', 'k', 'q']
@@ -110,3 +106,11 @@ def isPrimeVowel(c):
 			isPrime = True
 			break
 	return isPrime
+
+# WARNING: this function should always be used instead of "not isVowel()". This is because
+# apostrophes are only considered a letter when used as the gemmination marker. "not isVowel()"
+# will cause some false positives if an apostrophe is being used for a different purpose.
+# FIXME: need to refactor code that uses the "not isVowel()" pattern
+def isConsonant(c):
+	""" is c a consonant """
+	return not isVowel(c)

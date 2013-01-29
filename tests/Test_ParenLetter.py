@@ -13,7 +13,7 @@ class ParenLetterTest(unittest.TestCase):
 		self.alphExp = ['\'','a','c','e','gg','g','i','k','ll','l','m','n','ng','p','q','rr','r','ss','s','t','u','vv','v','w','y']
 
 	def test_explodeSingleLetters(self):
-		for c in grammar.Word.alphabet:
+		for c in grammar.Alphabet.alphabet:
 			self.assertEqual(grammar.Base.explode(c),[c])
 
 	def test_explodeAlphabet(self):

@@ -14,11 +14,11 @@ class ExplodeTests(unittest.TestCase):
 		self.alphExp = ['\'','a','c','e','gg','g','i','k','ll','l','m','n','ng','p','q','rr','r','ss','s','t','u','vv','v','w','y']
 
 	def test_explodeSingleLetters(self):
-		for c in grammar.Word.alphabet:
+		for c in grammar.Alphabet.alphabet:
 			self.assertEqual(grammar.Base.explode(c),[c])
 
 	def test_explodeDoubleLetters(self):
-		for c in grammar.Word.alphabet:
+		for c in grammar.Alphabet.alphabet:
 			dl = False
 			for l in grammar.Word.doubled:
 				if c == l:
@@ -29,7 +29,7 @@ class ExplodeTests(unittest.TestCase):
 				self.assertEqual(grammar.Base.explode(c + c),[c + c])
 
 	def test_explodeTripleLetters(self):
-		for c in grammar.Word.alphabet:
+		for c in grammar.Alphabet.alphabet:
 			dl = False
 			for l in grammar.Word.doubled:
 				if c == l:
@@ -40,7 +40,7 @@ class ExplodeTests(unittest.TestCase):
 				self.assertEqual(grammar.Base.explode(c + c + c),[c + c,c])
 
 	def test_explodeFourLetters(self):
-		for c in grammar.Word.alphabet:
+		for c in grammar.Alphabet.alphabet:
 			dl = False
 			for l in grammar.Word.doubled:
 				if c == l:
@@ -51,7 +51,7 @@ class ExplodeTests(unittest.TestCase):
 				self.assertEqual(grammar.Base.explode(c + c + c + c),[c + c,c + c])
 
 	def test_explodeFiveLetters(self):
-		for c in grammar.Word.alphabet:
+		for c in grammar.Alphabet.alphabet:
 			dl = False
 			for l in grammar.Word.doubled:
 				if c == l:
