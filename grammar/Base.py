@@ -27,7 +27,7 @@ def explode(word):
 
 	for i in range(len(word)):
 		dl = False
-		for l in Word.doubled:
+		for l in Alphabet.doubled:
 			if word[i] == l:
 				dl = True
 

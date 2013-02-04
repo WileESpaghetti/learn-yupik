@@ -20,7 +20,7 @@ class ExplodeTests(unittest.TestCase):
 	def test_explodeDoubleLetters(self):
 		for c in grammar.Alphabet.alphabet:
 			dl = False
-			for l in grammar.Word.doubled:
+			for l in grammar.Alphabet.doubled:
 				if c == l:
 					dl = True
 			if not dl:
@@ -31,7 +31,7 @@ class ExplodeTests(unittest.TestCase):
 	def test_explodeTripleLetters(self):
 		for c in grammar.Alphabet.alphabet:
 			dl = False
-			for l in grammar.Word.doubled:
+			for l in grammar.Alphabet.doubled:
 				if c == l:
 					dl = True
 			if not dl:
@@ -42,7 +42,7 @@ class ExplodeTests(unittest.TestCase):
 	def test_explodeFourLetters(self):
 		for c in grammar.Alphabet.alphabet:
 			dl = False
-			for l in grammar.Word.doubled:
+			for l in grammar.Alphabet.doubled:
 				if c == l:
 					dl = True
 			if not dl:
@@ -53,7 +53,7 @@ class ExplodeTests(unittest.TestCase):
 	def test_explodeFiveLetters(self):
 		for c in grammar.Alphabet.alphabet:
 			dl = False
-			for l in grammar.Word.doubled:
+			for l in grammar.Alphabet.doubled:
 				if c == l:
 					dl = True
 			if not dl:

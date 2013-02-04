@@ -4,7 +4,6 @@ import Base, Alphabet
 
 #letters that can be doubled
 # FIXME this might be done by specific character classes instead - fricatives pnly?
-doubled = ['g', 'l', 'r', 's', 'v']
 
 
 #FIXME needs to throw exception if '[]' passed in. need to also write test for this case
@@ -31,8 +30,6 @@ def syllableMatches(syl, form):
 	if len(syl) > 0 and len(syl) >= len(form):
 		for i in range(len(form)):
 			if i<=j:
-				print(i)
-				print(j)
 				if inBrackets:
 					# FIXME not sure if there is really anything to do but ignore
 					if form[i] == '[':
@@ -265,19 +262,13 @@ def hasRhythmicLength(word, index):
 	for s in range(len(syl)):
 		for r in range(len(syl[s])):
 			rlexp.append(rl[s])
-	print(rlexp)
 	return rlexp[index]
 
 def getAutoGemminationPattern(word):
 	gempat = []
 	exp = Base.explode(word)
 	rl = getRhythmicVowelLengthPattern(word)
-	print(len(exp))
-	print(rl)
 	for i in range(len(exp)):
-		print(i)
-		print(exp[i])
-		print(word)
 		if i > 0 and i < len(exp)-2:
 			if Alphabet.isVowel(exp[i-1]) and Alphabet.isConsonant(exp[i]) and Alphabet.isVowel(exp[i+1]) and Alphabet.isVowel(exp[i+2]):
 				gempat.append(True)

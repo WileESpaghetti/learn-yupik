@@ -22,13 +22,12 @@ def print_rhythmicLength(input):
 			length = length + '^^\t/'
 		else:
 			length = length + '  \t/'
-	print(length)
 
 def print_voicing(input):
 	print("Voicing:")
 	exp = grammar.Base.explode(input)
 	for i in range(len(exp)):
-		if grammar.Word.isNasal(exp[i]) or grammar.Word.isFricative(exp[i]):
+		if grammar.Alphabet.isNasal(exp[i]) or grammar.Alphabet.isFricative(exp[i]):
 			voiced = grammar.Word.isVoiced(input, i)
 		else:
 			voiced = ''

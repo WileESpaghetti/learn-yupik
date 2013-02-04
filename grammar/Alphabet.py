@@ -8,6 +8,15 @@
 
 consonants = ['p', 't', 'c',]
 alphabet = ['\'','a','c','e','gg','g','i','k','ll','l','m','n','ng','p','q','rr','r','ss','s','t','u','vv','v','w','y']
+doubled = ['g', 'l', 'r', 's', 'v']
+
+def isADouble(c):
+	isD = False
+	for d in doubled:
+		if c == d:
+			isD = True
+			break
+	return isD
 
 # refactored
 stops = ['p', 't', 'c', 'k', 'q']
@@ -45,6 +54,7 @@ def isVoicedFricative(c):
 			break
 	return isF
 
+# TODO: do we want to account for automatic devoicing?
 def isVoicelessFricative(c):
 	""" is c a fricative """
 	isF = False
