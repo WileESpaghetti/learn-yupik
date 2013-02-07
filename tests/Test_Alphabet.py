@@ -123,5 +123,60 @@ class ExplodeTests(unittest.TestCase):
 			self.assertFalse(grammar.Alphabet.isVoicedNasal(c))
 			self.assertFalse(grammar.Alphabet.isVoicelessNasal(c))
 
+	def test_singleIsVoicelessNasals(self):
+		for c in grammar.Alphabet.voicelessNasals:
+			self.assertFalse(grammar.Alphabet.isStop(c))
+			self.assertFalse(grammar.Alphabet.isADouble(c))
+			self.assertTrue(grammar.Alphabet.isConsonant(c))
+
+			self.assertFalse(grammar.Alphabet.isVowel(c))
+			self.assertFalse(grammar.Alphabet.isPrimeVowel(c))
+
+			self.assertFalse(grammar.Alphabet.isFricative(c))
+			self.assertFalse(grammar.Alphabet.isVoicedFricative(c))
+			self.assertFalse(grammar.Alphabet.isVoicelessFricative(c))
+
+			self.assertTrue(grammar.Alphabet.isNasal(c))
+			self.assertFalse(grammar.Alphabet.isVoicedNasal(c))
+			self.assertTrue(grammar.Alphabet.isVoicelessNasal(c))
+
+	def test_singleIsVoicedNasals(self):
+		for c in grammar.Alphabet.voicedNasals:
+			self.assertFalse(grammar.Alphabet.isStop(c))
+			self.assertFalse(grammar.Alphabet.isADouble(c))
+			self.assertTrue(grammar.Alphabet.isConsonant(c))
+
+			self.assertFalse(grammar.Alphabet.isVowel(c))
+			self.assertFalse(grammar.Alphabet.isPrimeVowel(c))
+
+			self.assertFalse(grammar.Alphabet.isFricative(c))
+			self.assertFalse(grammar.Alphabet.isVoicedFricative(c))
+			self.assertFalse(grammar.Alphabet.isVoicelessFricative(c))
+
+			self.assertTrue(grammar.Alphabet.isNasal(c))
+			self.assertTrue(grammar.Alphabet.isVoicedNasal(c))
+			self.assertFalse(grammar.Alphabet.isVoicelessNasal(c))
+
+	def test_singleIsVowel(self):
+		for c in grammar.Alphabet.vowels:
+			self.assertFalse(grammar.Alphabet.isStop(c))
+			self.assertFalse(grammar.Alphabet.isADouble(c))
+			self.assertFalse(grammar.Alphabet.isConsonant(c))
+
+			self.assertTrue(grammar.Alphabet.isVowel(c))
+			if c == 'e':
+				self.assertFalse(grammar.Alphabet.isPrimeVowel(c))
+			else:
+				self.assertTrue(grammar.Alphabet.isPrimeVowel(c))
+
+			self.assertFalse(grammar.Alphabet.isFricative(c))
+			self.assertFalse(grammar.Alphabet.isVoicedFricative(c))
+			self.assertFalse(grammar.Alphabet.isVoicelessFricative(c))
+
+			self.assertFalse(grammar.Alphabet.isNasal(c))
+			self.assertFalse(grammar.Alphabet.isVoicedNasal(c))
+			self.assertFalse(grammar.Alphabet.isVoicelessNasal(c))
+
+
 if __name__ == '__main__':
 	unittest.main()
