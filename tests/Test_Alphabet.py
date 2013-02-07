@@ -6,62 +6,122 @@ import grammar
 class ExplodeTests(unittest.TestCase):
 
 	def setUp(self):
-		self.alphabet = '\'acegggiklllmnngpqrrrssstuvvvwy'
-		self.alphExp = ['\'','a','c','e','gg','g','i','k','ll','l','m','n','ng','p','q','rr','r','ss','s','t','u','vv','v','w','y']
+		pass
 
-	def test_emptyIsStop(self):
+	def test_empty(self):
 		self.assertFalse(grammar.Alphabet.isStop(''))
+		self.assertFalse(grammar.Alphabet.isADouble(''))
+		self.assertFalse(grammar.Alphabet.isConsonant(''))
+
+		self.assertFalse(grammar.Alphabet.isVowel(''))
+		self.assertFalse(grammar.Alphabet.isPrimeVowel(''))
+
+		self.assertFalse(grammar.Alphabet.isFricative(''))
+		self.assertFalse(grammar.Alphabet.isVoicedFricative(''))
+		self.assertFalse(grammar.Alphabet.isVoicelessFricative(''))
+
+		self.assertFalse(grammar.Alphabet.isNasal(''))
+		self.assertFalse(grammar.Alphabet.isVoicedNasal(''))
+		self.assertFalse(grammar.Alphabet.isVoicelessNasal(''))
+
+	def test_multi(self):
+		for charClass in [grammar.Alphabet.stops, grammar.Alphabet.fricatives, grammar.Alphabet.nasals]:
+			for c in charClass:
+				self.assertFalse(grammar.Alphabet.isStop(c+c))
+
+				self.assertFalse(grammar.Alphabet.isVowel(c+c))
+				self.assertFalse(grammar.Alphabet.isPrimeVowel(c+c))
+
+				self.assertFalse(grammar.Alphabet.isNasal(c+c))
+				self.assertFalse(grammar.Alphabet.isVoicedNasal(c+c))
+				self.assertFalse(grammar.Alphabet.isVoicelessNasal(c+c))
+
+				## Special Cases for fricatives ##
+
+				# some fricatives can be written double, but isADouble() should still return false since no letter that
+				# has already been doubled can be doubled again.
+				self.assertFalse(grammar.Alphabet.isADouble(c+c))
+				self.assertFalse(grammar.Alphabet.isVoicedFricative(c+c))
+				if grammar.Alphabet.isADouble(c):
+					self.assertTrue(grammar.Alphabet.isFricative(c+c))
+					self.assertTrue(grammar.Alphabet.isConsonant(c+c))
+					self.assertTrue(grammar.Alphabet.isVoicelessFricative(c+c))
+				else:
+					self.assertFalse(grammar.Alphabet.isFricative(c+c))
+					self.assertFalse(grammar.Alphabet.isConsonant(c+c))
+					self.assertFalse(grammar.Alphabet.isVoicelessFricative(c+c))
+
+	def test_triple(self):
+		for charClass in [grammar.Alphabet.stops, grammar.Alphabet.fricatives, grammar.Alphabet.nasals]:
+			for c in charClass:
+				self.assertFalse(grammar.Alphabet.isStop(c+c+c))
+				self.assertFalse(grammar.Alphabet.isADouble(c+c+c))
+				self.assertFalse(grammar.Alphabet.isConsonant(c+c+c))
+
+				self.assertFalse(grammar.Alphabet.isVowel(c+c+c))
+				self.assertFalse(grammar.Alphabet.isPrimeVowel(c+c+c))
+
+				self.assertFalse(grammar.Alphabet.isFricative(c+c+c))
+				self.assertFalse(grammar.Alphabet.isVoicedFricative(c+c+c))
+				self.assertFalse(grammar.Alphabet.isVoicelessFricative(c+c+c))
+
+				self.assertFalse(grammar.Alphabet.isNasal(c+c+c))
+				self.assertFalse(grammar.Alphabet.isVoicedNasal(c+c+c))
+				self.assertFalse(grammar.Alphabet.isVoicelessNasal(c+c+c))
 
 	def test_singleIsStop(self):
 		for c in grammar.Alphabet.stops:
 			self.assertTrue(grammar.Alphabet.isStop(c))
-		for c in grammar.Alphabet.fricatives:
-			self.assertFalse(grammar.Alphabet.isStop(c))
-		for c in grammar.Alphabet.nasals:
-			self.assertFalse(grammar.Alphabet.isStop(c))
-		for c in grammar.Alphabet.vowels:
-			self.assertFalse(grammar.Alphabet.isStop(c))
+			self.assertFalse(grammar.Alphabet.isADouble(c))
+			self.assertTrue(grammar.Alphabet.isConsonant(c))
 
-	def test_doubleIsStop(self):
-		for c in grammar.Alphabet.alphabet:
-			self.assertFalse(grammar.Alphabet.isStop(c+c))
+			self.assertFalse(grammar.Alphabet.isVowel(c))
+			self.assertFalse(grammar.Alphabet.isPrimeVowel(c))
 
-	def test_emptyIsFricative(self):
-		self.assertFalse(grammar.Alphabet.isFricative(''))
-
-	def test_singleIsFricative(self):
-		for c in grammar.Alphabet.stops:
 			self.assertFalse(grammar.Alphabet.isFricative(c))
-		for c in grammar.Alphabet.fricatives:
-			self.assertTrue(grammar.Alphabet.isFricative(c))
-		for c in grammar.Alphabet.nasals:
-			self.assertFalse(grammar.Alphabet.isFricative(c))
-		for c in grammar.Alphabet.vowels:
-			self.assertFalse(grammar.Alphabet.isFricative(c))
+			self.assertFalse(grammar.Alphabet.isVoicedFricative(c))
+			self.assertFalse(grammar.Alphabet.isVoicelessFricative(c))
 
-	def test_doubleIsFricative(self):
-		for c in grammar.Alphabet.alphabet:
-			# some fricatives can be written double to indicate voicelessness
-			if grammar.Alphabet.isADouble(c):
-				self.assertTrue(grammar.Alphabet.isFricative(c+c))
-			else:
-				self.assertFalse(grammar.Alphabet.isFricative(c+c))
+			self.assertFalse(grammar.Alphabet.isNasal(c))
+			self.assertFalse(grammar.Alphabet.isVoicedNasal(c))
+			self.assertFalse(grammar.Alphabet.isVoicelessNasal(c))
 
-	# fricatives need to test one more letter because some fricatives can be doubled
-	def test_tripleIsFricative(self):
-		for c in grammar.Alphabet.alphabet:
-			self.assertFalse(grammar.Alphabet.isFricative(c+c+c))
-
-	def test_emptyIsVoicelessFricative(self):
-		self.assertFalse(grammar.Alphabet.isVoicelessFricative(''))
+	# isFricative() and isNasal() are tested as a part of testing voiceless and voiced versions
 
 	def test_singleIsVoicelessFricative(self):
 		for c in grammar.Alphabet.voicelessFricatives:
+			self.assertFalse(grammar.Alphabet.isStop(c))
+			self.assertFalse(grammar.Alphabet.isADouble(c))
+			self.assertTrue(grammar.Alphabet.isConsonant(c))
+
+			self.assertFalse(grammar.Alphabet.isVowel(c))
+			self.assertFalse(grammar.Alphabet.isPrimeVowel(c))
+
 			self.assertTrue(grammar.Alphabet.isFricative(c))
-		for c in grammar.Alphabet.voicelessFricatives:
-			self.assertTrue(grammar.Alphabet.isVoicelessFricative(c))
-		for c in grammar.Alphabet.voicelessFricatives:
 			self.assertFalse(grammar.Alphabet.isVoicedFricative(c))
+			self.assertTrue(grammar.Alphabet.isVoicelessFricative(c))
+
+			self.assertFalse(grammar.Alphabet.isNasal(c))
+			self.assertFalse(grammar.Alphabet.isVoicedNasal(c))
+			self.assertFalse(grammar.Alphabet.isVoicelessNasal(c))
+
+	def test_singleIsVoicedFricative(self):
+		for c in grammar.Alphabet.voicedFricatives:
+			self.assertFalse(grammar.Alphabet.isStop(c))
+			# FIXME a voiced fricative could/could not be double. need way to check
+			#self.assertFalse(grammar.Alphabet.isADouble(c))
+			self.assertTrue(grammar.Alphabet.isConsonant(c))
+
+			self.assertFalse(grammar.Alphabet.isVowel(c))
+			self.assertFalse(grammar.Alphabet.isPrimeVowel(c))
+
+			self.assertTrue(grammar.Alphabet.isFricative(c))
+			self.assertTrue(grammar.Alphabet.isVoicedFricative(c))
+			self.assertFalse(grammar.Alphabet.isVoicelessFricative(c))
+
+			self.assertFalse(grammar.Alphabet.isNasal(c))
+			self.assertFalse(grammar.Alphabet.isVoicedNasal(c))
+			self.assertFalse(grammar.Alphabet.isVoicelessNasal(c))
 
 if __name__ == '__main__':
 	unittest.main()

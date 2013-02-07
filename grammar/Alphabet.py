@@ -121,6 +121,24 @@ def isPrimeVowel(c):
 # apostrophes are only considered a letter when used as the gemmination marker. "not isVowel()"
 # will cause some false positives if an apostrophe is being used for a different purpose.
 # FIXME: need to refactor code that uses the "not isVowel()" pattern
+# FIXME: does not correctly test \'
 def isConsonant(c):
 	""" is c a consonant """
-	return not isVowel(c)
+	isC = False
+	consonants = []
+	consonants.extend(stops)
+	consonants.extend(nasals)
+	consonants.extend(fricatives)
+
+	for i in consonants:
+		if i == c:
+			isC = True
+			break
+		elif c == '\'':
+			#FIXME, need to refactor this part
+			# this is left in to keep some things from breaking
+			# \' should only be considered a consonany if used for gemmination
+			isC = True
+			break
+
+	return isC
