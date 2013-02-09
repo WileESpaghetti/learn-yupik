@@ -9,5 +9,4 @@ setup(name='learn-yupik',
       author='Lehman Black',
       author_email='dosnlinux@gmail.com',
       url='https://github.com/WileESpaghetti/learn-yupik',
-      packages=['grammar'],
-     )
+      packages=['grammar'], )

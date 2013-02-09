@@ -24,6 +24,7 @@ import Base, string, Word
 
 postbaseSymbols = ('+', '-', '~', '÷', ':', '\'', '@', '- -', '%', '(', ')')
 
+
 def explodePostbase(postbase):
 	"""split a postbase into it's different parts"""
 	""" split the word into it's letters. this makes working with letters made up
@@ -32,7 +33,7 @@ def explodePostbase(postbase):
 	# it is telling to geminate (eg. r') or completely omited in the output
 	#FIXME needs to throw exception if incorrect character found
 	exploded = []
-	
+
 	tmp = ''
 	inParens = False
 	for i in range(len(postbase)):
@@ -63,11 +64,12 @@ def explodePostbase(postbase):
 	# combine velar with the drop velar (:) symbol
 	# FIXME this logic is probably better up in the code above, but it was easier to put it here
 	for i in range(len(exploded)):
-		if i > 0 and exploded[i-1] == ':':
-			exploded[i-1] += exploded[i]
+		if i > 0 and exploded[i - 1] == ':':
+			exploded[i - 1] += exploded[i]
 			exploded.pop(i)
-	
+
 	return exploded
+
 
 def validatePostbase(postbase):
 	"""checks to make sure postbase is properly formed"""
@@ -82,9 +84,10 @@ def getParenOptions(postbase):
 	options = []
 	parenOpen = string.find(postbase, '(') + 1
 	parenClose = string.find(postbase, ')')
-	options = string.split(postbase[parenOpen : parenClose], '/')
+	options = string.split(postbase[parenOpen: parenClose], '/')
 
 	return options
+
 
 def parenLetter(word, postbase):
 	""" returns the letter that should be picked from inside of the ()'s in postbase notation """
@@ -105,6 +108,7 @@ def parenLetter(word, postbase):
 
 	return letter
 
+
 def getVelarDropPostbases(postbase):
 	""" returns the postbase with the velar and with the velar dropped """
 	#FIXME ^ this docstring is really terrible and unclear
@@ -123,6 +127,7 @@ def getVelarDropPostbases(postbase):
 
 	return [velarPostbase, velarDropPostbase]
 
+
 def stripEZStuff(word, postbase):
 	"""remove the parts of postbase from word that doesn't need any special calculation"""
 	parenOpen = string.find(postbase, '(')
@@ -138,6 +143,7 @@ def stripEZStuff(word, postbase):
 
 	return word
 
+
 def isParensStripped(word, postbase):
 	""" find out whether or not a letter in parenthesis needs to be removed """
 	stripParen = False
@@ -148,12 +154,14 @@ def isParensStripped(word, postbase):
 
 	return stripParen
 
+
 def stripParenLetter(word, postbase):
 	""" detect which letter needs to be selected from inside of ()'s and remove it """
 	#FIXME it doesn't actually look like this does anything or is used?
 	removeParen = isParensStripped(word, postbase)
 	if removeParen:
 		pass
+
 
 def stripPostbase(word, postbase):
 	""" removes a postbase from a word. see wiki for info reguarding postbase syntax """
@@ -178,10 +186,12 @@ def stripPostbase(word, postbase):
 	print("Base Form:\t\t%s" % word)
 	print('')
 
+
 def getPostbaseOptions(postbase):
 	"""translate the list of symbols in a postbase into flag veriables to be used when applying postbases.
 	return as a dictionary"""
 	pass
+
 
 def applyPostbase(word, postbase):
 	""" add a postbase to a word """
@@ -195,27 +205,27 @@ def applyPostbase(word, postbase):
 	#keep the final consonant
 	plus = string.find(postbase, '+')
 	if plus > -1:
-		postbase = postbase[:plus] + postbase[plus+1:]
+		postbase = postbase[:plus] + postbase[plus + 1:]
 
 	# FIXME need to check against words that contain '-' as a part of the word
 	# FIXME this might cause trouble with enclitics
 	# remove the last consonant
 	minus = string.find(postbase, '-')
 	if minus > -1:
-		postbase = postbase[:minus] + postbase[minus+1:]
+		postbase = postbase[:minus] + postbase[minus + 1:]
 		if not Word.isVowel(exp[-1]):
 			exp.pop(-1)
 
 	# remove final 'e'
 	tilde = string.find(postbase, '~')
 	if tilde > -1:
-		postbase = postbase[:tilde] + postbase[tilde+1:]
+		postbase = postbase[:tilde] + postbase[tilde + 1:]
 		if exp[-1] == 'e':
 			exp.pop(-1)
 
 	# choose between letters in parenthesis
 	paren = string.find(postbase, '(')
-	if  paren > -1:
+	if paren > -1:
 		pl = parenLetter(word, postbase)
 		#FIXME, what if multiple parens
 		parenOpen = string.find(postbase, '(')
@@ -227,8 +237,8 @@ def applyPostbase(word, postbase):
 	#FIXME not tested on words that contain 2 \' ...does such a word exist?
 	apos = string.find(postbase, '\'')
 	if apos > -1:
-		postbase = postbase[:apos] + postbase[apos+1:]
-		
+		postbase = postbase[:apos] + postbase[apos + 1:]
+
 		# FIXME this may indicate that there's something that needs tweaked about the syllablematches
 		# function. A short base is defined as [C]VCe, currently this only tests the end of the word.
 		# this should match VCe and CVCe only
@@ -247,8 +257,8 @@ def applyPostbase(word, postbase):
 		testsuf = exp[-1] + postbase
 		testExp = Base.explode(testsuf)
 		colon = testExp.index(':')
-		velar = testExp[colon+1]
-		testExp = testExp[:colon] + testExp[colon+1:]
+		velar = testExp[colon + 1]
+		testExp = testExp[:colon] + testExp[colon + 1:]
 
 		if Word.syllableMatches(testExp, 'CV' + velar + 'V'): #FIXME might crash if word isn't long enough
 			testExp = Base.explode(postbase)
@@ -261,7 +271,6 @@ def applyPostbase(word, postbase):
 			testExp.pop(colon)
 
 		postbase = ''.join(testExp)
-
 
 	if postbase[0] == '÷':
 		keepStrongCfinal = True
@@ -286,7 +295,7 @@ def applyPostbase(word, postbase):
 	except ValueError:
 		gemmarker = -1
 	if gemmarker > -1 and len(exp) >= gemmarker + 3:
-		syl = exp[gemmarker+1:gemmarker+3]
+		syl = exp[gemmarker + 1:gemmarker + 3]
 		if Word.syllableMatches(syl, 'VV'):
 			exp.pop(gemmarker)
 

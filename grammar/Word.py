@@ -29,7 +29,7 @@ def syllableMatches(syl, form):
 
 	if len(syl) > 0 and len(syl) >= len(form):
 		for i in range(len(form)):
-			if i<=j:
+			if i <= j:
 				if inBrackets:
 					# FIXME not sure if there is really anything to do but ignore
 					if form[i] == '[':
@@ -108,7 +108,7 @@ def getSyllables(word):
 		c = exp[i]
 		syl.append(c)
 		if i < len(exp) - 1:
-			if not Alphabet.isVowel(c) and not Alphabet.isVowel(exp[i+1]):
+			if not Alphabet.isVowel(c) and not Alphabet.isVowel(exp[i + 1]):
 				syllables.append(syl)
 				syl = []
 	syllables.append(syl)
@@ -118,7 +118,7 @@ def getSyllables(word):
 	for s in syllables:
 		for i in range(len(s)):
 			if not Alphabet.isVowel(s[i]) and (i > 0 and i < len(s) - 1):
-				if Alphabet.isVowel(s[i-1]) and Alphabet.isVowel(s[i+1]):
+				if Alphabet.isVowel(s[i - 1]) and Alphabet.isVowel(s[i + 1]):
 					syl2.append(syl)
 					syl = []
 			syl.append(s[i])
@@ -131,6 +131,7 @@ def isSyllable(syl):
 	""" tests if syl is a valid Yup'ik syllable """
 	#FIXME add documentation of valid syllabes
 	pass
+
 
 def syllableCount(word):
 	"""get the number of syllables in word"""
@@ -158,6 +159,7 @@ APOS_PREVENT_GEMMINATION = 3
 APOS_DISRUPT_STRESS = 4
 APOS_SHORT_WORD = 5
 
+
 def apostrophePurpose(word):
 	"""is the apostrophe being used for gemination, separate 'n' and 'g', etc."""
 	exp = Base.explode(word)
@@ -165,18 +167,18 @@ def apostrophePurpose(word):
 	for i in range(len(exp)):
 		if i > 0 and exp[i] == '\'':
 			if i < len(exp) - 1:
-				if Alphabet.isVowel(exp[i-1]):
-					if Alphabet.isVowel(exp[i+1]):
+				if Alphabet.isVowel(exp[i - 1]):
+					if Alphabet.isVowel(exp[i + 1]):
 						purpose = APOS_PREVENT_GEMMINATION
 						break
-					elif exp[i+1] == 'r':
+					elif exp[i + 1] == 'r':
 						purpose = APOS_DISRUPT_STRESS
 						break
 				else:
-					if Alphabet.isVowel(exp[i+1]):
+					if Alphabet.isVowel(exp[i + 1]):
 						purpose = APOS_GEMINATION_MARKER
 						break
-					elif exp[i-1] == 'n' and exp[i+1] == 'g':
+					elif exp[i - 1] == 'n' and exp[i + 1] == 'g':
 						purpose = APOS_NG_SEPARATOR
 						break
 					else:
@@ -190,20 +192,25 @@ def apostrophePurpose(word):
 				purpose = APOS_SHORT_WORD
 	return purpose
 
+
 def isAutoDevoiced(word, index):
 	pass
+
 
 def isGeminationMarker(word):
 	"""is the apostrophe in the word used for gemination purposes"""
 	pass
 
+
 def getRythmicLength(syllables, n):
 	"""test the nth syllable for rythmic stress. index starts at 0"""
 	pass
 
+
 def isGeminated(word, c):
 	"""test to see if the charcter at pos c is geminated"""
 	pass
+
 
 def isVoiced(word, c):
 	"""test position c to see if it is voiced"""
@@ -220,11 +227,12 @@ def isVoiced(word, c):
 	elif Alphabet.isVoicelessNasal(l):
 		voiced = False
 	elif Alphabet.isVoicedFricative(l):
-		if c > 0 and (Alphabet.isVoicelessFricative(exp[c-1]) or Alphabet.isStop(exp[c-1])):
+		if c > 0 and (Alphabet.isVoicelessFricative(exp[c - 1]) or Alphabet.isStop(exp[c - 1])):
 			voiced = False
-		elif c < len(exp) - 1 and Alphabet.isStop(exp[c+1]):
+		elif c < len(exp) - 1 and Alphabet.isStop(exp[c + 1]):
 			voiced = False
-	elif Alphabet.isVoicedNasal(l) and c > 0 and (Alphabet.isVoicelessFricative(exp[c-1]) or Alphabet.isStop(exp[c-1])):
+	elif Alphabet.isVoicedNasal(l) and c > 0 and (
+		Alphabet.isVoicelessFricative(exp[c - 1]) or Alphabet.isStop(exp[c - 1])):
 		voiced = False
 
 	return voiced
@@ -253,6 +261,7 @@ def getRhythmicVowelLengthPattern(word):
 
 	return rhythmicLength
 
+
 def hasRhythmicLength(word, index):
 	""" does the sylIndex-th syllable have rhythmic vowel length """
 	exp = Base.explode(word)
@@ -264,21 +273,24 @@ def hasRhythmicLength(word, index):
 			rlexp.append(rl[s])
 	return rlexp[index]
 
+
 def getAutoGemminationPattern(word):
 	gempat = []
 	exp = Base.explode(word)
 	rl = getRhythmicVowelLengthPattern(word)
 	for i in range(len(exp)):
-		if i > 0 and i < len(exp)-2:
-			if Alphabet.isVowel(exp[i-1]) and Alphabet.isConsonant(exp[i]) and Alphabet.isVowel(exp[i+1]) and Alphabet.isVowel(exp[i+2]):
+		if i > 0 and i < len(exp) - 2:
+			if Alphabet.isVowel(exp[i - 1]) and Alphabet.isConsonant(exp[i]) and Alphabet.isVowel(
+					exp[i + 1]) and Alphabet.isVowel(exp[i + 2]):
 				gempat.append(True)
 			else:
 				gempat.append(False)
-		elif i > 0 and exp[i-1] == 'e' and hasRhythmicLength(word,i-1):
+		elif i > 0 and exp[i - 1] == 'e' and hasRhythmicLength(word, i - 1):
 			gempat.append(True)
 		else:
 			gempat.append(False)
 	return gempat
+
 
 def getStressPattern(word):
 	stressPat = []
@@ -291,18 +303,18 @@ def getStressPattern(word):
 		if ruleOne:
 			numStressed += 1
 		# first syllable is closed
-		if i < len(syl) -1 :
+		if i < len(syl) - 1:
 			if i == 0 and syllableMatches(syl[i], 'C'):
 				stressPat.append(True)
 				ruleOne = True
 				numStressed = 0
 			# syllable is closed and previous syllable is unstress/open
-			elif i > 0 and syllableMatches(syl[i],'C') and not stressPat[-1] and syllableMatches(syl[i-1],'V'):
+			elif i > 0 and syllableMatches(syl[i], 'C') and not stressPat[-1] and syllableMatches(syl[i - 1], 'V'):
 				stressPat.append(True)
 				ruleOne = True
 				numStressed = 0
 			# syllable contains VV
-			elif syllableMatches(syl[i],'[C]VV[C]'):
+			elif syllableMatches(syl[i], '[C]VV[C]'):
 				stressPat.append(True)
 				ruleOne = True
 				numStressed = 0
@@ -312,11 +324,13 @@ def getStressPattern(word):
 				ruleOne = True
 				numStressed = 0
 			# after finding one of the above rules, every even number syllable gets stress
-			elif ruleOne and numStressed > 0 and numStressed%2 == 0 and syllableMatches(syl[i],'C'):
+			elif ruleOne and numStressed > 0 and numStressed % 2 == 0 and syllableMatches(syl[i], 'C'):
 				stressPat.append(True)
 			#syllable preceeding one containing VV
 			#FIXME group of OR statements below is a workaround because '[]' format doesn't work correctly in syllableMatches()
-			elif i < len(syl) - 1 and (syllableMatches(syl[i+1],'CVV') or syllableMatches(syl[i+1],'VVC') or syllableMatches(syl[i+1],'VV')):
+			elif i < len(syl) - 1 and (
+					syllableMatches(syl[i + 1], 'CVV') or syllableMatches(syl[i + 1], 'VVC') or syllableMatches(
+					syl[i + 1], 'VV')):
 				stressPat.append(True)
 			else:
 				stressPat.append(False)

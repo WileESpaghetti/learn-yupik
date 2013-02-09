@@ -41,12 +41,14 @@ def explode(word):
 
 	return exploded
 
+
 def isClassI(base):
 	""" word ends in a single prime vowel """
 	isClass = False
 	if Alphabet.isPrimeVowel(base[-1]) and not Alphabet.isPrimeVowel(base[-2]):
 		isClass = True
 	return isClass
+
 
 def isClassII(base):
 	""" word ends in 2 prime vowels """
@@ -55,19 +57,22 @@ def isClassII(base):
 		isClass = True
 	return isClass
 
+
 def isClassIII(base):
 	""" words that end in 'e', but do not end in 'te' """
 	isClass = False
-	if base[-1] =='e' and not base[-2] == 't':
+	if base[-1] == 'e' and not base[-2] == 't':
 		isClass = True
 	return isClass
+
 
 def isClassIV(base):
 	""" words that end in 'te' """
 	isClass = False
-	if base[-1] =='e' and base[-2] == 't':
+	if base[-1] == 'e' and base[-2] == 't':
 		isClass = True
 	return isClass
+
 
 def isClassIVa(base):
 	""" word ends in a fricitive followed by 'te' """
@@ -76,6 +81,7 @@ def isClassIVa(base):
 		isClass = True
 	return isClass
 
+
 def isClassIVb(base):
 	""" words that end with a vowel followed by 'te' """
 	isClass = False
@@ -83,14 +89,16 @@ def isClassIVb(base):
 		isClass = True
 	return isClass
 
+
 def isClassIVc(base):
 	""" contains a '°' when listed (eg. 'kiircete-°'); also includes bases expanded from the postbase ':(ng)ite-°' (eg. 'nerenrite-°' """
 	#TODO incomplete
 	isClass = False
 	#if isClassIV(base) and isVowel(base[-3]):
-		#isClass = True
-		#print("Base is a Class IVc word")
+	#isClass = True
+	#print("Base is a Class IVc word")
 	return isClass
+
 
 def isClassV(base):
 	""" nouns only: ends with 1 or 2 vowels followed by 'r' """
@@ -99,6 +107,7 @@ def isClassV(base):
 	if base[-1] == 'r' and Alphabet.isVowel(base[-2]):
 		isClass = True
 	return isClass
+
 
 def isClassVI(base):
 	""" all words ending in a consonant and that are not Class V """
@@ -132,8 +141,8 @@ def getClass(word):
 	else:
 		print('ERROR: incorrect class!')
 
+
 def getClassAsInt(word):
-	
 	classnum = -1
 	if isClassI(word):
 		classnum = 1
@@ -149,26 +158,27 @@ def getClassAsInt(word):
 		classnum = 6
 	else:
 		print('ERROR: incorrect class!')
-		#FIXME, when would this get executed, and should it throw an exception?
+	#FIXME, when would this get executed, and should it throw an exception?
 	return classnum
 
+
 def debugClasses(w):
-		""" print out which classes a word was detected as being a part of """
-		if isClassI(w):
-			print("Base is a Class I word")
-		if isClassII(w):
-			print("Base is a Class II word")
-		if isClassIII(w):
-			print("Base is a Class III word")
-		if isClassIV(w):
-			print("Base is a Class IV word")
-		if isClassIVa(w):
-			print("Base is a Class IVa word")
-		if isClassIVb(w):
-			print("Base is a Class IVb word")
-		if isClassIVc(w):
-			print("Base is a Class IVc word")
-		if isClassV(w):
-			print("Base is a Class V word")
-		if isClassVI(w):
-			print("Base is a Class VI word")
+	""" print out which classes a word was detected as being a part of """
+	if isClassI(w):
+		print("Base is a Class I word")
+	if isClassII(w):
+		print("Base is a Class II word")
+	if isClassIII(w):
+		print("Base is a Class III word")
+	if isClassIV(w):
+		print("Base is a Class IV word")
+	if isClassIVa(w):
+		print("Base is a Class IVa word")
+	if isClassIVb(w):
+		print("Base is a Class IVb word")
+	if isClassIVc(w):
+		print("Base is a Class IVc word")
+	if isClassV(w):
+		print("Base is a Class V word")
+	if isClassVI(w):
+		print("Base is a Class VI word")
