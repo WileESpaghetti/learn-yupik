@@ -47,5 +47,18 @@ class ClassDetectionTests(unittest.TestCase):
             for c in self.allButPrime:
                 self.assertFalse(grammar.Base.isClassI(p + c))
 
+    def test_BaseII(self):
+        for p in grammar.Alphabet.primeVowels:
+            for c in grammar.Alphabet.primeVowels:
+                self.assertTrue(grammar.Base.isClassII(p + c))
+
+        for p in self.allButPrime:
+            for c in grammar.Alphabet.primeVowels:
+                self.assertFalse(grammar.Base.isClassII(p + c))
+
+        for p in grammar.Alphabet.alphabet:
+            for c in self.allButPrime:
+                self.assertFalse(grammar.Base.isClassII(p + c))
+
 if __name__ == '__main__':
     unittest.main()
