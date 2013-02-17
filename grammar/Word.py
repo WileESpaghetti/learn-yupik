@@ -39,7 +39,7 @@ def syllableMatches(syl, form):
 					if form[i] == 'V' and Alphabet.isVowel(syl[j]):
 						sylMatches = True
 						j += 1
-					elif form[i] == 'C' and not Alphabet.isVowel(syl[j]):
+					elif form[i] == 'C' and Alphabet.isConsonant(syl[j]):
 						sylMatches = True
 						j += 1
 					elif form[i] == syl[j]:
@@ -82,7 +82,7 @@ def lSyllableMatches(syl, form):
 				if form[i] == 'V' and Alphabet.isVowel(syl[j]):
 					sylMatches = True
 					j += 1
-				elif form[i] == 'C' and not Alphabet.isVowel(syl[j]):
+				elif form[i] == 'C' and Alphabet.isConsonant(syl[j]):
 					sylMatches = True
 					j += 1
 				elif form[i] == syl[j]:
@@ -108,7 +108,7 @@ def getSyllables(word):
 		c = exp[i]
 		syl.append(c)
 		if i < len(exp) - 1:
-			if not Alphabet.isVowel(c) and not Alphabet.isVowel(exp[i + 1]):
+			if Alphabet.isConsonant(c) and Alphabet.isConsonant(exp[i + 1]):
 				syllables.append(syl)
 				syl = []
 	syllables.append(syl)
@@ -117,7 +117,7 @@ def getSyllables(word):
 	syl2 = []
 	for s in syllables:
 		for i in range(len(s)):
-			if not Alphabet.isVowel(s[i]) and (i > 0 and i < len(s) - 1):
+			if Alphabet.isConsonant(s[i]) and (i > 0 and i < len(s) - 1):
 				if Alphabet.isVowel(s[i - 1]) and Alphabet.isVowel(s[i + 1]):
 					syl2.append(syl)
 					syl = []
