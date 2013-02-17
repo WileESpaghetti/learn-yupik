@@ -47,8 +47,9 @@ def isClassI(base):
 	exp = explode(base)
 
 	isClass = False
-	if Alphabet.isPrimeVowel(exp[-1]) and not Alphabet.isPrimeVowel(exp[-2]):
-		isClass = True
+	if len(exp) > 1:
+		if Alphabet.isPrimeVowel(exp[-1]) and not Alphabet.isPrimeVowel(exp[-2]):
+			isClass = True
 	return isClass
 
 
@@ -57,8 +58,9 @@ def isClassII(base):
 	exp = explode(base)
 
 	isClass = False
-	if Alphabet.isPrimeVowel(exp[-1]) and Alphabet.isPrimeVowel(exp[-2]):
-		isClass = True
+	if len(exp) > 1:
+		if Alphabet.isPrimeVowel(exp[-1]) and Alphabet.isPrimeVowel(exp[-2]):
+			isClass = True
 	return isClass
 
 
@@ -67,8 +69,9 @@ def isClassIII(base):
 	exp = explode(base)
 
 	isClass = False
-	if exp[-1] == 'e' and not exp[-2] == 't':
-		isClass = True
+	if len(exp) > 1:
+		if exp[-1] == 'e' and not exp[-2] == 't':
+			isClass = True
 	return isClass
 
 
@@ -77,8 +80,9 @@ def isClassIV(base):
 	exp = explode(base)
 
 	isClass = False
-	if exp[-1] == 'e' and exp[-2] == 't':
-		isClass = True
+	if len(exp) > 1:
+		if exp[-1] == 'e' and exp[-2] == 't':
+			isClass = True
 	return isClass
 
 
@@ -87,8 +91,9 @@ def isClassIVa(base):
 	exp = explode(base)
 
 	isClass = False
-	if isClassIV(base) and Alphabet.isFricative(exp[-3]):
-		isClass = True
+	if len(exp) > 1:
+		if isClassIV(base) and Alphabet.isFricative(exp[-3]):
+			isClass = True
 	return isClass
 
 
@@ -97,8 +102,9 @@ def isClassIVb(base):
 	exp = explode(base)
 
 	isClass = False
-	if isClassIV(base) and Alphabet.isVowel(exp[-3]):
-		isClass = True
+	if len(exp) > 1:
+		if isClassIV(base) and Alphabet.isVowel(exp[-3]):
+			isClass = True
 	return isClass
 
 
@@ -119,8 +125,9 @@ def isClassV(base):
 
 	#FIXME: does not check if word is a noun or words marked with '*'
 	isClass = False
-	if exp[-1] == 'r' and Alphabet.isVowel(exp[-2]):
-		isClass = True
+	if len(exp) > 1:
+		if exp[-1] == 'r' and Alphabet.isVowel(exp[-2]):
+			isClass = True
 	return isClass
 
 
@@ -129,8 +136,9 @@ def isClassVI(base):
 	exp = explode(base)
 
 	isClass = False
-	if Alphabet.isConsonant(exp[-1]) and not isClassV(base):
-		isClass = True
+	if len(exp) > 1:
+		if Alphabet.isConsonant(exp[-1]) and not isClassV(base):
+			isClass = True
 	return isClass
 
 #FIXME should throw error if not in a correct class
