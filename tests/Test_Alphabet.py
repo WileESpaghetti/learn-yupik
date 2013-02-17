@@ -3,7 +3,8 @@
 import unittest
 import grammar
 
-class ExplodeTests(unittest.TestCase):
+
+class AlphabetTests(unittest.TestCase):
 
     def setUp(self):
         pass

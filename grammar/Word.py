@@ -3,7 +3,7 @@
 import Base, Alphabet
 
 #letters that can be doubled
-# FIXME this might be done by specific character classes instead - fricatives pnly?
+# FIXME this might be done by specific character classes instead - fricatives only?
 
 
 #FIXME needs to throw exception if '[]' passed in. need to also write test for this case

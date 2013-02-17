@@ -1,10 +1,5 @@
 #!python
 #encoding: utf-8
-#columns
-
-#consonants = list(set(stops + fricatives +  nasals))
-
-# acegiklmnpqrstuvwy
 
 consonants = ['p', 't', 'c', ]
 alphabet = ['\'', 'a', 'c', 'e', 'gg', 'g', 'i', 'k', 'll', 'l', 'm', 'n', 'ng', 'p', 'q', 'rr', 'r', 'ss', 's', 't',
@@ -20,7 +15,6 @@ def isADouble(c):
             break
     return isD
 
-# refactored
 stops = ['p', 't', 'c', 'k', 'q']
 
 

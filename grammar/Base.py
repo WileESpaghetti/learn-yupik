@@ -13,7 +13,7 @@ Class V:	single or double vowel + 'r' (nouns only)
 Class VI:	ends in consonant and not in Class V
 
 *See section 2.3 in Yup'ik Eskimo Grammar, Irene Reed """
-import Alphabet, Word
+import Alphabet
 
 # FIXME need to figure out how to properly explode \' using Word.apostrophePurpose()
 # FIXME need to add voiceless nasals to test functions
@@ -44,54 +44,67 @@ def explode(word):
 
 def isClassI(base):
 	""" word ends in a single prime vowel """
+	exp = explode(base)
+
 	isClass = False
-	if Alphabet.isPrimeVowel(base[-1]) and not Alphabet.isPrimeVowel(base[-2]):
+	if Alphabet.isPrimeVowel(exp[-1]) and not Alphabet.isPrimeVowel(exp[-2]):
 		isClass = True
 	return isClass
 
 
 def isClassII(base):
 	""" word ends in 2 prime vowels """
+	exp = explode(base)
+
 	isClass = False
-	if Alphabet.isPrimeVowel(base[-1]) and Alphabet.isPrimeVowel(base[-2]):
+	if Alphabet.isPrimeVowel(exp[-1]) and Alphabet.isPrimeVowel(exp[-2]):
 		isClass = True
 	return isClass
 
 
 def isClassIII(base):
 	""" words that end in 'e', but do not end in 'te' """
+	exp = explode(base)
+
 	isClass = False
-	if base[-1] == 'e' and not base[-2] == 't':
+	if exp[-1] == 'e' and not exp[-2] == 't':
 		isClass = True
 	return isClass
 
 
 def isClassIV(base):
 	""" words that end in 'te' """
+	exp = explode(base)
+
 	isClass = False
-	if base[-1] == 'e' and base[-2] == 't':
+	if exp[-1] == 'e' and exp[-2] == 't':
 		isClass = True
 	return isClass
 
 
 def isClassIVa(base):
 	""" word ends in a fricitive followed by 'te' """
+	exp = explode(base)
+
 	isClass = False
-	if isClassIV(base) and Alphabet.isFricative(base[-3]):
+	if isClassIV(base) and Alphabet.isFricative(exp[-3]):
 		isClass = True
 	return isClass
 
 
 def isClassIVb(base):
 	""" words that end with a vowel followed by 'te' """
+	exp = explode(base)
+
 	isClass = False
-	if isClassIV(base) and Alphabet.isVowel(base[-3]):
+	if isClassIV(base) and Alphabet.isVowel(exp[-3]):
 		isClass = True
 	return isClass
 
 
 def isClassIVc(base):
-	""" contains a '°' when listed (eg. 'kiircete-°'); also includes bases expanded from the postbase ':(ng)ite-°' (eg. 'nerenrite-°' """
+	""" contains a '°' when listed (eg. 'kiircete-°');
+	 also includes bases expanded from the postbase ':(ng)ite-°' (eg. 'nerenrite-°' """
 	#TODO incomplete
 	isClass = False
 	#if isClassIV(base) and isVowel(base[-3]):
@@ -102,17 +115,21 @@ def isClassIVc(base):
 
 def isClassV(base):
 	""" nouns only: ends with 1 or 2 vowels followed by 'r' """
+	exp = explode(base)
+
 	#FIXME: does not check if word is a noun or words marked with '*'
 	isClass = False
-	if base[-1] == 'r' and Alphabet.isVowel(base[-2]):
+	if exp[-1] == 'r' and Alphabet.isVowel(exp[-2]):
 		isClass = True
 	return isClass
 
 
 def isClassVI(base):
 	""" all words ending in a consonant and that are not Class V """
+	exp = explode(base)
+
 	isClass = False
-	if not Alphabet.isVowel(base[-1]) and not isClassV(base):
+	if Alphabet.isConsonant(exp[-1]) and not isClassV(base):
 		isClass = True
 	return isClass
 
@@ -157,8 +174,8 @@ def getClassAsInt(word):
 	elif isClassVI(word):
 		classnum = 6
 	else:
+		#FIXME, when would this get executed, and should it throw an exception?
 		print('ERROR: incorrect class!')
-	#FIXME, when would this get executed, and should it throw an exception?
 	return classnum
 
 
