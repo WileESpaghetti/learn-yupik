@@ -91,7 +91,7 @@ def isClassIVa(base):
 	exp = explode(base)
 
 	isClass = False
-	if len(exp) > 1:
+	if len(exp) > 2:
 		if isClassIV(base) and Alphabet.isFricative(exp[-3]):
 			isClass = True
 	return isClass
@@ -102,7 +102,7 @@ def isClassIVb(base):
 	exp = explode(base)
 
 	isClass = False
-	if len(exp) > 1:
+	if len(exp) > 2:
 		if isClassIV(base) and Alphabet.isVowel(exp[-3]):
 			isClass = True
 	return isClass
@@ -120,6 +120,7 @@ def isClassIVc(base):
 
 
 def isClassV(base):
+	#FIXME does not check if noun
 	""" nouns only: ends with 1 or 2 vowels followed by 'r' """
 	exp = explode(base)
 

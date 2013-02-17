@@ -60,5 +60,70 @@ class ClassDetectionTests(unittest.TestCase):
             for c in self.allButPrime:
                 self.assertFalse(grammar.Base.isClassII(p + c))
 
+    def test_BaseIII(self):
+        for p in set(grammar.Alphabet.alphabet) - set(['t']):
+            self.assertTrue(grammar.Base.isClassIII(p + 'e'))
+
+        for p in grammar.Alphabet.alphabet:
+            for c in set(grammar.Alphabet.alphabet) - set(['e']):
+                self.assertFalse(grammar.Base.isClassIII(p + c))
+
+    def test_BaseIV(self):
+        self.assertTrue(grammar.Base.isClassIV('te'))
+
+        for p in set(grammar.Alphabet.alphabet) - set(['t']):
+            for c in grammar.Alphabet.alphabet:
+                self.assertFalse(grammar.Base.isClassIV(p + c))
+
+        for p in grammar.Alphabet.alphabet:
+            for c in set(grammar.Alphabet.alphabet) - set(['e']):
+                self.assertFalse(grammar.Base.isClassIV(p + c))
+
+    def test_BaseIVa(self):
+        for p in grammar.Alphabet.fricatives:
+            self.assertTrue(grammar.Base.isClassIVa(p + 'te'))
+
+        # to catagorize as Class IVa it requires 3 characters
+        for p in grammar.Alphabet.alphabet:
+            for c in grammar.Alphabet.alphabet:
+                self.assertFalse(grammar.Base.isClassIVa(p + c))
+
+        for p in set(grammar.Alphabet.alphabet) - set(grammar.Alphabet.fricatives):
+            self.assertFalse(grammar.Base.isClassIVa(p + 'te'))
+
+        for i in grammar.Alphabet.alphabet:
+            for p in set(grammar.Alphabet.alphabet) - set(['t']):
+                for c in grammar.Alphabet.alphabet:
+                    self.assertFalse(grammar.Base.isClassIVa(i + p + c))
+
+        for i in grammar.Alphabet.alphabet:
+            for p in grammar.Alphabet.alphabet:
+                for c in set(grammar.Alphabet.alphabet) - set(['e']):
+                    self.assertFalse(grammar.Base.isClassIVa(i + p + c))
+
+    def test_ClassIVb(self):
+        for p in grammar.Alphabet.vowels:
+            self.assertTrue(grammar.Base.isClassIVb(p + 'te'))
+
+        # to catagorize as Class IVa it requires 3 characters
+        for p in grammar.Alphabet.alphabet:
+            for c in grammar.Alphabet.alphabet:
+                self.assertFalse(grammar.Base.isClassIVb(p + c))
+
+        for p in set(grammar.Alphabet.alphabet) - set(grammar.Alphabet.vowels):
+            self.assertFalse(grammar.Base.isClassIVb(p + 'te'))
+
+        for i in grammar.Alphabet.alphabet:
+            for p in set(grammar.Alphabet.alphabet) - set(['t']):
+                for c in grammar.Alphabet.alphabet:
+                    self.assertFalse(grammar.Base.isClassIVb(i + p + c))
+
+        for i in grammar.Alphabet.alphabet:
+            for p in grammar.Alphabet.alphabet:
+                for c in set(grammar.Alphabet.alphabet) - set(['e']):
+                    self.assertFalse(grammar.Base.isClassIVb(i + p + c))
+
+	#FIXME IVc not implemented
+
 if __name__ == '__main__':
     unittest.main()
