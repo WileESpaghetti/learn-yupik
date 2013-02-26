@@ -10,8 +10,8 @@ class ExplodeTests(unittest.TestCase):
     # TODO need to test exploding for words that do not cause gemmination
 
     def setUp(self):
-        self.alphabet = '\'acegggiklllmnngpqrrrssstuvvvwy'
-        self.alphExp = ['\'','a','c','e','gg','g','i','k','ll','l','m','n','ng','p','q','rr','r','ss','s','t','u','vv','v','w','y']
+        self.alphabet = '\'acegggiklllmnngpqrrrssstuvvvwyḿńńg'
+        self.alphExp = ['\'','a','c','e','gg','g','i','k','ll','l','m','n','ng','p','q','rr','r','ss','s','t','u','vv','v','w','y','ḿ', 'ń', 'ńg']
 
     def test_explodeSingleLetters(self):
         for c in grammar.Alphabet.alphabet:
@@ -19,11 +19,8 @@ class ExplodeTests(unittest.TestCase):
 
     def test_explodeDoubleLetters(self):
         for c in grammar.Alphabet.alphabet:
-            dl = False
-            for l in grammar.Alphabet.doubled:
-                if c == l:
-                    dl = True
-            if not dl:
+            if not grammar.Alphabet.isADouble(c):
+                print(grammar.Base.explode(c + c))
                 self.assertEqual(grammar.Base.explode(c + c),[c,c])
             else:
                 self.assertEqual(grammar.Base.explode(c + c),[c + c])

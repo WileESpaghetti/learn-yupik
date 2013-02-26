@@ -25,20 +25,25 @@ def explode(word):
 	#FIXME needs to throw exception if incorrect character found
 	exploded = []
 
-	for i in range(len(word)):
-		dl = False
-		for l in Alphabet.doubled:
-			if word[i] == l:
-				dl = True
-
+	for i in word:
 		# test if a letter is a valid doubled letter or is 'ng'
-		if i > 0 and dl and exploded[-1] == word[i]:
-			exploded[-1] = word[i] + word[i]
-		elif i > 0 and (exploded[-1] == 'n' or exploded[-1] == 'ń') and word[i] == 'g':
+		if len(exploded) > 0 and Alphabet.isADouble(i) and exploded[-1] == i:
+			exploded[-1] = i + i
+		elif len(exploded) > 0 and exploded[-1] == 'n' and i == 'g':
 			exploded[-1] = 'ng'
+		elif len(exploded) > 0 and exploded[-1] == 'ń'  and i == 'g':
+			exploded[-1] = 'ńg'
+		elif len(exploded) > 0 and exploded[-1] + i == 'ḿ':
+			exploded[-1] = 'ḿ'
+		elif len(exploded) > 0 and exploded[-1] + i == 'ń':
+			exploded[-1] = 'ń'
+		elif len(exploded) > 0 and (i == '\xe1' or i == '\xb8' or i == '\xbf' or i == '\xc5' or i == '\x84'):
+			if (exploded[-1] == '\xe1' or exploded[-1] == '\xb8' or exploded[-1] == '\xbf' or exploded[-1] == '\xc5' or exploded[-1] == '\x84'):
+				exploded[-1] = exploded[-1] + i
+			else:
+				exploded.append(i)
 		else:
-			exploded.append(word[i])
-
+			exploded.append(i)
 	return exploded
 
 

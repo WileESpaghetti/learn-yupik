@@ -29,10 +29,9 @@ class IsVoicedTests(unittest.TestCase):
             self.assertTrue(grammar.Word.isVoiced(c,0))
 
 #FIXME currently fails due to explode not processing the unicode chars correctly
-    #def test_singleVoicelessNasal(self):
-        #for c in grammar.Alphabet.voicelessNasals:
-            #print(c)
-            #self.assertFalse(grammar.Word.isVoiced(c,0))
+    def test_singleVoicelessNasal(self):
+        for c in grammar.Alphabet.voicelessNasals:
+            self.assertFalse(grammar.Word.isVoiced(c,0))
 
 #FIXME need test to make sure other letters don't cause devoicing
     def test_afterVoicelessFricative(self):
