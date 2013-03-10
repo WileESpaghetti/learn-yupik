@@ -20,6 +20,8 @@
 # t 	Class V - VI	ends in a consonant
 # u	Class III - VI	ends in 'e' or a consonant
 
+#postbase parts (symbols + postbase)
+
 import Base, string, Word
 
 postbaseSymbols = ('+', '-', '~', '÷', ':', '\'', '@', '- -', '%', '(', ')')

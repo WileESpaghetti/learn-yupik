@@ -3,6 +3,6 @@
 scraps
 *.exe
 *.db
-*.sql
+sql/word_list.sql
 tutorials
 doc/
