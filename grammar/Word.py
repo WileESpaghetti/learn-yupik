@@ -338,3 +338,10 @@ def getStressPattern(word):
 			stressPat.append(False)
 	return stressPat
 
+def getSyllableText(input):
+	syl = ''
+	for i in getSyllables(input):
+		syl = syl + '\t' + ''.join(i) + '\t/'
+		# remove trailing '/'
+	syl = syl[1:-2]
+	return syl

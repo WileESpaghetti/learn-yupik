@@ -2,24 +2,30 @@ __author__ = 'Lehman'
 import web
 import grammar
 import json
+import dict
 import sqlite3
 
 urls = (
 	"/syllables/(.*)", "syllables",
-   "/words/(.*)", "words"
+	"/words/(.*)", "words",
+	"/word_info/(.*)", "word_info"
 )
+
+
+class word_info:
+	def GET(self, word):
+		return dict.Dictionary.getEntryJSON(word)
 
 class syllables:
 	def GET(self, word):
+		web.header('Access-Control-Allow-Origin', 'localhost')
+		web.header('Access-Control-Allow-Credentials', 'true')
 		return json.JSONEncoder().encode(grammar.Word.getSyllables(word))
 
 
 class words:
 	def GET(self, word):
-		dbcon = sqlite3.connect('yupik_dictionary.db')
-		dbcon.text_factory = str
-		c = dbcon.cursor()
-
+		
 		pb = '['
 		index = 0
 		for row in c.execute('select "definition" from "definitions" as def where (select "word_id" from "words" as w where "citation_form" = "%s" and def.word = w.word_id)' % word):
