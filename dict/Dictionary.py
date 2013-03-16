@@ -74,6 +74,12 @@ def getEntry(word):
 	e['definitions'] = getDefinitions(word)
 	e['syllables'] = grammar.Word.getSyllableText(word)
 	e['gemmination'] = grammar.Word.getAutoGemminationPattern(word)
+	e['stress'] = grammar.Word.getStressPattern(word)
+	e['apostrophe'] = grammar.Word.apostrophePurpose(word)
+	e['spelling'] = grammar.Base.explode(word)
+	e['syllables2'] = grammar.Word.getSyllables(word)
+	e['voicing'] = grammar.Word.getVoicingPattern(word)
+	e['vowel_length'] = grammar.Word.getRhythmicVowelLengthPattern(word)
 	return e
 
 def getEntryJSON(word):

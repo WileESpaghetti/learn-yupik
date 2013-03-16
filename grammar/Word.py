@@ -238,6 +238,15 @@ def isVoiced(word, c):
 	return voiced
 
 
+def getVoicingPattern(word):
+	vp = []
+	exp = Base.explode(word)
+	for i in range(len(exp)):
+		vp.append(isVoiced(word, i))
+
+	return vp
+
+
 def getRhythmicVowelLengthPattern(word):
 	"""returns a list of booleans representing which syllables have rhythmic length """
 	rhythmicLength = []
