@@ -31,6 +31,11 @@
 # unknown data
 # break down
 
+
+# other sections
+# word lists
+# tags? - might be useful for creating word lists
+
 # Description of dictionary entry format
 #FIXME need section for dialects, alternate spellings
 # WORD: (PRONUNCIATION/SYLLABLES?)

@@ -1,9 +1,9 @@
 __author__ = 'Lehman'
+import json
 import web
 import grammar
-import json
 import dict
-import sqlite3
+
 
 urls = (
 	"/syllables/(.*)", "syllables",
@@ -22,6 +22,7 @@ class syllables:
 		return json.JSONEncoder().encode(grammar.Word.getSyllables(word))
 
 
+app = web.application(urls, globals()).wsgifunc()
+
 if __name__ == "__main__":
-	app = web.application(urls, globals())
-	app.run()
+	web.runwsgi(app)
