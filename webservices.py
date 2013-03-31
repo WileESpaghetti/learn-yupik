@@ -1,9 +1,18 @@
 __author__ = 'Lehman'
+#!/usr/bin/python
+import os
 import json
 import web
 import grammar
-import dict
+import ydict
 
+#virtenv = os.environ['APPDIR'] + '/virtenv/'
+#os.environ['PYTHON_EGG_CACHE'] = os.path.join(virtenv, 'lib/python2.6/site-packages')
+#virtualenv = os.path.join(virtenv, 'bin/activate_this.py')
+#try:
+#	execfile(virtualenv, dict(__file__=virtualenv))
+#except IOError:
+#	pass
 
 urls = (
 	"/syllables/(.*)", "syllables",
@@ -14,7 +23,7 @@ urls = (
 
 class word_info:
 	def GET(self, word):
-		return dict.Dictionary.getEntryJSON(word)
+		return ydict.Dictionary.getEntryJSON(word)
 
 
 class syllables:
