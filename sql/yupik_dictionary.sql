@@ -55,11 +55,14 @@ INSERT INTO "dialects" VALUES(13, 'NONE', 'NONE');
 CREATE TABLE words (
   id integer primary key,
   citation_form text,
-  section, FOREIGN KEY(section) REFERENCES sections(id),
-  type, FOREIGN KEY(type) REFERENCES word_types(id),
-  dialect, FOREIGN KEY(dialect) REFERENCES dialects(id),
-  parent, FOREIGN KEY(parent) REFERENCES words(id) -- useful for creating subentries --
-
+  section,
+    wtype,
+  dialect,
+   parent,
+  FOREIGN KEY(section) REFERENCES sections(id),
+  FOREIGN KEY(wtype) REFERENCES word_types(id),
+  FOREIGN KEY(dialect) REFERENCES dialects(id),
+  FOREIGN KEY(parent)  REFERENCES words(id) -- useful for creating subentries --
 );
 
 
@@ -73,7 +76,8 @@ CREATE TABLE definitions (
 CREATE TABLE examples (
   ex_id integer primary key,
   ex_word text, -- the word being used in the example --
-  parent, FOREIGN KEY(word) REFERENCES words(id) -- the main entry word --
+  translation text,
+  parent, FOREIGN KEY(parent) REFERENCES words(id) -- the main entry word --
 );
 
 
