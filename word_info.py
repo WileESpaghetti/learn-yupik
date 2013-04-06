@@ -1,6 +1,6 @@
 #!python
 #encoding: utf-8
-import grammar, string
+import grammar, string, ydict
 
 """ used for printing out information about an inputted word """
 
@@ -52,6 +52,12 @@ def print_stress(input):
     print(grammar.Word.getStressPattern(input))
 
 
+def print_definition(word):
+    ddef = ydict.Dictionary.getDefinitions(word)
+    print(ddef)
+
+
+
 def prompt_verbs():
     input = ''
     print("")
@@ -70,6 +76,7 @@ def prompt_verbs():
         print_apos(input)
         print_voicing(input)
         print_stress(input)
+        print_definition(input)
 
 prompt_verbs()
 print("")

@@ -66,7 +66,7 @@ def getDefinitions(word):
 	dbcon.text_factory = str
 	c = dbcon.cursor()
 
-	sql = 'select "definition" from "definitions" as def where (select "word_id" from "words" as w where "citation_form" = "%s" and def.word = w.word_id)' % word
+	sql = 'select "definition" from "definitions" as def where (select "id" from "words" as w where "citation_form" = "%s" and def.word = w.id)' % word
 	definitions = c.execute(sql)
 	defs = []
 	for d in definitions:
