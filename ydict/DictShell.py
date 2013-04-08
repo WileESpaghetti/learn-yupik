@@ -8,6 +8,8 @@ import grammar
 # dump,	d	-	dumps all available info for a word
 # help,	h,?	-	list help information for [command]
 #  red,	r	-	output all information in Red Dictionary format
+# stress	-	print the stress pattern for [word]
+# spell		-	print the spelling for [word]
 
 # TODO? webcmd - used to dump web services info?
 
@@ -18,18 +20,31 @@ dict_prompt = 'dict> '
 def dump(word):
 	pass
 
-def print_stress(word):
-	print('\n')
+def print_header(word):
+	print
 	print(word)
 	print('-' * len(word))
-	print('\nSTRESS:')
+	print
+
+def print_spell(word):
+	print_header(word)
+	print('SPELLING')
+	exp = grammar.Base.explode(word)
+	print '\t',
+	print(exp)
+
+def print_stress(word):
+	print_header(word)
+	print('STRESS:')
 
 def parse_cmd(line):
 	cmd_parts = str.split(line)
 	cmd = str.strip(cmd_parts[0].lower())
 	args = cmd_parts[1:]
 
-	if cmd == 'stress':
+	if cmd == 'spell':
+		print_spell(args[0])
+	elif cmd == 'stress':
 		print_stress(args[0])
 	elif cmd == 'q' or cmd == 'x' or cmd == 'quit' or cmd == 'exit':
 		exit()
