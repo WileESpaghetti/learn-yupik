@@ -17,7 +17,8 @@ import ydict
 urls = (
 	"/syllables/(.*)", "syllables",
 	"/word_info/(.*)", "word_info",
-	"/entry/(.*)", "Entry"
+	"/entry/(.*)", "Entry",
+	"/sections", "Sections"
 )
 
 
@@ -31,7 +32,13 @@ class syllables:
 		return json.JSONEncoder().encode(grammar.Word.getSyllables(word))
 
 
-app = web.application(urls, globals()).wsgifunc()
+class Sections:
+	def GET(self):
+		return json.JSONEncoder().encode(ydict.Dictionary.getSections())
+
+
+# this variable needs to remain "application" in order to be run from openshift
+application = web.application(urls, globals()).wsgifunc()
 
 if __name__ == "__main__":
-	web.runwsgi(app)
+	web.runwsgi(application)
