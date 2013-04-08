@@ -9,7 +9,8 @@ import grammar
 # help,	h,?	-	list help information for [command]
 #  red,	r	-	output all information in Red Dictionary format
 # stress	-	print the stress pattern for [word]
-# spell		-	print the spelling for [word]
+#  spell	-	print the spelling for [word]
+#    syl	-	print syllables
 
 # TODO? webcmd - used to dump web services info?
 
@@ -25,6 +26,13 @@ def print_header(word):
 	print(word)
 	print('-' * len(word))
 	print
+
+def print_syllables(word):
+	print_header(word)
+	print('SYLLABLES')
+	print '\t',
+	print(grammar.Word.getSyllableText(word))
+
 
 def print_spell(word):
 	print_header(word)
@@ -46,6 +54,8 @@ def parse_cmd(line):
 		print_spell(args[0])
 	elif cmd == 'stress':
 		print_stress(args[0])
+	elif cmd == 'syl' or cmd == 'syllables':
+		print_syllables(args[0])
 	elif cmd == 'q' or cmd == 'x' or cmd == 'quit' or cmd == 'exit':
 		exit()
 
@@ -59,9 +69,7 @@ def start_shell():
 		parse_cmd(usr_in)
 
 		print("\n")
-		#print(grammar.Base.explode(usr_in))
 		#print_rhythmicLength(input)
-		#print_syllables(input)
 		#print_apos(input)
 		#print_voicing(input)
 		#print_stress(input)
