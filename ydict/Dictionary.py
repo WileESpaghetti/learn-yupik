@@ -60,11 +60,84 @@ import json
 import grammar
 
 
-
-def getDefinitions(word):
+# FIXME this needs to test for openshift_data_dir and set default
+# value if not found
+def openDictionary():
 	dbcon = sqlite3.connect('yupik_dictionary.db')
 	dbcon.text_factory = str
 	c = dbcon.cursor()
+
+	return c
+
+
+def getSections():
+	c = openDictionary()
+	sql = "SELECT * FROM sections"
+
+	sections = c.execute(sql)
+	secList = []
+	for s in sections:
+		newSec = {'id': s[0], 'section': s[1]}
+		secList.append(newSec)
+
+	return secList
+
+def getSectionNames():
+	c = openDictionary()
+	sql = "SELECT name FROM sections"
+
+	sections = c.execute(sql)
+	secList = []
+	for s in sections:
+		secList.append(s[0])
+
+	return secList
+
+
+## WORD CLASS
+
+## id ##
+
+def getID(word):
+	pass
+
+## type ##
+
+def getType(wtype):
+	pass
+
+
+def getTypeID(id):
+	pass
+
+
+## section ##
+
+def getSectionID(section):
+	pass
+
+
+def getSection(id):
+	pass
+
+
+## dialect
+## parent
+
+## citattion_form
+
+def getWord(id):
+	pass
+
+
+## base_form
+
+
+
+## definitions
+
+def getDefinitions(word):
+	c = openDictionary()
 
 	sql = 'select "definition" from "definitions" as def where (select "id" from "words" as w where "citation_form" = "%s" and def.word = w.id)' % word
 	definitions = c.execute(sql)
@@ -73,6 +146,30 @@ def getDefinitions(word):
 		defs.append(d[0])
 
 	return defs
+
+def getDefinitionsByID(id):
+	pass
+
+
+def getDefinitionsByID(word):
+	pass
+
+## examples
+def getExamplesByID(id):
+	pass
+
+
+def getExamples(word):
+	pass
+
+
+## spelling
+## syllables
+## gemination
+## stress
+## apostrophe purpose
+## voicing
+## vowel_length
 
 def getEntry(word):
 	e = {"word" : word}
