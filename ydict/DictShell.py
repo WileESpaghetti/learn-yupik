@@ -44,6 +44,26 @@ def print_spell(word):
 def print_stress(word):
 	print_header(word)
 	print('STRESS:')
+	spat = grammar.Word.getStressPattern(word)
+	syls = grammar.Word.getSyllables(word)
+
+	#stress = ''
+	#stxt = ''
+	#for i in range(len(syls)):
+	#	sz = len(syls[i])
+	#	if spat[i]:
+	#		stxt = (' ' * (sz -1)) + '\''
+	#	else:
+	#		stxt = ' ' * (sz)
+	#	stress = stress + '\t' + stxt + '\t/'
+	#	stxt = ''
+	#stress = stress[1:-2]
+	#print '\t',
+	#print(stress)
+	#print '\t',
+	#print(grammar.Word.getSyllableText(word))
+	print '\t',
+	print(grammar.Word.getStressText(word))
 
 def parse_cmd(line):
 	cmd_parts = str.split(line)

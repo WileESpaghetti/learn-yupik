@@ -347,6 +347,8 @@ def getStressPattern(word):
 			stressPat.append(False)
 	return stressPat
 
+# FIXME might be usefule to have a get[*]Text() function that also returns HTML
+
 def getSyllableText(word):
 	syl = ''
 	for i in getSyllables(word):
@@ -354,3 +356,16 @@ def getSyllableText(word):
 		# remove trailing '/'
 	syl = syl[1:-2]
 	return syl
+
+def getStressText(word):
+	stress = ''
+	syls = getSyllables(word)
+	spat = getStressPattern(word)
+
+	for i in range(len(syls)):
+		if spat[i]:
+			syls[i] = ''.join(syls[i]).upper()
+		stress = stress + '\t' + ''.join(syls[i]) + '\t/'
+	# remove trailing '/'
+	stress = stress[1:-2]
+	return stress
