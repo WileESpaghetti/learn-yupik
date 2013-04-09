@@ -369,3 +369,17 @@ def getStressText(word):
 	# remove trailing '/'
 	stress = stress[1:-2]
 	return stress
+
+
+def getRhythmicVowelLengthText(word):
+	rhy = ''
+	syls = getSyllables(word)
+	rlen = getRhythmicVowelLengthPattern(word)
+
+	for i in range(len(syls)):
+		if rlen[i]:
+			syls[i] = ''.join(syls[i]) + '\t'
+		rhy = rhy + '\t' + ''.join(syls[i]) + '\t/'
+	# remove trailing '/'
+	rhy = rhy[1:-2]
+	return rhy

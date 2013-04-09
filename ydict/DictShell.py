@@ -10,7 +10,8 @@ import grammar
 #  red,	r	-	output all information in Red Dictionary format
 # stress	-	print the stress pattern for [word]
 #  spell	-	print the spelling for [word]
-#    syl	-	print syllables
+#    syl	-	print syllables for [word]
+#   rlen	-	print rhythmic vowel length for [word]
 
 # TODO? webcmd - used to dump web services info?
 
@@ -26,6 +27,12 @@ def print_header(word):
 	print(word)
 	print('-' * len(word))
 	print
+
+def print_rhythmic_length(word):
+	print_header(word)
+	print('RHYTHMIC VOWEL LENGTH')
+	print '\t',
+	print(grammar.Word.getRhythmicVowelLengthText(word))
 
 def print_syllables(word):
 	print_header(word)
@@ -44,8 +51,8 @@ def print_spell(word):
 def print_stress(word):
 	print_header(word)
 	print('STRESS:')
-	spat = grammar.Word.getStressPattern(word)
-	syls = grammar.Word.getSyllables(word)
+	#spat = grammar.Word.getStressPattern(word)
+	#syls = grammar.Word.getSyllables(word)
 
 	#stress = ''
 	#stxt = ''
@@ -76,6 +83,8 @@ def parse_cmd(line):
 		print_stress(args[0])
 	elif cmd == 'syl' or cmd == 'syllables':
 		print_syllables(args[0])
+	elif cmd == 'rlen' or cmd == 'rhythmic_length':
+		print_rhythmic_length(args[0])
 	elif cmd == 'q' or cmd == 'x' or cmd == 'quit' or cmd == 'exit':
 		exit()
 
@@ -92,7 +101,6 @@ def start_shell():
 		#print_rhythmicLength(input)
 		#print_apos(input)
 		#print_voicing(input)
-		#print_stress(input)
 		#print_definition(input)
 
 if __name__ == '__main__':
