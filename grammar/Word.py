@@ -383,3 +383,18 @@ def getRhythmicVowelLengthText(word):
 	# remove trailing '/'
 	rhy = rhy[1:-2]
 	return rhy
+
+def getVoicingText(word):
+	voi = ''
+	exp = Base.explode(word)
+	vpat = getVoicingPattern(word)
+
+	for i in range(len(exp)):
+		voi = voi + exp[i] + ': '
+		if vpat[i]:
+			voi += '+ , '
+		else:
+			voi += '- , '
+	# remove trailing ','
+	voi = voi[:-2]
+	return voi

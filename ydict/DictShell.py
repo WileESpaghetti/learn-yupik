@@ -14,6 +14,7 @@ import grammar
 #    syl	-	print syllables for [word]
 #   rlen	-	print rhythmic vowel length for [word]
 #   apos	-	print the purpose for the first apostrophe
+#    voi	-	print the voicing for each letter in [word]
 
 # TODO? webcmd - used to dump web services info?
 
@@ -54,11 +55,19 @@ def print_apostrophe_purpose(word):
 		print('no apostrophe found')
 
 
+def print_voicing(word):
+	print_header(word)
+	print('VOICING')
+	print '\t',
+	print(grammar.Word.getVoicingText(word))
+
+
 def print_rhythmic_length(word):
 	print_header(word)
 	print('RHYTHMIC VOWEL LENGTH')
 	print '\t',
 	print(grammar.Word.getRhythmicVowelLengthText(word))
+
 
 def print_syllables(word):
 	print_header(word)
@@ -113,6 +122,8 @@ def parse_cmd(line):
 		print_rhythmic_length(args[0])
 	elif cmd == 'apos' or cmd == 'apostrophe':
 		print_apostrophe_purpose(args[0])
+	elif cmd == 'voi' or cmd == 'voicing':
+		print_voicing(args[0])
 	elif cmd == 'q' or cmd == 'x' or cmd == 'quit' or cmd == 'exit':
 		exit()
 
@@ -126,7 +137,6 @@ def start_shell():
 		parse_cmd(usr_in)
 
 		print("\n")
-		#print_voicing(input)
 		#print_definition(input)
 
 if __name__ == '__main__':
