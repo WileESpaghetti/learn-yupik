@@ -1,3 +1,4 @@
+import string
 import grammar
 
 # COMMAND LIST
@@ -12,6 +13,7 @@ import grammar
 #  spell	-	print the spelling for [word]
 #    syl	-	print syllables for [word]
 #   rlen	-	print rhythmic vowel length for [word]
+#   apos	-	print the purpose for the first apostrophe
 
 # TODO? webcmd - used to dump web services info?
 
@@ -27,6 +29,30 @@ def print_header(word):
 	print(word)
 	print('-' * len(word))
 	print
+
+def print_apostrophe_purpose(word):
+	print_header(word)
+	print('PURPOSE OF FIRST APOSTROPHE')
+	print '\t',
+
+	if string.find(word, '\''):
+		if grammar.Word.apostrophePurpose(word) == grammar.Word.APOS_GEMINATION_MARKER:
+			print('gemination marker')
+		elif grammar.Word.apostrophePurpose(word) == grammar.Word.APOS_NG_SEPARATOR:
+			print('separates \'n\' and \'g\'')
+		elif grammar.Word.apostrophePurpose(word) == grammar.Word.APOS_PREVENT_DEVOICING:
+			print('prevents automatic devoicing')
+		elif grammar.Word.apostrophePurpose(word) == grammar.Word.APOS_PREVENT_GEMMINATION:
+			print('prevents automatic gemination')
+		elif grammar.Word.apostrophePurpose(word) == grammar.Word.APOS_DISRUPT_STRESS:
+			print('marks disruption of normal stress pattern')
+		elif grammar.Word.apostrophePurpose(word) == grammar.Word.APOS_SHORT_WORD:
+			print('indicates word has been shortened')
+		else:
+			print('ERROR: invalid use of apostrophe')
+	else:
+		print('no apostrophe found')
+
 
 def print_rhythmic_length(word):
 	print_header(word)
@@ -85,6 +111,8 @@ def parse_cmd(line):
 		print_syllables(args[0])
 	elif cmd == 'rlen' or cmd == 'rhythmic_length':
 		print_rhythmic_length(args[0])
+	elif cmd == 'apos' or cmd == 'apostrophe':
+		print_apostrophe_purpose(args[0])
 	elif cmd == 'q' or cmd == 'x' or cmd == 'quit' or cmd == 'exit':
 		exit()
 
@@ -98,8 +126,6 @@ def start_shell():
 		parse_cmd(usr_in)
 
 		print("\n")
-		#print_rhythmicLength(input)
-		#print_apos(input)
 		#print_voicing(input)
 		#print_definition(input)
 
