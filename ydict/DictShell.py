@@ -1,5 +1,6 @@
 import string
 import grammar
+import ydict
 
 # COMMAND LIST
 #
@@ -15,6 +16,7 @@ import grammar
 #   rlen	-	print rhythmic vowel length for [word]
 #   apos	-	print the purpose for the first apostrophe
 #    voi	-	print the voicing for each letter in [word]
+#    def	-	print the definitions for [word]
 
 # TODO? webcmd - used to dump web services info?
 
@@ -54,6 +56,20 @@ def print_apostrophe_purpose(word):
 	else:
 		print('no apostrophe found')
 
+
+def print_definitions(word):
+	print_header(word)
+	print('DEFINITIONS')
+	print '\t',
+	defs = ''
+	ddef = ydict.Dictionary.getDefinitions(word)
+
+	if ddef:
+		defs = '; '.join(ddef)
+	else:
+		defs = 'WARNING: word found in dictionary'
+
+	print(defs)
 
 def print_voicing(word):
 	print_header(word)
@@ -124,6 +140,8 @@ def parse_cmd(line):
 		print_apostrophe_purpose(args[0])
 	elif cmd == 'voi' or cmd == 'voicing':
 		print_voicing(args[0])
+	elif cmd == 'def' or cmd == 'definitions':
+		print_definitions(args[0])
 	elif cmd == 'q' or cmd == 'x' or cmd == 'quit' or cmd == 'exit':
 		exit()
 
@@ -137,7 +155,6 @@ def start_shell():
 		parse_cmd(usr_in)
 
 		print("\n")
-		#print_definition(input)
 
 if __name__ == '__main__':
 	start_shell()
