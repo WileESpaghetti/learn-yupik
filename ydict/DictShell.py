@@ -34,11 +34,10 @@ def print_header(word):
 	print
 
 def print_apostrophe_purpose(word):
-	print_header(word)
 	print('PURPOSE OF FIRST APOSTROPHE')
 	print '\t',
 
-	if string.find(word, '\''):
+	if string.find(word, '\'') > -1:
 		if grammar.Word.apostrophePurpose(word) == grammar.Word.APOS_GEMINATION_MARKER:
 			print('gemination marker')
 		elif grammar.Word.apostrophePurpose(word) == grammar.Word.APOS_NG_SEPARATOR:
@@ -58,7 +57,6 @@ def print_apostrophe_purpose(word):
 
 
 def print_definitions(word):
-	print_header(word)
 	print('DEFINITIONS')
 	print '\t',
 	defs = ''
@@ -72,35 +70,30 @@ def print_definitions(word):
 	print(defs)
 
 def print_voicing(word):
-	print_header(word)
 	print('VOICING')
 	print '\t',
 	print(grammar.Word.getVoicingText(word))
 
 
 def print_rhythmic_length(word):
-	print_header(word)
 	print('RHYTHMIC VOWEL LENGTH')
 	print '\t',
 	print(grammar.Word.getRhythmicVowelLengthText(word))
 
 
 def print_syllables(word):
-	print_header(word)
 	print('SYLLABLES')
 	print '\t',
 	print(grammar.Word.getSyllableText(word))
 
 
 def print_spell(word):
-	print_header(word)
 	print('SPELLING')
 	exp = grammar.Base.explode(word)
 	print '\t',
 	print(exp)
 
 def print_stress(word):
-	print_header(word)
 	print('STRESS:')
 	#spat = grammar.Word.getStressPattern(word)
 	#syls = grammar.Word.getSyllables(word)
@@ -128,6 +121,7 @@ def parse_cmd(line):
 	cmd = str.strip(cmd_parts[0].lower())
 	args = cmd_parts[1:]
 
+	print_header(args[0])
 	if cmd == 'spell':
 		print_spell(args[0])
 	elif cmd == 'stress':
@@ -142,8 +136,19 @@ def parse_cmd(line):
 		print_voicing(args[0])
 	elif cmd == 'def' or cmd == 'definitions':
 		print_definitions(args[0])
+	elif cmd == 'kitchen_sink' or cmd == 'sink':
+		print_kitchen_sink(args[0])
 	elif cmd == 'q' or cmd == 'x' or cmd == 'quit' or cmd == 'exit':
 		exit()
+
+def print_kitchen_sink(word):
+	print_definitions(word)
+	print_spell(word)
+	print_syllables(word)
+	print_stress(word)
+	print_rhythmic_length(word)
+	print_voicing(word)
+	print_apostrophe_purpose(word)
 
 def start_shell():
 	usr_in = ''
