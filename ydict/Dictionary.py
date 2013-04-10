@@ -129,6 +129,20 @@ def getSection(id):
 def getWord(id):
 	pass
 
+def getWordID(word):
+	c = openDictionary()
+
+	sql = 'select "id" from "words" as def where "citation_form" = "%s"' % word
+	ids = c.execute(sql)
+	wid = None
+	# FIXME there's got to be a better way to just get the first return val
+	for i in ids:
+		wid = i[0]
+		break
+
+	return wid
+
+
 
 ## base_form
 
@@ -155,8 +169,16 @@ def getDefinitionsByID(word):
 	pass
 
 ## examples
-def getExamplesByID(id):
-	pass
+def getExamplesByID(wordID):
+	c = openDictionary()
+
+	sql = 'select ex_word, translation from "examples" where parent == %i' % wordID
+	ex = c.execute(sql)
+	examp = []
+	for e in ex:
+		examp.append({'example': e[0], 'translation': e[1]})
+
+	return examp
 
 
 def getExamples(word):

@@ -17,6 +17,7 @@ import ydict
 #   apos	-	print the purpose for the first apostrophe
 #    voi	-	print the voicing for each letter in [word]
 #    def	-	print the definitions for [word]
+#	  ex	-	print the examples for [word]
 
 # TODO? webcmd - used to dump web services info?
 
@@ -56,6 +57,20 @@ def print_apostrophe_purpose(word):
 		print('no apostrophe found')
 
 
+def print_examples(word):
+	print ('EXAMPLES')
+	ex = ''
+	wid = ydict.Dictionary.getWordID(word)
+	if wid:
+		examples = ydict.Dictionary.getExamplesByID(wid)
+		for e in examples:
+			ex += '\t%s\n' % e['example']
+			ex += '\t\t%s\n\n' % e['translation']
+		ex = ex[:-2]
+	else:
+		ex = '\tWARNING: word not found in dictionary'
+	print ex
+
 def print_definitions(word):
 	print('DEFINITIONS')
 	print '\t',
@@ -65,7 +80,7 @@ def print_definitions(word):
 	if ddef:
 		defs = '; '.join(ddef)
 	else:
-		defs = 'WARNING: word found in dictionary'
+		defs = 'WARNING: word not found in dictionary'
 
 	print(defs)
 
@@ -116,6 +131,18 @@ def print_stress(word):
 	print '\t',
 	print(grammar.Word.getStressText(word))
 
+
+def print_kitchen_sink(word):
+	print_definitions(word)
+	print_examples(word)
+	print_spell(word)
+	print_syllables(word)
+	print_stress(word)
+	print_rhythmic_length(word)
+	print_voicing(word)
+	print_apostrophe_purpose(word)
+
+
 def parse_cmd(line):
 	cmd_parts = str.split(line)
 	cmd = str.strip(cmd_parts[0].lower())
@@ -136,19 +163,13 @@ def parse_cmd(line):
 		print_voicing(args[0])
 	elif cmd == 'def' or cmd == 'definitions':
 		print_definitions(args[0])
+	elif cmd == 'ex' or cmd == 'examples':
+		print_examples(args[0])
 	elif cmd == 'kitchen_sink' or cmd == 'sink':
 		print_kitchen_sink(args[0])
 	elif cmd == 'q' or cmd == 'x' or cmd == 'quit' or cmd == 'exit':
 		exit()
 
-def print_kitchen_sink(word):
-	print_definitions(word)
-	print_spell(word)
-	print_syllables(word)
-	print_stress(word)
-	print_rhythmic_length(word)
-	print_voicing(word)
-	print_apostrophe_purpose(word)
 
 def start_shell():
 	usr_in = ''
