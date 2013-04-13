@@ -13,6 +13,7 @@ INSERT INTO "sections" VALUES(3,'ending');
 INSERT INTO "sections" VALUES(4,'enclitic');
 
 -- word types are mainly for converting from citation form  to base --
+-- FIXME this is only for words in the 'bases' section of the dictionary
 CREATE TABLE word_types (
   id integer primary key,
   type text
