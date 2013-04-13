@@ -18,6 +18,7 @@ import ydict
 #    voi	-	print the voicing for each letter in [word]
 #    def	-	print the definitions for [word]
 #	  ex	-	print the examples for [word]
+#	 add	- 	starts the add word wizard
 
 # TODO? webcmd - used to dump web services info?
 
@@ -142,6 +143,57 @@ def print_kitchen_sink(word):
 	print_voicing(word)
 	print_apostrophe_purpose(word)
 
+def add_definition():
+	#FIXME ideally this would all get spell checked
+	print('\n\tEnter definitions below')
+	defs = []
+	def_in = raw_input('\t\tdefinition> ')
+	while def_in:
+		defs.append(def_in)
+		def_in = raw_input('\t\tdefinition> ')
+	return defs
+
+
+def add_examples():
+	#FIXME ideallyt this would all get spell checked
+	print('\n\tEnter an example usage of the word below')
+	exam = []
+	ex_in = raw_input('\t\texample> ')
+	while ex_in:
+		exam.append(ex_in)
+		ex_in = raw_input('\t\texample> ')
+	return exam
+
+
+def add_section():
+	#FIXME ideallyt this would all get spell checked
+	# FIXME currently exoects input to be id number
+	print('\n\tEnter the section the word should go in\n')
+	exam = []
+	seclist = ydict.Dictionary.getSections()
+	#FIXME this might not always be in numerical order
+	for i in seclist:
+		print(str.format('\t\t{}. {}', i['id'], i['section']))
+
+	# FIXME need to add validation
+	# FIXME need to add the abillity to use the id or name
+	sec = raw_input('\n\tSection> ')
+	return exam
+
+
+def add_word_wizard(word):
+	print('CREATING DICTIONARY ENTRY FOR: %s' % word)
+
+	# TODO for now we don't want to do anything if the word
+	# is already in the database. Down the road we may want to
+	# give the user the option to update the entry instead
+	if not ydict.Dictionary.getWordID(word):
+		sect = add_section()
+		defs = add_definition()
+		exam = add_examples()
+	else:
+		print('\tERROR: can not add %s. Entry already exists' % word)
+
 
 def parse_cmd(line):
 	cmd_parts = str.split(line)
@@ -167,6 +219,8 @@ def parse_cmd(line):
 		print_examples(args[0])
 	elif cmd == 'kitchen_sink' or cmd == 'sink':
 		print_kitchen_sink(args[0])
+	elif cmd == 'add':
+		add_word_wizard(args[0])
 	elif cmd == 'q' or cmd == 'x' or cmd == 'quit' or cmd == 'exit':
 		exit()
 
