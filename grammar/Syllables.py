@@ -1,4 +1,4 @@
-from grammar import Base, Alphabet
+import Base, Alphabet
 
 __author__ = 'Lehman'
 

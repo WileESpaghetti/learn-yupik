@@ -14,6 +14,7 @@ Class VI:	ends in consonant and not in Class V
 
 *See section 2.3 in Yup'ik Eskimo Grammar, Irene Reed """
 import Alphabet
+import Syllables
 
 # FIXME need to figure out how to properly explode \' using Word.apostrophePurpose()
 # FIXME need to add voiceless nasals to test functions
@@ -50,14 +51,14 @@ def explode(word):
 def isClassI(base):
 	""" word ends in a single prime vowel """
 	exp = explode(base)
-	isClass = len(exp) > 1 and (Alphabet.isPrimeVowel(exp[-1]) and not Alphabet.isPrimeVowel(exp[-2]))
+	isClass = len(exp) > 1 and Alphabet.isPrimeVowel(exp[-1]) and not Alphabet.isPrimeVowel(exp[-2])
 	return isClass
 
 
 def isClassII(base):
 	""" word ends in 2 prime vowels """
 	exp = explode(base)
-	isClass = len(exp) > 1 and (Alphabet.isPrimeVowel(exp[-1]) and Alphabet.isPrimeVowel(exp[-2]))
+	isClass = len(exp) > 1 and Alphabet.isPrimeVowel(exp[-1]) and Alphabet.isPrimeVowel(exp[-2])
 	return isClass
 
 
@@ -71,21 +72,21 @@ def isClassIII(base):
 def isClassIV(base):
 	""" words that end in 'te' """
 	exp = explode(base)
-	isClass =  len(exp) > 1 and (exp[-1] == 'e' and exp[-2] == 't')
+	isClass =  len(exp) > 1 and Syllables.syllableMatches(exp, 'te')
 	return isClass
 
 
 def isClassIVa(base):
 	""" word ends in a fricitive followed by 'te' """
 	exp = explode(base)
-	isClass = len(exp) > 2 and (isClassIV(base) and Alphabet.isFricative(exp[-3]))
+	isClass = len(exp) > 2 and isClassIV(base) and Alphabet.isFricative(exp[-3])
 	return isClass
 
 
 def isClassIVb(base):
 	""" words that end with a vowel followed by 'te' """
 	exp = explode(base)
-	isClass = len(exp) > 2 and (isClassIV(base) and Alphabet.isVowel(exp[-3]))
+	isClass = len(exp) > 2 and isClassIV(base) and Alphabet.isVowel(exp[-3])
 	return isClass
 
 
@@ -105,14 +106,14 @@ def isClassV(base):
 	""" nouns only: ends with 1 or 2 vowels followed by 'r' """
 	exp = explode(base)
 	#FIXME: does not check if word is a noun or words marked with '*'
-	isClass = len(exp) > 1 and exp[-1] == 'r' and Alphabet.isVowel(exp[-2])
+	isClass = len(exp) > 1 and Syllables.syllableMatches(exp, 'Vr')
 	return isClass
 
 
 def isClassVI(base):
 	""" all words ending in a consonant and that are not Class V """
 	exp = explode(base)
-	isClass = len(exp) > 1 and (Alphabet.isConsonant(exp[-1]) and not isClassV(base))
+	isClass = len(exp) > 1 and Alphabet.isConsonant(exp[-1]) and not isClassV(base)
 	return isClass
 
 #FIXME should throw error if not in a correct class
