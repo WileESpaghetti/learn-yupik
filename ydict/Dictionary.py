@@ -59,6 +59,8 @@ import sqlite3
 import json
 import grammar
 
+""" data model for what's in the database """
+
 
 # FIXME this needs to test for openshift_data_dir and set default
 # value if not found

@@ -6,3 +6,4 @@ scraps
 sql/word_list.sql
 tutorials
 doc/
+*.old

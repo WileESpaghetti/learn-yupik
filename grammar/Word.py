@@ -1,6 +1,7 @@
 #!python
 #encoding: utf-8
-import Base, Alphabet
+import Base
+import Alphabet
 
 #letters that can be doubled
 # FIXME this might be done by specific character classes instead - fricatives only?
@@ -138,9 +139,7 @@ def syllableCount(word):
 	return len(getSyllables(Base.explode(word)))
 
 
-def isVelar(c):
-	""" is c a velar """
-	pass
+
 
 
 # uses for apostrophe's

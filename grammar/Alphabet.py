@@ -148,3 +148,8 @@ def isConsonant(c):
             break
 
     return isC
+
+
+def isVelar(c):
+	""" is c a velar """
+	pass
