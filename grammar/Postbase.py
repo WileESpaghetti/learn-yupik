@@ -22,7 +22,7 @@
 
 #postbase parts (symbols + postbase)
 
-import Base, string, Word
+import Base, string, Word, Syllables
 
 postbaseSymbols = ('+', '-', '~', '÷', ':', '\'', '@', '- -', '%', '(', ')')
 
@@ -244,11 +244,11 @@ def applyPostbase(word, postbase):
 		# FIXME this may indicate that there's something that needs tweaked about the syllablematches
 		# function. A short base is defined as [C]VCe, currently this only tests the end of the word.
 		# this should match VCe and CVCe only
-		shortA = len(exp) == 3 and Word.syllableMatches(exp, 'VCe')
-		shortB = len(exp) == 4 and Word.syllableMatches(exp, 'CVCe')
+		shortA = len(exp) == 3 and Syllables.syllableMatches(exp, 'VCe')
+		shortB = len(exp) == 4 and Syllables.syllableMatches(exp, 'CVCe')
 		if shortA or shortB:
 			exp.pop(-1)
-			if Word.syllableCount(exp) == 1:
+			if Syllables.syllableCount(exp) == 1:
 				exp.append('\'')
 		elif exp[-1] == 'e':
 			exp.pop(-1)
@@ -262,7 +262,7 @@ def applyPostbase(word, postbase):
 		velar = testExp[colon + 1]
 		testExp = testExp[:colon] + testExp[colon + 1:]
 
-		if Word.syllableMatches(testExp, 'CV' + velar + 'V'): #FIXME might crash if word isn't long enough
+		if Syllables.syllableMatches(testExp, 'CV' + velar + 'V'): #FIXME might crash if word isn't long enough
 			testExp = Base.explode(postbase)
 			colon = testExp.index(':')
 			testExp.pop(colon)
@@ -298,7 +298,7 @@ def applyPostbase(word, postbase):
 		gemmarker = -1
 	if gemmarker > -1 and len(exp) >= gemmarker + 3:
 		syl = exp[gemmarker + 1:gemmarker + 3]
-		if Word.syllableMatches(syl, 'VV'):
+		if Syllables.syllableMatches(syl, 'VV'):
 			exp.pop(gemmarker)
 
 	word = ''.join(exp)

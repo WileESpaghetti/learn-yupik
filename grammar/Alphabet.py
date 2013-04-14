@@ -8,6 +8,8 @@ alphabet = ['\'', 'a', 'c', 'e', 'gg', 'g', 'i', 'k', 'll', 'l', 'm', 'n', 'ng',
 doubled = ['g', 'l', 'r', 's', 'v']
 
 
+#letters that can be doubled
+# FIXME this might be done by specific character classes instead - fricatives only?
 def isADouble(c):
     isD = False
     for d in doubled:

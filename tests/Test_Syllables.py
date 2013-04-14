@@ -3,6 +3,7 @@
 import unittest
 import grammar
 
+
 class SyllableTest(unittest.TestCase):
     # TODO might be good to do some permutations of letters and test splitting
     # TODO write some tests that are supposed to fail
@@ -37,40 +38,40 @@ class SyllableTest(unittest.TestCase):
 
     def test_getSyllables(self):
         for w in self.testWords:
-            self.assertEqual(grammar.Word.getSyllables(w['word'],), w['syllables'])
+            self.assertEqual(grammar.Syllables.getSyllables(w['word'],), w['syllables'])
 
     def test_syllableCount(self):
         for i in self.testWords:
-            self.assertEqual(i['count'], grammar.Word.syllableCount(i['word']))
+            self.assertEqual(i['count'], grammar.Syllables.syllableCount(i['word']))
 
     # FIXME need to work out how []'s are handled and test that those work
     def test_matchZeroLength(self):
-        self.assertFalse(grammar.Word.syllableMatches('','C'))
-        self.assertFalse(grammar.Word.syllableMatches('','V'))
+        self.assertFalse(grammar.Syllables.syllableMatches('','C'))
+        self.assertFalse(grammar.Syllables.syllableMatches('','V'))
 
     def test_lmatchZeroLength(self):
-        self.assertFalse(grammar.Word.lSyllableMatches('','C'))
-        self.assertFalse(grammar.Word.lSyllableMatches('','V'))
+        self.assertFalse(grammar.Syllables.lSyllableMatches('','C'))
+        self.assertFalse(grammar.Syllables.lSyllableMatches('','V'))
 
     def test_matchSingleVowel(self):
         for i in grammar.Alphabet.vowels:
-            self.assertTrue(grammar.Word.syllableMatches(i,'V'))
-            self.assertFalse(grammar.Word.syllableMatches(i,'C'))
+            self.assertTrue(grammar.Syllables.syllableMatches(i,'V'))
+            self.assertFalse(grammar.Syllables.syllableMatches(i,'C'))
 
     def test_matchSingleConsonant(self):
         for i in grammar.Alphabet.consonants:
-            self.assertTrue(grammar.Word.syllableMatches(i,'C'))
-            self.assertFalse(grammar.Word.syllableMatches(i,'V'))
+            self.assertTrue(grammar.Syllables.syllableMatches(i,'C'))
+            self.assertFalse(grammar.Syllables.syllableMatches(i,'V'))
 
     def test_lmatchSingleVowel(self):
         for i in grammar.Alphabet.vowels:
-            self.assertTrue(grammar.Word.lSyllableMatches(i,'V'))
-            self.assertFalse(grammar.Word.lSyllableMatches(i,'C'))
+            self.assertTrue(grammar.Syllables.lSyllableMatches(i,'V'))
+            self.assertFalse(grammar.Syllables.lSyllableMatches(i,'C'))
 
     def test_matchSingleConsonant(self):
         for i in grammar.Alphabet.consonants:
-            self.assertTrue(grammar.Word.lSyllableMatches(i,'C'))
-            self.assertFalse(grammar.Word.lSyllableMatches(i,'V'))
+            self.assertTrue(grammar.Syllables.lSyllableMatches(i,'C'))
+            self.assertFalse(grammar.Syllables.lSyllableMatches(i,'V'))
 
 if __name__ == '__main__':
     unittest.main()
